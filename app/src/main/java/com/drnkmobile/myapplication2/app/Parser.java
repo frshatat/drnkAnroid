@@ -76,17 +76,17 @@ public class Parser {
         JSONObject row = ar.getJSONObject(number);
         JSONArray special =  row.getJSONObject("deals").getJSONArray("friday");
         ArrayList<String>list = new ArrayList<String>();
-        String n = null;
+        String groupSpecials = null;
         for (int i = 0; i < special.length(); i++) {
             JSONObject s = special.getJSONObject(i);
-             String name = s.getString("deal_name");
+             String deal_name = s.getString("deal_name");
 
-            list.add(name);
-        //System.out.println("#######"+name);
+            list.add(deal_name);
+        //System.out.println("#######"+deal_name);
 
       }
-        n= list.get(0)+"\n"+list.get(1)+"\n" +list.get(2);
-        BarTableInfo specials = BarTableInfo.makeWithBarSpecialName(n);
+        groupSpecials= list.get(0)+"\n"+list.get(1)+"\n" +list.get(2);
+        BarTableInfo specials = BarTableInfo.makeWithBarSpecialName(groupSpecials);
         builder.addSpecial(specials);
 
     }
@@ -94,19 +94,19 @@ public class Parser {
     private void findLiquorSpecials() throws JSONException {
         JSONObject row = ar.getJSONObject(number);
         JSONArray special =  row.getJSONObject("deals").getJSONArray("everyday");
-        ArrayList<String>list = new ArrayList<String>();
-        String n = null;
+        ArrayList<String>specialList = new ArrayList<String>();
+        String groupSpecials = null;
         for (int i = 0; i < special.length(); i++) {
-            JSONObject s = special.getJSONObject(i);
-            String name = s.getString("deal_name");
+            JSONObject specialObject = special.getJSONObject(i);
+            String deal_name = specialObject.getString("deal_name");
 
-            list.add(name);
+            specialList.add(deal_name);
             //System.out.println("#######"+name);
 
         }
-        n= list.get(0)+"\n"+list.get(1)+"\n" +list.get(2);
-        System.out.println(n);
-        BarTableInfo specials = BarTableInfo.makeWithBarSpecialName(n);
+        groupSpecials= specialList.get(0)+"\n"+specialList.get(1)+"\n" +specialList.get(2);
+        System.out.println(groupSpecials);
+        BarTableInfo specials = BarTableInfo.makeWithBarSpecialName(groupSpecials);
         builder.addSpecial(specials);
 
     }
