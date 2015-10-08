@@ -1,4 +1,4 @@
-package com.drnkmobile.myapplication2.app;
+package com.drnkmobile.drnkAndroid.app;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
