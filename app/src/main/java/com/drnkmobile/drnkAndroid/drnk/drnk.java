@@ -1,6 +1,7 @@
 package com.drnkmobile.drnkAndroid.drnk;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.*;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import com.drnkmobile.drnkAndroid.app.R;
 import org.json.JSONException;
@@ -29,6 +31,8 @@ public class drnk extends ActionBarActivity
     private ArrayList<DownloadXMLAsyncTask> tasks;
     private URLReader reader;
     private String typeOfBusiness;
+    private ListView list;
+
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
@@ -93,9 +97,29 @@ public class drnk extends ActionBarActivity
 
     protected void updateDisplay() {
         CustomListView adapter = new CustomListView(this, R.layout.item_specials, listOfBusinesses, listOfSpecials);
-        ListView list = (ListView) findViewById(R.id.listView2);
+         list = (ListView) findViewById(R.id.listView2);
         list.setAdapter(adapter);
+        onTitleClick();
     }
+
+    public void onTitleClick() {
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Intent resultActivityIntent = new Intent(getApplicationContext(),
+                        SpecialActivity.class);
+                startActivity(resultActivityIntent);
+            }
+        });
+    }
+
+//    private void openNotificationActivity(int position) {
+//        Intent resultActivityIntent = new Intent(getApplicationContext(),
+//                SpecialActivity.class);
+//        startActivity(resultActivityIntent);
+//    }
 
     private class DownloadXMLAsyncTask extends AsyncTask<String, String,
             String> {
