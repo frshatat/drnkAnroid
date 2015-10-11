@@ -1,5 +1,8 @@
 package com.drnkmobile.drnkAndroid.drnk;
 
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,9 +19,18 @@ public class Parser {
     private JSONObject deal;
     private JSONArray ar;
     private int number;
+    private int index;
     private String typeOfBusiness;
+    private String currentDay;
+
     public Parser(String jsonFile){
         this.jsonFile = jsonFile;
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("EEEE");
+        currentDay = date.toString(fmt);
+        currentDay = currentDay.toLowerCase();
+       // System.out.println();
+
     }
 
 
@@ -42,6 +54,14 @@ public class Parser {
                     obj = ar.getJSONObject(i);
                     findBusiness();
                 }
+            }
+            if (typeOfBusiness=="specials"){
+                builder = Special.withBarName("Bars");
+                obj = ar.getJSONObject(index);
+                String businessName = obj.getString("company_name");
+                BarTableInfo business = BarTableInfo.makeWithBarName(businessName);
+                builder.addBusiness(business);
+                findTodaySpecials();
             }
             else{
                     builder = Special.withBarName("liqourstores");
@@ -75,22 +95,62 @@ public class Parser {
     private void findSpecials() throws JSONException {
         JSONObject row = ar.getJSONObject(number);
 
-        JSONArray special =  row.getJSONObject("deals").getJSONArray("friday");
+        JSONArray special =  row.getJSONObject("deals").getJSONArray(currentDay);
+        ArrayList<String>list = new ArrayList<String>();
+        String groupSpecials = null;
+        String deal_price = null;
+        for (int i = 0; i < special.length(); i++) {
+            JSONObject s = special.getJSONObject(i);
+            String price = s.getString("price");
+            if (price.equalsIgnoreCase("0.00")){
+                deal_price = " ";
+            }
+            else{
+                deal_price = "$ " + price;
+            }
+            String deal_name = s.getString("deal_name");
+            String deal = deal_price + deal_name;
+            list.add(deal);
+        //System.out.println("#######"+deal_name);
+
+      }
+        if(list.get(0).equals(" ")){
+            groupSpecials = "There are not specials for today";
+        }
+        else {
+            if (list.size() >= 3) {
+                groupSpecials = list.get(0) + "\n" + list.get(1) + "\n" + list.get(2);
+            } else if (list.size() == 2) {
+                groupSpecials = list.get(0) + "\n" + list.get(1) + "\n";
+            } else if (list.size() == 1) {
+                groupSpecials = list.get(0) + "\n";
+            }
+        }
+        BarTableInfo specials = BarTableInfo.makeWithBarSpecialName(groupSpecials);
+        builder.addSpecial(specials);
+
+    }
+
+    private void findTodaySpecials() throws JSONException {
+        JSONObject row = ar.getJSONObject(index);
+
+        JSONArray special =  row.getJSONObject("deals").getJSONArray(currentDay);
         ArrayList<String>list = new ArrayList<String>();
         String groupSpecials = null;
         for (int i = 0; i < special.length(); i++) {
             JSONObject s = special.getJSONObject(i);
-             String deal_name = s.getString("deal_name");
+            String deal_name = s.getString("deal_name");
 
             list.add(deal_name);
-        //System.out.println("#######"+deal_name);
+            //System.out.println("#######"+deal_name);
 
-      }
+        }
         groupSpecials= list.get(0)+"\n"+list.get(1)+"\n" +list.get(2);
         BarTableInfo specials = BarTableInfo.makeWithBarSpecialName(groupSpecials);
         builder.addSpecial(specials);
 
     }
+
 
     private void findLiquorSpecials() throws JSONException {
         JSONObject row = ar.getJSONObject(number);
@@ -111,6 +171,10 @@ public class Parser {
         builder.addSpecial(specials);
 
     }
+
+    public void passNumberIN(int index) {
+        this.index = index;
     }
+}
 
 

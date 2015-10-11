@@ -110,6 +110,15 @@ public class drnk extends ActionBarActivity
                                     int position, long id) {
                 Intent resultActivityIntent = new Intent(getApplicationContext(),
                         SpecialActivity.class);
+                String businessName = parent.getItemAtPosition(position).toString();
+                int a = position;
+                System.out.println(a);
+                resultActivityIntent.putExtra("a", a);
+//                Bundle args = new Bundle();
+//                args.putInt("index", a);
+//                TodayActivity fragInfo = new TodayActivity();
+//                fragInfo.setArguments(args);
+
                 startActivity(resultActivityIntent);
             }
         });

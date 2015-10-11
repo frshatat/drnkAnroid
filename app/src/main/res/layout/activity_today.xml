@@ -12,6 +12,11 @@
     <TextView
             android:text="@string/hello_world"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" android:id="@+id/textView3"/>
+    <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listView3" android:layout_below="@+id/textView3" android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" android:layout_marginTop="100dp" android:background="#fff5504d"/>
 
 </RelativeLayout>

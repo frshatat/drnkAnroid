@@ -22,6 +22,7 @@ public class SpecialFormatter {
 
     public List specials(Special special) {
         if (special.countSpecials() > 0) {
+            addSpecials(special);
             return specialList;
         } else {
             specialList.add("Sorry we couldn't find any specials today.");
@@ -41,7 +42,13 @@ public class SpecialFormatter {
         }
     }
 
+    protected void addSpecials(Special business) {
+        for (int i = 0; i < business.countSpecials(); i++) {
+            int episodeCount = i + 1;
 
+            specialList.add(formatSpecialName(business.getSpecial(i)));
+        }
+    }
     private String formatBusinessName(BarTableInfo business) {
         return business.getTitle() + "\n";
     }
