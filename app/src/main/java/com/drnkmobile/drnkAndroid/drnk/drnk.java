@@ -1,7 +1,10 @@
 package com.drnkmobile.drnkAndroid.drnk;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,7 +15,14 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 import com.drnkmobile.drnkAndroid.app.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONException;
 
 import java.util.ArrayList;
@@ -22,9 +32,8 @@ import java.util.List;
 public class drnk extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
+    LocationManager locationManager;
+    String provider;
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private List listOfBusinesses;
     private List listOfSpecials;
@@ -32,11 +41,15 @@ public class drnk extends ActionBarActivity
     private URLReader reader;
     private String typeOfBusiness;
     private ListView list;
+    static float latitude;
+    static float longitude;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+    static CharSequence section;
+    LocationService gps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,16 +59,40 @@ public class drnk extends ActionBarActivity
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
+
+
+
+
         reader = new URLReader();
         tasks = new ArrayList<DownloadXMLAsyncTask>();
-        // Set up the drawer.
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        provider = locationManager.getBestProvider(new Criteria(),false);
+
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
         reader = new URLReader();
         tasks = new ArrayList<DownloadXMLAsyncTask>();
-    }
 
+
+    }
+    private void getLocation() {
+        gps = new LocationService(drnk.this);
+
+        if (gps.canGetLocation()) {
+
+             latitude = (float) gps.getLatitude();
+             longitude = (float) gps.getLongitude();
+
+            // \n is for new line
+            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+        } else {
+            // can't get location
+            // GPS or Network is not enabled
+            // Ask user to enable GPS/network in settings
+            gps.showSettingsAlert();
+        }
+    }
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
@@ -70,15 +107,25 @@ public class drnk extends ActionBarActivity
             case 1:
                 mTitle = "bars";
                 typeOfBusiness = "bars";
+                section=mTitle;
+                getLocation();
                 requestData();
                 break;
             case 2:
                 mTitle = "stores";
                 typeOfBusiness = "liquorstores";
+                section=mTitle;
+                getLocation();
                 requestData();
                 break;
             case 3:
-                mTitle = "near me";
+                 mTitle = "near me";
+                listOfBusinesses.clear();
+                listOfSpecials.clear();
+                 section=mTitle;
+//                Intent in = new Intent(getApplicationContext(), NearMe.class);
+//                startActivity(in);
+               // getFragmentManager().popBackStack();
                 break;
         }
     }
@@ -114,21 +161,21 @@ public class drnk extends ActionBarActivity
                 int a = position;
                 System.out.println(a);
                 resultActivityIntent.putExtra("a", a);
-//                Bundle args = new Bundle();
-//                args.putInt("index", a);
-//                TodayActivity fragInfo = new TodayActivity();
-//                fragInfo.setArguments(args);
+
 
                 startActivity(resultActivityIntent);
             }
         });
     }
 
-//    private void openNotificationActivity(int position) {
-//        Intent resultActivityIntent = new Intent(getApplicationContext(),
-//                SpecialActivity.class);
-//        startActivity(resultActivityIntent);
-//    }
+
+
+
+    private void openNotificationActivity(int position) {
+        Intent resultActivityIntent = new Intent(getApplicationContext(),
+                SpecialActivity.class);
+        startActivity(resultActivityIntent);
+    }
 
     private class DownloadXMLAsyncTask extends AsyncTask<String, String,
             String> {
@@ -200,6 +247,8 @@ public class drnk extends ActionBarActivity
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
+
+        private GoogleMap mMap;
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -224,15 +273,49 @@ public class drnk extends ActionBarActivity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_drnk, container, false);
+            View rootView;
+            if(section.equals("near me")){
+                rootView = inflater.inflate(R.layout.activity_near_me, container, false);
+                setUpMapIfNeeded();
+            }
+            else {
+                rootView = inflater.inflate(R.layout.fragment_drnk, container, false);
+            }
             return rootView;
+        }
+        @Override
+        public void onResume() {
+            super.onResume();
+            if(section.equals("near me")) {
+                setUpMapIfNeeded();
+            }
+        }
+        private void setUpMapIfNeeded() {
+            // Do a null check to confirm that we have not already instantiated the map.
+            if (mMap == null) {
+                // Try to obtain the map from the SupportMapFragment.
+                mMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map))
+                        .getMap();
+                // Check if we were successful in obtaining the map.
+                if (mMap != null) {
+                    setUpMap();
+                }
+            }
+        }
+        private void setUpMap() {
+            mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+            mMap.addMarker(new MarkerOptions().position(new LatLng(48.871387, 2.354951)).title("Current location")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(48.871387, 2.354951), 15));
         }
 
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
+
             ((drnk) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
+
         }
     }
 

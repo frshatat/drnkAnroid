@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         applicationId "com.drnkmobile.myapplication2.app"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -33,6 +33,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            debuggable true
+        }
     }
 }
 
@@ -42,4 +45,5 @@ dependencies {
     compile 'com.google.guava:guava:18.0'
     compile 'org.hamcrest:hamcrest-core:1.3'
     compile 'joda-time:joda-time:2.7'
+    compile 'com.google.android.gms:play-services:4.2.42'
 }

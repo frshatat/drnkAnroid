@@ -31,6 +31,8 @@ public class TodayActivity extends Fragment {
         rootView = inflater.inflate(R.layout.activity_today, container, false);
         reader = new URLReader();
         tasks = new ArrayList<DownloadXMLAsyncTask>();
+        // create class object
+
 
         requestData();
         return rootView;
@@ -51,6 +53,26 @@ public class TodayActivity extends Fragment {
         list.setAdapter(adapter);
         //onTitleClick();
     }
+
+//    @Override
+//    public void onLocationChanged(Location location) {
+//
+//    }
+//
+//    @Override
+//    public void onStatusChanged(String s, int i, Bundle bundle) {
+//
+//    }
+//
+//    @Override
+//    public void onProviderEnabled(String s) {
+//
+//    }
+//
+//    @Override
+//    public void onProviderDisabled(String s) {
+//
+//    }
 
     private class DownloadXMLAsyncTask extends AsyncTask<String, String,
             String> {
