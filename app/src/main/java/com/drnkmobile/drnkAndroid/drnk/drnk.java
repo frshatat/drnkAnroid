@@ -43,6 +43,7 @@ public class drnk extends ActionBarActivity
     private ListView list;
     static float latitude;
     static float longitude;
+    View view;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -61,8 +62,7 @@ public class drnk extends ActionBarActivity
         mTitle = getTitle();
 
 
-
-
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
         reader = new URLReader();
         tasks = new ArrayList<DownloadXMLAsyncTask>();
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);

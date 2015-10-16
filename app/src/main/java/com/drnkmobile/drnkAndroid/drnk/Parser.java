@@ -133,8 +133,13 @@ public class Parser {
 
     private void findTodaySpecials() throws JSONException {
         JSONObject row = ar.getJSONObject(index);
-
-        JSONArray special =  row.getJSONObject("deals").getJSONArray(currentDay);
+        JSONArray special;
+        if(drnk.section.equals("stores")){
+             special = row.getJSONObject("deals").getJSONArray("everyday");
+        }
+        else {
+             special = row.getJSONObject("deals").getJSONArray(currentDay);
+        }
         ArrayList<String>list = new ArrayList<String>();
         String groupSpecials = null;
         for (int i = 0; i < special.length(); i++) {
@@ -142,10 +147,12 @@ public class Parser {
             String deal_name = s.getString("deal_name");
 
             list.add(deal_name);
-            //System.out.println("#######"+deal_name);
+
 
         }
-        groupSpecials= list.get(0)+"\n"+list.get(1)+"\n" +list.get(2);
+
+        groupSpecials= list.toString().replace("[","").replace("]","").replace(",","\n\n");
+
         BarTableInfo specials = BarTableInfo.makeWithBarSpecialName(groupSpecials);
         builder.addSpecial(specials);
 

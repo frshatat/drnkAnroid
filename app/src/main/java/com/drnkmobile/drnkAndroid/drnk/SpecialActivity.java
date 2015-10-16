@@ -29,14 +29,19 @@ public class SpecialActivity extends AppCompatActivity implements
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ActionBar actionBar;
     // Tab titles
-    private String[] tabs = {"Today", "Week", "Info"};
+    private String[] tabs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_special);
 
-
+        if(drnk.section.equals("stores")){
+            tabs = new String[]{"Current Week", "Info"};
+        }
+        else{
+            tabs =new String[]{"Today", "Week", "Info"};
+        }
         viewPager = (ViewPager) findViewById(R.id.pager);
         actionBar = getSupportActionBar();
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());

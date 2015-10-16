@@ -41,38 +41,24 @@ public class TodayActivity extends Fragment {
     private void requestData() {
        // number = this.getArguments().getInt("index");
         number = getActivity().getIntent().getExtras().getInt("a");
-        typeOfBusiness = "bars";
+        if(drnk.section=="stores"){
+            typeOfBusiness="liquorstores";
+        }
+        else {
+            typeOfBusiness = "bars";
+        }
         DownloadXMLAsyncTask task = new DownloadXMLAsyncTask();
         task.execute();
     }
 
     protected void updateDisplay() {
-        ListAdapter adapter = new ArrayAdapter<String>(rootView.getContext(),
-                android.R.layout.simple_list_item_1, listOfSpecials);
+        ListAdapter adapter = new ArrayAdapter<String>(rootView.getContext(), R.layout.list_text_view, listOfSpecials);
         list = (ListView) rootView.findViewById(R.id.listView3);
         list.setAdapter(adapter);
         //onTitleClick();
     }
 
-//    @Override
-//    public void onLocationChanged(Location location) {
-//
-//    }
-//
-//    @Override
-//    public void onStatusChanged(String s, int i, Bundle bundle) {
-//
-//    }
-//
-//    @Override
-//    public void onProviderEnabled(String s) {
-//
-//    }
-//
-//    @Override
-//    public void onProviderDisabled(String s) {
-//
-//    }
+
 
     private class DownloadXMLAsyncTask extends AsyncTask<String, String,
             String> {
@@ -98,13 +84,11 @@ public class TodayActivity extends Fragment {
             try {
                 parser.passNumberIN(number);
                 schedule = parser.parse("specials");
-                //parser.findTodaySpecials(number);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             SpecialFormatter formatter = new SpecialFormatter();
-            //listOfBusinesses = formatter.getBusinessData(schedule);
-
             listOfSpecials = formatter.specials(schedule);
 
             updateDisplay();
