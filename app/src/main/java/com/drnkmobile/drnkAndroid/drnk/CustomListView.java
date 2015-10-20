@@ -20,27 +20,78 @@ public class CustomListView extends ArrayAdapter<String> {
     private Context context;
     private List<String> businessList;
     private List<String>specialList;
+    private List<String>idList;
+    private List<String>listOfAddress;
 
-    public CustomListView(Context context, int resource, List<String> objects, List specialList){
+    public CustomListView(Context context, int resource, List<String> objects, List specialList, List idList, List listOfAddress){
         super(context,resource,objects);
         this.context = context;
         this.businessList = objects;
         this.specialList = specialList;
+        this.idList = idList;
+        this.listOfAddress=listOfAddress;
     }
 
     @Override
     public View getView ( int position, View convertView, ViewGroup parent){
         String business = businessList.get(position);
-        String special = specialList.get(position);
+        final String special = specialList.get(position);
+        String address = listOfAddress.get(position);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.item_specials, null);
         ImageView image = (ImageView) view.findViewById(R.id.imageView);
-        image.setImageResource(R.drawable.ic_logo);
+        image.setImageResource(generateImage(idList.get(position)));
         TextView tv = (TextView)view.findViewById(R.id.textView2);
         TextView textView = (TextView)view.findViewById(R.id.textView);
         tv.setText(business);
         textView.setText(special);
+        TextView addressText = (TextView)view.findViewById(R.id.address);
+        addressText.setText(address);
+
         return view;
+    }
+
+
+    private int generateImage(String id){
+
+        String imageString = id;
+        int businessImage = R.drawable.ic_logo;;
+
+        switch (imageString) {
+
+            case "4":
+                businessImage = R.drawable.brothers;
+                break;
+
+            case "5":
+
+                businessImage = R.drawable.cleos;
+                break;
+
+            case "11":
+
+                businessImage = R.drawable.be_here_now;
+                break;
+
+            case "12":
+
+                businessImage = R.drawable.the_chug;
+                break;
+
+            case "13":
+
+                businessImage = R.drawable.scottys;
+                break;
+
+            case "0000":
+
+                businessImage = R.drawable.ic_logo;
+                break;
+
+        }
+
+        return businessImage;
+
     }
 }
 

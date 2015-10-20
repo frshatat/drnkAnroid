@@ -108,8 +108,13 @@ public class SpecialActivity extends AppCompatActivity implements
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            if(drnk.section.equals("stores")){
+                return 2;
+            }
+            else{
+                return 3;
+            }
+
         }
 
 

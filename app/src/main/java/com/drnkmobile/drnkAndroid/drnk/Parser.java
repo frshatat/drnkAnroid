@@ -22,6 +22,7 @@ public class Parser {
     private int index;
     private String typeOfBusiness;
     private String currentDay;
+    private String businessId;
 
     public Parser(String jsonFile){
         this.jsonFile = jsonFile;
@@ -59,6 +60,7 @@ public class Parser {
                 builder = Special.withBarName("Bars");
                 obj = ar.getJSONObject(index);
                 String businessName = obj.getString("company_name");
+
                 BarTableInfo business = BarTableInfo.makeWithBarName(businessName);
                 builder.addBusiness(business);
                 findTodaySpecials();
@@ -82,8 +84,16 @@ public class Parser {
 
     private void findBusiness() throws JSONException {
         String businessName = obj.getString("company_name");
+        businessId = obj.getString("id");
+        String street = obj.getString("company_street");
+        String city = obj.getString("company_city");
+        String address = street + ", " + city;
         BarTableInfo business = BarTableInfo.makeWithBarName(businessName);
+        BarTableInfo id = BarTableInfo.makeId(businessId);
         builder.addBusiness(business);
+        builder.addId(id);
+        BarTableInfo businessAddress = BarTableInfo.makeWithAddress(address);
+        builder.addAddress(businessAddress);
         if(typeOfBusiness=="bars") {
             findSpecials();
         }
@@ -97,6 +107,7 @@ public class Parser {
 
         JSONArray special =  row.getJSONObject("deals").getJSONArray(currentDay);
         ArrayList<String>list = new ArrayList<String>();
+        ArrayList<String>idList = new ArrayList<String>();
         String groupSpecials = null;
         String deal_price = null;
         for (int i = 0; i < special.length(); i++) {
@@ -129,6 +140,7 @@ public class Parser {
         BarTableInfo specials = BarTableInfo.makeWithBarSpecialName(groupSpecials);
         builder.addSpecial(specials);
 
+
     }
 
     private void findTodaySpecials() throws JSONException {
@@ -145,8 +157,12 @@ public class Parser {
         for (int i = 0; i < special.length(); i++) {
             JSONObject s = special.getJSONObject(i);
             String deal_name = s.getString("deal_name");
-
-            list.add(deal_name);
+            if(deal_name.equals("")){
+               System.out.println("nothing here") ;
+            }
+            else {
+                list.add(deal_name);
+            }
 
 
         }

@@ -37,6 +37,7 @@ public class drnk extends ActionBarActivity
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private List listOfBusinesses;
     private List listOfSpecials;
+    private List listOfId;
     private ArrayList<DownloadXMLAsyncTask> tasks;
     private URLReader reader;
     private String typeOfBusiness;
@@ -51,6 +52,7 @@ public class drnk extends ActionBarActivity
     private CharSequence mTitle;
     static CharSequence section;
     LocationService gps;
+    private List listOfAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +104,7 @@ public class drnk extends ActionBarActivity
                 .commit();
     }
 
+
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
@@ -120,8 +123,8 @@ public class drnk extends ActionBarActivity
                 break;
             case 3:
                  mTitle = "near me";
-                listOfBusinesses.clear();
-                listOfSpecials.clear();
+//                listOfBusinesses.clear();
+//                listOfSpecials.clear();
                  section=mTitle;
 //                Intent in = new Intent(getApplicationContext(), NearMe.class);
 //                startActivity(in);
@@ -142,12 +145,21 @@ public class drnk extends ActionBarActivity
         task.execute();
     }
 
+    public void findBusiness(View view){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, PlaceholderFragment.newInstance(2 + 1))
+                .commit();
+    }
+
     protected void updateDisplay() {
-        CustomListView adapter = new CustomListView(this, R.layout.item_specials, listOfBusinesses, listOfSpecials);
+        CustomListView adapter = new CustomListView(this, R.layout.item_specials, listOfBusinesses, listOfSpecials,listOfId,listOfAddress);
          list = (ListView) findViewById(R.id.listView2);
         list.setAdapter(adapter);
         onTitleClick();
     }
+
+
 
     public void onTitleClick() {
 
@@ -206,7 +218,8 @@ public class drnk extends ActionBarActivity
             SpecialFormatter formatter = new SpecialFormatter();
             listOfBusinesses = formatter.getBusinessData(schedule);
             listOfSpecials = formatter.specials(schedule);
-
+            listOfId = formatter.getId(schedule);
+            listOfAddress = formatter.getAddress(schedule);
             updateDisplay();
             tasks.remove(this);
 //            if (tasks.size() == 0) {

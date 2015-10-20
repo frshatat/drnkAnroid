@@ -10,6 +10,8 @@ public class SpecialFormatter {
 
     List<String> businessList = new ArrayList<String>();
     List<String> specialList = new ArrayList<String>();
+    List<String> businessIdList = new ArrayList<String>();
+    List<String> addressList = new ArrayList<String>();
 
     public List getBusinessData(Special tvSchedule) {
         if (tvSchedule.countBusinesses() > 0) {
@@ -18,6 +20,15 @@ public class SpecialFormatter {
             businessList.add("Unknown Business");
         }
         return businessList;
+    }
+
+    public List getId(Special id){
+        if (id.countId() > 0) {
+            addId(id);
+        } else {
+            businessList.add("0000");
+        }
+        return businessIdList; 
     }
 
     public List specials(Special special) {
@@ -29,16 +40,31 @@ public class SpecialFormatter {
         }
         return specialList;
     }
-
+    public List getAddress(Special address){
+        if (address.countAddress()>0){
+            addAddress(address);
+        }
+        else{
+          addressList.add("Unknown Location");
+        }
+        return addressList;
+    }
+    private void addAddress(Special address){
+        for(int i = 0; i<address.countAddress();i++){
+            addressList.add(formatAddress(address.getAddress(i)));
+        }
+    }
+    private void addId(Special id){
+        for (int i = 0; i<id.countId();i++){
+            businessIdList.add(formatId(id.getId(i)));
+        }
+    }
 
     private void addElementsToList(Special business) {
         for (int i = 0; i < business.countBusinesses(); i++) {
-            int episodeCount = i + 1;
 
             specialList.add(formatSpecialName(business.getSpecial(i)));
             businessList.add((formatBusinessName(business.getBusinessName(i))));
-
-
         }
     }
 
@@ -52,8 +78,14 @@ public class SpecialFormatter {
     private String formatBusinessName(BarTableInfo business) {
         return business.getTitle() + "\n";
     }
+    private String formatAddress(BarTableInfo address) {
+        return address.getTitle();
+    }
 
     private String formatSpecialName(BarTableInfo special) {
         return "\n" + special.getTitle().toString();
+    }
+    private String formatId(BarTableInfo id){
+        return id.getTitle();
     }
 }

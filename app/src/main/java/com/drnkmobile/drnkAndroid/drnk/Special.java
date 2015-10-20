@@ -21,7 +21,8 @@ public class Special {
         private final String barName;
         private final List<BarTableInfo> listOfSpecials = Lists.newArrayList();
         private final List<BarTableInfo> listOfBusinesses = Lists.newArrayList();
-
+        private final List<BarTableInfo> listOfId = Lists.newArrayList();
+        private final List<BarTableInfo> listofAddress = Lists.newArrayList();
 
         private Builder(String barName) {
             this.barName = checkNotNull(barName);
@@ -36,6 +37,14 @@ public class Special {
             listOfSpecials.add(special);
             return this;
         }
+        public Builder addId(BarTableInfo id) {
+            listOfId.add(id);
+            return this;
+        }
+        public Builder addAddress(BarTableInfo address) {
+            listofAddress.add(address);
+            return this;
+        }
 
         public Special build() {
             return new Special(this);
@@ -45,12 +54,15 @@ public class Special {
     //private final String businessName;
     private final ImmutableList<BarTableInfo> business;
     private final ImmutableList<BarTableInfo> specials;
-
+    private final ImmutableList<BarTableInfo> id;
+    private final ImmutableList<BarTableInfo> address;
 
     public Special(Builder builder) {
        // this.businessName = builder.barName;
         this.business = ImmutableList.copyOf(builder.listOfBusinesses);
         this.specials = ImmutableList.copyOf(builder.listOfSpecials);
+        this.id = ImmutableList.copyOf(builder.listOfId);
+        this.address = ImmutableList.copyOf(builder.listofAddress);
     }
 
 //    //public String getBusinessName() {
@@ -72,5 +84,17 @@ public class Special {
     public int countSpecials() {
         return specials.size();
     }
+    public BarTableInfo getId(int index){
+        return id.get(index);
+    }
+    public int countId(){
+        return id.size();
+    }
 
+    public BarTableInfo getAddress(int index){
+        return address.get(index);
+    }
+    public int countAddress(){
+        return address.size();
+    }
 }

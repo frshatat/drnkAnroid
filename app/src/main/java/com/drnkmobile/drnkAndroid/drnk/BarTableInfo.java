@@ -21,12 +21,12 @@ public class BarTableInfo {
         return new BarTableInfo(description);
     }
 
-    public static BarTableInfo makeServiceId(String ServiceId){
-        return new BarTableInfo(ServiceId);
+    public static BarTableInfo makeId(String makeId){
+        return new BarTableInfo(makeId);
     }
 
-    public static BarTableInfo makeServiceName(String serviceName){
-        return new BarTableInfo(serviceName);
+    public static BarTableInfo makeWithAddress(String address){
+        return new BarTableInfo(address);
     }
 
     public String getTitle() {
