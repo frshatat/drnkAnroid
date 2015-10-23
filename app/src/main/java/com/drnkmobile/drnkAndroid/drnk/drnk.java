@@ -3,7 +3,11 @@ package com.drnkmobile.drnkAndroid.drnk;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,8 +29,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class drnk extends ActionBarActivity
@@ -35,7 +41,7 @@ public class drnk extends ActionBarActivity
     LocationManager locationManager;
     String provider;
     private NavigationDrawerFragment mNavigationDrawerFragment;
-    private List listOfBusinesses;
+    static List listOfBusinesses;
     private List listOfSpecials;
     private List listOfId;
     private ArrayList<DownloadXMLAsyncTask> tasks;
@@ -44,15 +50,19 @@ public class drnk extends ActionBarActivity
     private ListView list;
     static float latitude;
     static float longitude;
-    View view;
-
+    static float currentLatitude;
+    static float currentLongitude;
+    static ArrayList<Float> latList = new ArrayList<>();
+    static ArrayList<Float> longList = new ArrayList<>();
+    static boolean buttonClicked = false;
+    static int position;
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
     static CharSequence section;
     LocationService gps;
-    private List listOfAddress;
+    static List listOfAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +78,7 @@ public class drnk extends ActionBarActivity
         reader = new URLReader();
         tasks = new ArrayList<DownloadXMLAsyncTask>();
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        provider = locationManager.getBestProvider(new Criteria(),false);
+        provider = locationManager.getBestProvider(new Criteria(), false);
 
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
@@ -78,13 +88,15 @@ public class drnk extends ActionBarActivity
 
 
     }
+
+
     private void getLocation() {
         gps = new LocationService(drnk.this);
 
         if (gps.canGetLocation()) {
 
-             latitude = (float) gps.getLatitude();
-             longitude = (float) gps.getLongitude();
+            currentLatitude = (float) gps.getLatitude();
+            currentLongitude = (float) gps.getLongitude();
 
             // \n is for new line
             Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
@@ -95,13 +107,16 @@ public class drnk extends ActionBarActivity
             gps.showSettingsAlert();
         }
     }
+
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
+        buttonClicked = false;
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
                 .commit();
+
     }
 
 
@@ -110,25 +125,26 @@ public class drnk extends ActionBarActivity
             case 1:
                 mTitle = "bars";
                 typeOfBusiness = "bars";
-                section=mTitle;
+                section = mTitle;
+                buttonClicked = true;
                 getLocation();
                 requestData();
                 break;
             case 2:
                 mTitle = "stores";
                 typeOfBusiness = "liquorstores";
-                section=mTitle;
+                section = mTitle;
+                buttonClicked = true;
                 getLocation();
                 requestData();
                 break;
             case 3:
-                 mTitle = "near me";
-//                listOfBusinesses.clear();
-//                listOfSpecials.clear();
-                 section=mTitle;
-//                Intent in = new Intent(getApplicationContext(), NearMe.class);
-//                startActivity(in);
-               // getFragmentManager().popBackStack();
+                mTitle = "near me";
+                requestData();
+                section = mTitle;
+                if (buttonClicked == false) {
+                    gecodeAddress();
+                }
                 break;
         }
     }
@@ -145,7 +161,29 @@ public class drnk extends ActionBarActivity
         task.execute();
     }
 
-    public void findBusiness(View view){
+    public void findBusiness(View view) {
+        try {
+            buttonClicked = true;
+            View parentRow = (View) view.getParent();
+
+            position = list.getPositionForView(parentRow);
+            Geocoder selected_place_geocoder = new Geocoder(this, Locale.getDefault());
+            List<Address> address = null;
+            address = selected_place_geocoder.getFromLocationName(String.valueOf(listOfAddress.get(position) + " IN"), 5);
+            if (address == null) {
+                System.out.println("Nothing");
+            } else {
+                Address location = address.get(0);
+                latitude = (float) location.getLatitude();
+                longitude = (float) location.getLongitude();
+//                latList.add(latitude);
+//                longList.add(longitude);
+
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, PlaceholderFragment.newInstance(2 + 1))
@@ -153,12 +191,42 @@ public class drnk extends ActionBarActivity
     }
 
     protected void updateDisplay() {
-        CustomListView adapter = new CustomListView(this, R.layout.item_specials, listOfBusinesses, listOfSpecials,listOfId,listOfAddress);
-         list = (ListView) findViewById(R.id.listView2);
+        CustomListView adapter = new CustomListView(this, R.layout.item_specials, listOfBusinesses, listOfSpecials, listOfId, listOfAddress);
+        list = (ListView) findViewById(R.id.listView2);
         list.setAdapter(adapter);
         onTitleClick();
+
     }
 
+    public void gecodeAddress() {
+        try {
+
+            Geocoder selected_place_geocoder = new Geocoder(this, Locale.getDefault());
+            List<Address> address = null;
+            for (int i = 0; i < listOfAddress.size(); i++) {
+                System.out.println(listOfAddress.size());
+                address = selected_place_geocoder.getFromLocationName(String.valueOf(listOfAddress.get(i) + " IN"), 5);
+                if (address == null) {
+                    System.out.println("Nothing");
+                } else {
+                    Address location = address.get(0);
+                    latitude = (float) location.getLatitude();
+                    longitude = (float) location.getLongitude();
+                    latList.add(latitude);
+                    longList.add(longitude);
+
+
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//         FragmentManager fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction()
+//                .replace(R.id.container, PlaceholderFragment.newInstance(2 + 1))
+//                .commit();
+    }
 
 
     public void onTitleClick() {
@@ -180,14 +248,6 @@ public class drnk extends ActionBarActivity
         });
     }
 
-
-
-
-    private void openNotificationActivity(int position) {
-        Intent resultActivityIntent = new Intent(getApplicationContext(),
-                SpecialActivity.class);
-        startActivity(resultActivityIntent);
-    }
 
     private class DownloadXMLAsyncTask extends AsyncTask<String, String,
             String> {
@@ -230,6 +290,7 @@ public class drnk extends ActionBarActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
@@ -287,22 +348,23 @@ public class drnk extends ActionBarActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView;
-            if(section.equals("near me")){
+            if (section.equals("near me")) {
                 rootView = inflater.inflate(R.layout.activity_near_me, container, false);
                 setUpMapIfNeeded();
-            }
-            else {
+            } else {
                 rootView = inflater.inflate(R.layout.fragment_drnk, container, false);
             }
             return rootView;
         }
+
         @Override
         public void onResume() {
             super.onResume();
-            if(section.equals("near me")) {
+            if (section.equals("near me")) {
                 setUpMapIfNeeded();
             }
         }
+
         private void setUpMapIfNeeded() {
             // Do a null check to confirm that we have not already instantiated the map.
             if (mMap == null) {
@@ -314,12 +376,42 @@ public class drnk extends ActionBarActivity
                     setUpMap();
                 }
             }
+
         }
-        private void setUpMap() {
+
+        public void setUpMap() {
             mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-            mMap.addMarker(new MarkerOptions().position(new LatLng(48.871387, 2.354951)).title("Current location")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(48.871387, 2.354951), 15));
+            mMap.clear();
+            if (buttonClicked == true) {
+//                for (int i = 0; i < latList.size(); i++) {
+                mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude))
+                        .title((String) listOfBusinesses.get(position))
+                        .snippet((String) listOfAddress.get(position))
+                        .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ic_logo", 100, 100))));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
+
+                //  }
+            } else {
+
+                for (int i = 0; i < listOfAddress.size(); i++) {
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(latList.get(i), longList.get(i)))
+                            .title((String) listOfBusinesses.get(i))
+                            .snippet((String) listOfAddress.get(i))
+                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ic_logo", 100, 100))));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
+                }
+                mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(currentLatitude, currentLongitude))
+                        .title("Current Location")
+                        .icon(BitmapDescriptorFactory.defaultMarker()));
+            }
+
+        }
+
+        public Bitmap resizeMapIcons(String iconName, int width, int height) {
+            Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(iconName, "drawable", getActivity().getPackageName()));
+            Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
+            return resizedBitmap;
         }
 
         @Override

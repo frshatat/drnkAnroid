@@ -1,6 +1,7 @@
 package com.drnkmobile.drnkAndroid.drnk;
 
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
@@ -27,10 +28,10 @@ public class Parser {
     public Parser(String jsonFile){
         this.jsonFile = jsonFile;
         LocalDate date = LocalDate.now();
+        LocalDateTime time = LocalDateTime.now();
         DateTimeFormatter fmt = DateTimeFormat.forPattern("EEEE");
         currentDay = date.toString(fmt);
         currentDay = currentDay.toLowerCase();
-       // System.out.println();
 
     }
 
@@ -63,7 +64,7 @@ public class Parser {
 
                 BarTableInfo business = BarTableInfo.makeWithBarName(businessName);
                 builder.addBusiness(business);
-                findTodaySpecials();
+                findCurrentSpecials();
             }
             else{
                     builder = Special.withBarName("liqourstores");
@@ -104,7 +105,6 @@ public class Parser {
 
     private void findSpecials() throws JSONException {
         JSONObject row = ar.getJSONObject(number);
-
         JSONArray special =  row.getJSONObject("deals").getJSONArray(currentDay);
         ArrayList<String>list = new ArrayList<String>();
         ArrayList<String>idList = new ArrayList<String>();
@@ -122,7 +122,6 @@ public class Parser {
             String deal_name = s.getString("deal_name");
             String deal = deal_price + deal_name;
             list.add(deal);
-        //System.out.println("#######"+deal_name);
 
       }
         if(list.get(0).equals(" ")){
@@ -143,7 +142,7 @@ public class Parser {
 
     }
 
-    private void findTodaySpecials() throws JSONException {
+    private void findCurrentSpecials() throws JSONException {
         JSONObject row = ar.getJSONObject(index);
         JSONArray special;
         if(drnk.section.equals("stores")){
@@ -185,7 +184,6 @@ public class Parser {
             String deal_name = specialObject.getString("deal_name");
 
             specialList.add(deal_name);
-            //System.out.println("#######"+name);
 
         }
         groupSpecials= specialList.get(0)+"\n"+specialList.get(1)+"\n" +specialList.get(2);
