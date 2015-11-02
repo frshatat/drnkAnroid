@@ -28,29 +28,13 @@ public class BarTableInfo {
     public static BarTableInfo makeWithAddress(String address){
         return new BarTableInfo(address);
     }
-
+    public static BarTableInfo makeWithWeeklySpecials (String week){
+        return new BarTableInfo(week);
+    }
     public String getTitle() {
         return title;
     }
 }
 
-//    public ArrayList<BarTableInfo> barTableInfo = new ArrayList<BarTableInfo>();
-//    public String name = "Brother's Bar and Grill";
-//    public String address = "Adress of Brother's Bar and Grill, Muncie, IN";
-//    public String barImage = "";
-//    public String special1 = "Special 1";
-//    public String special2 = "Special 2";
-//    public String special3 = "Special 3";
-//    public String businessId = "";
-//
-//    public BarTableInfo(String id,String name , String address, String special1,String special2, String special3){
-//
-//        this.name = name;
-//        this.address = address;
-//       // this.barImage = generateImage(id);
-//        this.special1 = special1;
-//        this.special2 = special2;
-//        this.special3 = special3;
-//
-//    }
+
 
