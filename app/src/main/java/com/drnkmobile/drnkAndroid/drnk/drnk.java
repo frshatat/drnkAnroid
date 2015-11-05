@@ -14,8 +14,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -35,7 +34,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class drnk extends ActionBarActivity
+public class drnk extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     LocationManager locationManager;
@@ -63,12 +62,15 @@ public class drnk extends ActionBarActivity
     static CharSequence section;
     LocationService gps;
     static List listOfAddress;
+    private android.support.v7.widget.Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drnk);
-
+        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.app_bar);
+        //setSupportActionBar(toolbar);
+       // getSupportActionBar().setDisplayShowHomeEnabled(true);
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -82,7 +84,7 @@ public class drnk extends ActionBarActivity
 
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+                (DrawerLayout) findViewById(R.id.drawer_layout),toolbar);
         reader = new URLReader();
         tasks = new ArrayList<DownloadXMLAsyncTask>();
 
@@ -150,11 +152,12 @@ public class drnk extends ActionBarActivity
     }
 
     public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-    }
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+//        actionBar.setDisplayShowTitleEnabled(true);
+//        actionBar.setTitle(mTitle);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+  }
 
     private void requestData() {
         DownloadXMLAsyncTask task = new DownloadXMLAsyncTask();
@@ -173,12 +176,13 @@ public class drnk extends ActionBarActivity
             if (address == null) {
                 System.out.println("Nothing");
             } else {
-                Address location = address.get(0);
-                latitude = (float) location.getLatitude();
-                longitude = (float) location.getLongitude();
+                for(int i = 0; i < address.size();i++) {
+                    Address location = address.get(i);
+                    latitude = (float) location.getLatitude();
+                    longitude = (float) location.getLongitude();
 //                latList.add(latitude);
 //                longList.add(longitude);
-
+                }
 
             }
         } catch (IOException e) {
