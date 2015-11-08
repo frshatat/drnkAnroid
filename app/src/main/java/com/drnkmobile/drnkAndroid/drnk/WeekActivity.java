@@ -1,5 +1,6 @@
 package com.drnkmobile.drnkAndroid.drnk;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import com.drnkmobile.drnkAndroid.app.R;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,65 +16,163 @@ import java.util.List;
 public class WeekActivity extends Fragment {
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
-    List<String> listDataHeader;
+    static List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
+    private ArrayList<DownloadXMLAsyncTask> tasks;
+    private URLReader reader;
+    private String typeOfBusiness;
+    private List listOfSpecials;
+    private int number;
+    private List<String>listSpecials;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.activity_week, container, false);
+        tasks = new ArrayList<DownloadXMLAsyncTask>();
         expListView = (ExpandableListView) rootView.findViewById(R.id.expandableListView);
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, List<String>>();
 
+        // Adding child data
+        listDataHeader.add("Sunday");
+        listDataHeader.add("Monday");
+        listDataHeader.add("Tuesday");
+        listDataHeader.add("Wednesday");
+        listDataHeader.add("Thursday");
+        listDataHeader.add("Friday");
+        listDataHeader.add("Saturday");
         // preparing list data
-        prepareListData();
-
-        listAdapter = new ExpandableListAdapter(this.getContext(), listDataHeader, listDataChild);
-
-        // setting list adapter
-        expListView.setAdapter(listAdapter);
+        reader = new URLReader();
+        requestData();
         return rootView;
+    }
+
+    private void requestData() {
+        number = getActivity().getIntent().getExtras().getInt("a");
+        DownloadXMLAsyncTask task = new DownloadXMLAsyncTask();
+        task.execute();
     }
     /*
     * Preparing the list data
     */
     private void prepareListData() {
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
+//        listDataHeader = new ArrayList<String>();
+//        listDataChild = new HashMap<String, List<String>>();
+//
+//        // Adding child data
+//        listDataHeader.add("Sunday");
+//        listDataHeader.add("Monday");
+//        listDataHeader.add("Tuesday");
+//        listDataHeader.add("Wednesday");
+//        listDataHeader.add("Thursday");
+//        listDataHeader.add("Friday");
+//        listDataHeader.add("Saturday");
 
         // Adding child data
-        listDataHeader.add("Top 250");
-        listDataHeader.add("Now Showing");
-        listDataHeader.add("Coming Soon..");
+//        List<String> top250 = new ArrayList<String>();
+//        top250.add("The Shawshank Redemption");
+//        top250.add("The Godfather");
+//        top250.add("The Godfather: Part II");
+//        top250.add("Pulp Fiction");
+//        top250.add("The Good, the Bad and the Ugly");
+//        top250.add("The Dark Knight");
+//        top250.add("12 Angry Men");
+//
+//        List<String> nowShowing = new ArrayList<String>();
+//        nowShowing.add("The Conjuring");
+//        nowShowing.add("Despicable Me 2");
+//        nowShowing.add("Turbo");
+//        nowShowing.add("Grown Ups 2");
+//        nowShowing.add("Red 2");
+//        nowShowing.add("The Wolverine");
+//
+//        List<String> comingSoon = new ArrayList<String>();
+//        comingSoon.add("2 Guns");
+//        comingSoon.add("The Smurfs 2");
+//        comingSoon.add("The Spectacular Now");
+//        comingSoon.add("The Canyons");
+//        comingSoon.add("Europa Report");
 
-        // Adding child data
-        List<String> top250 = new ArrayList<String>();
-        top250.add("The Shawshank Redemption");
-        top250.add("The Godfather");
-        top250.add("The Godfather: Part II");
-        top250.add("Pulp Fiction");
-        top250.add("The Good, the Bad and the Ugly");
-        top250.add("The Dark Knight");
-        top250.add("12 Angry Men");
+        List<String>sundaySpecials = new ArrayList<>();
+        sundaySpecials.add((String) listOfSpecials.get(0));
+        List<String>mondaySpecials = new ArrayList<>();
+        mondaySpecials.add((String) listOfSpecials.get(1));
+        List<String>tuesdaySpecials = new ArrayList<>();
+        tuesdaySpecials.add((String) listOfSpecials.get(2));
+        List<String>wednsedaySpecials = new ArrayList<>();
+        wednsedaySpecials.add((String) listOfSpecials.get(3));
+        List<String>thursdaySpecials = new ArrayList<>();
+        thursdaySpecials.add((String) listOfSpecials.get(4));
+        List<String>fridaySpecials = new ArrayList<>();
+        fridaySpecials.add((String) listOfSpecials.get(5));
+        List<String>saturdaySpecials = new ArrayList<>();
+        saturdaySpecials.add((String) listOfSpecials.get(6));
 
-        List<String> nowShowing = new ArrayList<String>();
-        nowShowing.add("The Conjuring");
-        nowShowing.add("Despicable Me 2");
-        nowShowing.add("Turbo");
-        nowShowing.add("Grown Ups 2");
-        nowShowing.add("Red 2");
-        nowShowing.add("The Wolverine");
 
-        List<String> comingSoon = new ArrayList<String>();
-        comingSoon.add("2 Guns");
-        comingSoon.add("The Smurfs 2");
-        comingSoon.add("The Spectacular Now");
-        comingSoon.add("The Canyons");
-        comingSoon.add("Europa Report");
 
-        listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), nowShowing);
-        listDataChild.put(listDataHeader.get(2), comingSoon);
+//        for(int i = 0; i<listDataHeader.size();i++) {
+//            listDataChild.put(listDataHeader.get(i), listOfSpecials.get(i));
+//        }// Header, Child data
+
+        listDataChild.put(listDataHeader.get(0), sundaySpecials);
+        listDataChild.put(listDataHeader.get(1), mondaySpecials);
+        listDataChild.put(listDataHeader.get(2), tuesdaySpecials);
+        listDataChild.put(listDataHeader.get(3), wednsedaySpecials);
+        listDataChild.put(listDataHeader.get(4), thursdaySpecials);
+        listDataChild.put(listDataHeader.get(5), fridaySpecials);
+        listDataChild.put(listDataHeader.get(6), saturdaySpecials);
+
+
     }
+    protected void updateDisplay() {
+        prepareListData();
+        listAdapter = new ExpandableListAdapter(this.getContext(), listDataHeader, listDataChild);
+
+        // setting list adapter
+        expListView.setAdapter(listAdapter);
+
+
+
+    }
+    private class DownloadXMLAsyncTask extends AsyncTask<String, String,
+            String> {
+        @Override
+        protected void onPreExecute() {
+//            if (tasks.size() == 0) {
+//                progressBar.setVisibility(View.VISIBLE);
+//            }
+            tasks.add(this);
+        }
+
+        @Override
+        protected String doInBackground(String... input) {
+            String content = null;
+            content = reader.getJSON("bars");
+            return content;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Parser parser = new Parser(result);
+            Special schedule = null;
+            try {
+                parser.passNumberIN(number);
+                schedule = parser.parse("week");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            SpecialFormatter formatter = new SpecialFormatter();
+            listOfSpecials = formatter.getWeekSpecials(schedule);
+
+            updateDisplay();
+            tasks.remove(this);
+//            if (tasks.size() == 0) {
+//                progressBar.setVisibility(View.INVISIBLE);
+//            }
+        }
+    }
+
 }
 
 

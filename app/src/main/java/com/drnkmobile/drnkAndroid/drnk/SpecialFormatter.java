@@ -12,6 +12,7 @@ public class SpecialFormatter {
     List<String> specialList = new ArrayList<String>();
     List<String> businessIdList = new ArrayList<String>();
     List<String> addressList = new ArrayList<String>();
+    List<String> weekSpecialsList = new ArrayList<String>();
 
     public List getBusinessData(Special tvSchedule) {
         if (tvSchedule.countBusinesses() > 0) {
@@ -28,7 +29,7 @@ public class SpecialFormatter {
         } else {
             businessList.add("0000");
         }
-        return businessIdList; 
+        return businessIdList;
     }
 
     public List specials(Special special) {
@@ -40,12 +41,22 @@ public class SpecialFormatter {
         }
         return specialList;
     }
+
+    public List getWeekSpecials(Special special) {
+        if (special.countWeekSpecials() > 0) {
+            addSpecialsForWeek(special);
+            return weekSpecialsList;
+        } else {
+            weekSpecialsList.add("Sorry we couldn't find any specials today.");
+        }
+        return weekSpecialsList;
+    }
     public List getAddress(Special address){
         if (address.countAddress()>0){
             addAddress(address);
         }
         else{
-          addressList.add("Unknown Location");
+            addressList.add("Unknown Location");
         }
         return addressList;
     }
@@ -68,6 +79,12 @@ public class SpecialFormatter {
         }
     }
 
+    private void addSpecialsForWeek(Special week){
+        for(int i=0; i<week.countWeekSpecials(); i++){
+            weekSpecialsList.add(formatSpecialName(week.getWeekSpecials(i)));
+        }
+    }
+
     protected void addSpecials(Special business) {
         for (int i = 0; i < business.countSpecials(); i++) {
             int episodeCount = i + 1;
@@ -75,6 +92,8 @@ public class SpecialFormatter {
             specialList.add(formatSpecialName(business.getSpecial(i)));
         }
     }
+
+
     private String formatBusinessName(BarTableInfo business) {
         return business.getTitle() + "\n";
     }
@@ -88,4 +107,5 @@ public class SpecialFormatter {
     private String formatId(BarTableInfo id){
         return id.getTitle();
     }
+
 }

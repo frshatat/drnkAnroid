@@ -173,9 +173,11 @@ public class drnk extends ActionBarActivity
             if (address == null) {
                 System.out.println("Nothing");
             } else {
-                Address location = address.get(0);
-                latitude = (float) location.getLatitude();
-                longitude = (float) location.getLongitude();
+                for(int i = 0;i<address.size();i++) {
+                    Address location = address.get(i);
+                    latitude = (float) location.getLatitude();
+                    longitude = (float) location.getLongitude();
+                }
 //                latList.add(latitude);
 //                longList.add(longitude);
 

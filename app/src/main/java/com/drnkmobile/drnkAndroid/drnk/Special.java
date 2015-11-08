@@ -23,6 +23,7 @@ public class Special {
         private final List<BarTableInfo> listOfBusinesses = Lists.newArrayList();
         private final List<BarTableInfo> listOfId = Lists.newArrayList();
         private final List<BarTableInfo> listofAddress = Lists.newArrayList();
+        private final List<BarTableInfo> listOfWeekSpecials = Lists.newArrayList();
 
         private Builder(String barName) {
             this.barName = checkNotNull(barName);
@@ -45,6 +46,10 @@ public class Special {
             listofAddress.add(address);
             return this;
         }
+        public Builder addWeekSpecials(BarTableInfo week){
+            listOfWeekSpecials.add(week);
+            return this;
+        }
 
         public Special build() {
             return new Special(this);
@@ -56,13 +61,14 @@ public class Special {
     private final ImmutableList<BarTableInfo> specials;
     private final ImmutableList<BarTableInfo> id;
     private final ImmutableList<BarTableInfo> address;
-
+    private final ImmutableList<BarTableInfo>weekSpecials;
     public Special(Builder builder) {
-       // this.businessName = builder.barName;
+        // this.businessName = builder.barName;
         this.business = ImmutableList.copyOf(builder.listOfBusinesses);
         this.specials = ImmutableList.copyOf(builder.listOfSpecials);
         this.id = ImmutableList.copyOf(builder.listOfId);
         this.address = ImmutableList.copyOf(builder.listofAddress);
+        this.weekSpecials = ImmutableList.copyOf(builder.listOfWeekSpecials);
     }
 
 //    //public String getBusinessName() {
@@ -96,5 +102,12 @@ public class Special {
     }
     public int countAddress(){
         return address.size();
+    }
+
+    public BarTableInfo getWeekSpecials(int index){
+        return weekSpecials.get(index);
+    }
+    public int countWeekSpecials(){
+        return weekSpecials.size();
     }
 }
