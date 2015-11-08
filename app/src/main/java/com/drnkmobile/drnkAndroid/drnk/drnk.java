@@ -15,7 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class drnk extends ActionBarActivity
+public class drnk extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     LocationManager locationManager;
