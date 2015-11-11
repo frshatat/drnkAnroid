@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" android:background="#000000">
+                android:layout_height="match_parent"
+>
 
     <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/navigationdrawerimage" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+            android:id="@+id/navigationdrawerimage"
             android:src="@drawable/ic_logo"
-            android:layout_alignParentStart="true" android:layout_marginTop="73dp"/>
+            android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -16,5 +18,5 @@
             android:text="Medium Text"
             android:id="@+id/navigationdrawertext"
             android:layout_alignTop="@+id/navigationdrawerimage" android:layout_centerHorizontal="true"
-            android:layout_alignBottom="@+id/navigationdrawerimage" android:textColor="#00baff"/>
+            android:layout_alignBottom="@+id/navigationdrawerimage" android:textColor="#eae8ff"/>
 </RelativeLayout>

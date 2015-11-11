@@ -1,10 +1,24 @@
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:choiceMode="singleChoice"
-          android:divider="@android:color/transparent"
-          android:dividerHeight="0dp"
-          android:background="#ccffffff"
-          android:id="@+id/navigation_list"
-          tools:context=".NavigationDrawerFragment"/>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+        android:layout_height="match_parent" xmlns:tools="http://schemas.android.com/tools">
+
+<ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:background="@drawable/slide_menu_image"
+        android:id="@+id/navigation_list"
+        tools:context=".NavigationDrawerFragment" android:backgroundTintMode="add" android:backgroundTint="#000000"
+        android:layout_below="@+id/textView4"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:background="@drawable/slide_menu_image"
+            android:text="drnk"
+            android:id="@+id/textView4" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" android:backgroundTint="#000000" android:backgroundTintMode="add"
+            android:textColor="#00baff" android:textSize="75sp"/>
+</RelativeLayout>

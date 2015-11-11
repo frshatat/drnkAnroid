@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.*;
 import android.widget.AdapterView;
@@ -57,24 +56,28 @@ public class drnk extends AppCompatActivity
     static boolean buttonClicked = false;
     static int position;
     /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
+     * Used to store the last screen title. For use in {@link #()}.
      */
     private CharSequence mTitle;
     static CharSequence section;
     LocationService gps;
     static List listOfAddress;
+    private android.support.v7.widget.Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drnk);
-
+        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
 
-        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+
         reader = new URLReader();
         tasks = new ArrayList<DownloadXMLAsyncTask>();
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -82,7 +85,7 @@ public class drnk extends AppCompatActivity
 
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+                (DrawerLayout) findViewById(R.id.drawer_layout),toolbar);
         reader = new URLReader();
         tasks = new ArrayList<DownloadXMLAsyncTask>();
 
@@ -150,10 +153,7 @@ public class drnk extends AppCompatActivity
     }
 
     public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     private void requestData() {
@@ -224,10 +224,7 @@ public class drnk extends AppCompatActivity
         } catch (IOException e) {
             e.printStackTrace();
         }
-//         FragmentManager fragmentManager = getSupportFragmentManager();
-//        fragmentManager.beginTransaction()
-//                .replace(R.id.container, PlaceholderFragment.newInstance(2 + 1))
-//                .commit();
+
     }
 
 
@@ -382,7 +379,7 @@ public class drnk extends AppCompatActivity
         }
 
         public void setUpMap() {
-            mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
             mMap.clear();
             if (buttonClicked == true) {
 //                for (int i = 0; i < latList.size(); i++) {

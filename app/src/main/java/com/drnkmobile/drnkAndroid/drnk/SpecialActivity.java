@@ -1,16 +1,21 @@
 package com.drnkmobile.drnkAndroid.drnk;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 import com.drnkmobile.drnkAndroid.app.R;
 
-public class SpecialActivity extends AppCompatActivity implements
-        ActionBar.TabListener  {
+public class SpecialActivity extends AppCompatActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -30,7 +35,8 @@ public class SpecialActivity extends AppCompatActivity implements
     private ActionBar actionBar;
     // Tab titles
     private String[] tabs;
-
+    public static String POSITION = "POSITION";
+    TabLayout tabLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,56 +49,59 @@ public class SpecialActivity extends AppCompatActivity implements
             tabs =new String[]{"Today", "Week", "Info"};
         }
         viewPager = (ViewPager) findViewById(R.id.pager);
-        actionBar = getSupportActionBar();
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        //actionBar = getSupportActionBar();
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), SpecialActivity.this);
+
 
         viewPager.setAdapter(mSectionsPagerAdapter);
-        actionBar.setHomeButtonEnabled(false);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout.setupWithViewPager(viewPager);
+//        actionBar.setHomeButtonEnabled(false);
+//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         // Adding Tabs
-        for (String tab_name : tabs) {
-            actionBar.addTab(actionBar.newTab().setText(tab_name)
-                    .setTabListener((ActionBar.TabListener) this));
+//        for (String tab_name : tabs) {
+//            tabLayout.addTab(tabLayout.newTab().setText(tab_name)
+//                    .setTag(this));
+//        }
+
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            tab.setCustomView(mSectionsPagerAdapter.getTabView(i));
         }
-
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int position) {
-                // on changing the page
-                // make respected tab selected
-                actionBar.setSelectedNavigationItem(position);
-            }
-
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-            }
-        });
-    }
-
-
-
-
-
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
-        viewPager.setCurrentItem(tab.getPosition());
+//        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                // on changing the page
+//                // make respected tab selected
+//                actionBar.setSelectedNavigationItem(position);
+//            }
+//
+//            @Override
+//            public void onPageScrolled(int arg0, float arg1, int arg2) {
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int arg0) {
+//            }
+//
+//        });
     }
 
     @Override
-    public void onTabUnselected(ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
-
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(POSITION, tabLayout.getSelectedTabPosition());
     }
 
     @Override
-    public void onTabReselected(ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
-
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        viewPager.setCurrentItem(savedInstanceState.getInt(POSITION));
     }
+
+
 
 
     /**
@@ -100,9 +109,10 @@ public class SpecialActivity extends AppCompatActivity implements
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
+        private Context context;
+        public SectionsPagerAdapter(FragmentManager fm, Context context) {
             super(fm);
+            this.context = context;
         }
 
 
@@ -135,7 +145,29 @@ public class SpecialActivity extends AppCompatActivity implements
 
             return null;
         }
+        public View getTabView(int position) {
+            // Given you have a custom layout in `res/layout/custom_tab.xml` with a TextView and ImageView
+            View v = LayoutInflater.from(context).inflate(R.layout.custom_tab_layout, null);
+            TextView tv = (TextView) v.findViewById(R.id.textView3);
+            tv.setText(tabs[position]);
+//            ImageView img = (ImageView) v.findViewById(R.id.imageView3);
+//            img.setImageResource(R.drawable.ic_logo);
+            return v;
+        }
+        @Override
+        public CharSequence getPageTitle(int position) {
+            // Generate title based on item position
+//            Drawable image = context.getResources().getDrawable(R.drawable.ic_logo);
+//            image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());
+            // Replace blank spaces with image icon
+            SpannableString sb = new SpannableString("   " + tabs[position]);
+//            ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
+//            sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            return sb;
+        }
     }
+
+
 }
 
 

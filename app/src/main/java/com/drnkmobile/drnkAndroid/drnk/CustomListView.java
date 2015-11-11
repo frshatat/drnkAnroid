@@ -83,6 +83,16 @@ public class CustomListView extends ArrayAdapter<String> {
                 businessImage = R.drawable.scottys;
                 break;
 
+            case "3":
+
+                businessImage = R.drawable.friendly_package;
+                break;
+
+            case "6":
+
+                businessImage = R.drawable.munice_liquors;
+                break;
+
             case "0000":
 
                 businessImage = R.drawable.ic_logo;
