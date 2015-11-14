@@ -151,6 +151,8 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+                mDrawerListView.bringToFront();
+                mDrawerLayout.requestLayout();
                 if (!isAdded()) {
                     return;
                 }

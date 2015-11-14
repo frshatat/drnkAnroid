@@ -13,15 +13,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.*;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.*;
 import com.drnkmobile.drnkAndroid.app.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -64,6 +62,7 @@ public class drnk extends AppCompatActivity
     static List listOfAddress;
     private android.support.v7.widget.Toolbar toolbar;
     private ProgressBar progressBar;
+    private CustomListView adapter;
 
 
     @Override
@@ -208,10 +207,13 @@ public class drnk extends AppCompatActivity
     }
 
     protected void updateDisplay() {
-        CustomListView adapter = new CustomListView(this, R.layout.item_specials, listOfBusinesses, listOfSpecials, listOfId, listOfAddress);
+         adapter = new CustomListView(this, R.layout.item_specials, listOfBusinesses, listOfSpecials, listOfId, listOfAddress);
         list = (ListView) findViewById(R.id.listView2);
-        list.setAdapter(adapter);
-        onTitleClick();
+        if(list!=null) {
+            list.setAdapter(adapter);
+
+            onTitleClick();
+        }
 
     }
 
@@ -245,19 +247,22 @@ public class drnk extends AppCompatActivity
 
     public void onTitleClick() {
 
+
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Intent resultActivityIntent = new Intent(getApplicationContext(),
                         SpecialActivity.class);
-                String businessName = parent.getItemAtPosition(position).toString();
+                ImageView transition = (ImageView) findViewById(R.id.imageView);
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(drnk.this, transition, "profile");
+                int image = adapter.generateImage((String) listOfId.get(position));
                 int a = position;
 
+                resultActivityIntent.putExtra("image",image);
                 resultActivityIntent.putExtra("a", a);
-
-
-                startActivity(resultActivityIntent);
+                startActivity(resultActivityIntent,options.toBundle());
             }
         });
     }
@@ -428,6 +433,7 @@ public class drnk extends AppCompatActivity
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
+
 
             ((drnk) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));

@@ -9,9 +9,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.drnkmobile.drnkAndroid.app.R;
 
@@ -37,31 +40,49 @@ public class SpecialActivity extends AppCompatActivity {
     private String[] tabs;
     public static String POSITION = "POSITION";
     TabLayout tabLayout;
+    private Toolbar toolbar;
+    private NavigationDrawerFragment mNavigationDrawerFragment;
+    private ImageView imageview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_special);
 
-        if (drnk.section.equals("stores")) {
-            tabs = new String[]{"Current Week", "Info"};
-        } else {
-            tabs = new String[]{"Today", "Week", "Info"};
-        }
+        checkForTypeOfBusinessToDisplayProperTabsName();
         viewPager = (ViewPager) findViewById(R.id.pager);
-        //actionBar = getSupportActionBar();
+        int image = getIntent().getExtras().getInt("image");
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), SpecialActivity.this);
-
-
         viewPager.setAdapter(mSectionsPagerAdapter);
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
-
+        imageview = (ImageView)findViewById(R.id.imageView4);
+        imageview.setImageResource(image);
 
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
             tab.setCustomView(mSectionsPagerAdapter.getTabView(i));
         }
+    }
+
+
+    private void checkForTypeOfBusinessToDisplayProperTabsName() {
+        if (drnk.section.equals("stores")) {
+            tabs = new String[]{"Current Week", "Info"};
+        } else {
+            tabs = new String[]{"Today", "Week", "Info"};
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                supportFinishAfterTransition();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -75,6 +96,7 @@ public class SpecialActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         viewPager.setCurrentItem(savedInstanceState.getInt(POSITION));
     }
+
 
 
     /**

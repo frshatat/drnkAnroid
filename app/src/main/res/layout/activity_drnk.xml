@@ -22,8 +22,8 @@
         <ListView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:transitionName="@string/transition_to_detail_view"
                 android:id="@+id/listView2" android:layout_gravity="top|left|center"
+                android:transitionName="@string/transition_to_detail_view"
                 android:layout_alignParentStart="false" android:layout_alignParentTop="true"
                 android:layout_above="@+id/app_bar"/>
         <ProgressBar

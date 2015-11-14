@@ -1,33 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:transitionName="@string/transition_to_detail_view"
-              android:orientation="vertical" android:background="#000000">
 
-    <ImageView
-            android:layout_width="200dp"
-            android:layout_height="100dp"
-            android:src="@drawable/brothers"
-            android:id="@+id/imageView4" android:layout_gravity="center_horizontal" android:layout_weight="0.03"/>
-    <android.support.design.widget.TabLayout
-            android:id="@+id/sliding_tabs"
-            android:layout_width="fill_parent"
-            style="@style/MyCustomTabLayout"
-            android:layout_height="wrap_content"
-            app:tabMode="scrollable" android:layout_weight="0.03" android:background="#000101"/>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:id="@id/container"
+                  android:transitionName="@string/transition_to_detail_view"
+                  android:orientation="vertical" android:background="#000000">
 
-    <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:layout_weight="0.17"
-            android:background="@android:color/transparent" />
-    <ToggleButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New ToggleButton"
-            android:id="@+id/toggleButton"/>
+        <ImageView
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:transitionName="@string/transition_to_detail_view"
+                android:src="@drawable/brothers"
+                android:id="@+id/imageView4" android:layout_gravity="center_horizontal" android:layout_weight="0.03"/>
+        <android.support.design.widget.TabLayout
+                android:id="@+id/sliding_tabs"
+                android:layout_width="fill_parent"
 
-</LinearLayout>
+                style="@style/MyCustomTabLayout"
+                android:layout_height="wrap_content"
+                app:tabMode="scrollable" android:layout_weight="0.03" android:background="#000101"/>
+
+        <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="0px"
+                android:layout_weight="0.17"
+                android:background="@android:color/transparent"/>
+
+        <!--<ToggleButton-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="New ToggleButton"-->
+        <!--android:id="@+id/toggleButton"/>-->
+
+    </LinearLayout>

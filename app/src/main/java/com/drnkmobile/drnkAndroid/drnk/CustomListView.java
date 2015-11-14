@@ -52,7 +52,7 @@ public class CustomListView extends ArrayAdapter<String> {
     }
 
 
-    private int generateImage(String id){
+    public int generateImage(String id){
 
         String imageString = id;
         int businessImage = R.drawable.ic_logo;;
