@@ -158,7 +158,7 @@ public class Parser {
             JSONObject s = special.getJSONObject(i);
             String deal_name = s.getString("deal_name");
             if (deal_name.equals("")) {
-                System.out.println("nothing here");
+
             } else {
                 list.add(deal_name);
             }
@@ -187,7 +187,7 @@ public class Parser {
 
         }
         groupSpecials = specialList.get(0) + "\n" + specialList.get(1) + "\n" + specialList.get(2);
-        System.out.println(groupSpecials);
+
         BarTableInfo specials = BarTableInfo.makeWithBarSpecialName(groupSpecials);
         builder.addSpecial(specials);
 
@@ -201,14 +201,13 @@ public class Parser {
         String groupSpecials = null;
         for (int i = 0; i < WeekActivity.listDataHeader.size(); i++) {
             special = row.getJSONObject("deals").getJSONArray(WeekActivity.listDataHeader.get(i).toLowerCase());
-            System.out.println(special.length());
+
             for (int j = 0; j < special.length(); j++) {
                 JSONObject s = special.getJSONObject(j);
                 String deal_name = s.getString("deal_name");
                 if (deal_name.equals("")) {
-                    System.out.println("nothing here");
+
                 } else {
-                    System.out.println(deal_name);
                     list.add(deal_name);
                 }
 

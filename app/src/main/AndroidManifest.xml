@@ -3,7 +3,7 @@
     package="com.drnkmobile.drnkAndroid.app" >
 
 
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -22,6 +22,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
+        android:name="android.support.multidex.MultiDexApplication"
         android:theme="@style/AppTheme.NoActionBar" >
         <activity
             android:name="com.drnkmobile.drnkAndroid.drnk.drnk"

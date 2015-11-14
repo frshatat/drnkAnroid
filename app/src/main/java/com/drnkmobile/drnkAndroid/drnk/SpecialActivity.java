@@ -37,16 +37,16 @@ public class SpecialActivity extends AppCompatActivity {
     private String[] tabs;
     public static String POSITION = "POSITION";
     TabLayout tabLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_special);
 
-        if(drnk.section.equals("stores")){
+        if (drnk.section.equals("stores")) {
             tabs = new String[]{"Current Week", "Info"};
-        }
-        else{
-            tabs =new String[]{"Today", "Week", "Info"};
+        } else {
+            tabs = new String[]{"Today", "Week", "Info"};
         }
         viewPager = (ViewPager) findViewById(R.id.pager);
         //actionBar = getSupportActionBar();
@@ -54,39 +54,14 @@ public class SpecialActivity extends AppCompatActivity {
 
 
         viewPager.setAdapter(mSectionsPagerAdapter);
-         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
-//        actionBar.setHomeButtonEnabled(false);
-//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        // Adding Tabs
-//        for (String tab_name : tabs) {
-//            tabLayout.addTab(tabLayout.newTab().setText(tab_name)
-//                    .setTag(this));
-//        }
 
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
             tab.setCustomView(mSectionsPagerAdapter.getTabView(i));
         }
-//        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//                // on changing the page
-//                // make respected tab selected
-//                actionBar.setSelectedNavigationItem(position);
-//            }
-//
-//            @Override
-//            public void onPageScrolled(int arg0, float arg1, int arg2) {
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int arg0) {
-//            }
-//
-//        });
     }
 
     @Override
@@ -102,14 +77,13 @@ public class SpecialActivity extends AppCompatActivity {
     }
 
 
-
-
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
         private Context context;
+
         public SectionsPagerAdapter(FragmentManager fm, Context context) {
             super(fm);
             this.context = context;
@@ -118,10 +92,9 @@ public class SpecialActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            if(drnk.section.equals("stores")){
+            if (drnk.section.equals("stores")) {
                 return 2;
-            }
-            else{
+            } else {
                 return 3;
             }
 
@@ -131,20 +104,32 @@ public class SpecialActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int index) {
 
-            switch (index) {
-                case 0:
-                    // Top Rated fragment activity
-                    return new TodayActivity();
-                case 1:
-                    // Games fragment activity
-                    return new WeekActivity();
-                case 2:
-                    // Movies fragment activity
-                    return new InfoFragment();
+            if (drnk.section.equals("stores")) {
+                switch (index) {
+                    case 0:
+
+                        return new TodayActivity();
+                    case 1:
+
+                        return new InfoFragment();
+                }
+            } else {
+                switch (index) {
+                    case 0:
+
+                        return new TodayActivity();
+                    case 1:
+
+                        return new WeekActivity();
+                    case 2:
+
+                        return new InfoFragment();
+                }
             }
 
             return null;
         }
+
         public View getTabView(int position) {
             // Given you have a custom layout in `res/layout/custom_tab.xml` with a TextView and ImageView
             View v = LayoutInflater.from(context).inflate(R.layout.custom_tab_layout, null);
@@ -154,6 +139,7 @@ public class SpecialActivity extends AppCompatActivity {
 //            img.setImageResource(R.drawable.ic_logo);
             return v;
         }
+
         @Override
         public CharSequence getPageTitle(int position) {
             // Generate title based on item position

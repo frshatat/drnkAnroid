@@ -22,9 +22,16 @@
         <ListView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:transitionName="@string/transition_to_detail_view"
                 android:id="@+id/listView2" android:layout_gravity="top|left|center"
                 android:layout_alignParentStart="false" android:layout_alignParentTop="true"
                 android:layout_above="@+id/app_bar"/>
+        <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar" android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true" android:layout_alignParentEnd="true"
+                android:layout_marginTop="175dp" android:layout_marginRight="175dp"/>
     </RelativeLayout>
 
     <!-- android:layout_gravity="start" tells DrawerLayout to treat

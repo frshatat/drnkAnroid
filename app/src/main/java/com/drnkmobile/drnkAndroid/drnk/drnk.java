@@ -9,6 +9,8 @@ import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.drnkmobile.drnkAndroid.app.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -55,14 +58,12 @@ public class drnk extends AppCompatActivity
     static ArrayList<Float> longList = new ArrayList<>();
     static boolean buttonClicked = false;
     static int position;
-    /**
-     * Used to store the last screen title. For use in {@link #()}.
-     */
     private CharSequence mTitle;
     static CharSequence section;
     LocationService gps;
     static List listOfAddress;
     private android.support.v7.widget.Toolbar toolbar;
+    private ProgressBar progressBar;
 
 
     @Override
@@ -75,6 +76,7 @@ public class drnk extends AppCompatActivity
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
 
 
@@ -88,6 +90,7 @@ public class drnk extends AppCompatActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout),toolbar);
         reader = new URLReader();
         tasks = new ArrayList<DownloadXMLAsyncTask>();
+        System.out.println("OnCreate was called");
 
 
     }
@@ -97,16 +100,10 @@ public class drnk extends AppCompatActivity
         gps = new LocationService(drnk.this);
 
         if (gps.canGetLocation()) {
-
             currentLatitude = (float) gps.getLatitude();
             currentLongitude = (float) gps.getLongitude();
-
-            // \n is for new line
             Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
         } else {
-            // can't get location
-            // GPS or Network is not enabled
-            // Ask user to enable GPS/network in settings
             gps.showSettingsAlert();
         }
     }
@@ -131,7 +128,8 @@ public class drnk extends AppCompatActivity
                 section = mTitle;
                 buttonClicked = true;
                 getLocation();
-                requestData();
+                checkForConnection();
+
                 break;
             case 2:
                 mTitle = "stores";
@@ -139,11 +137,13 @@ public class drnk extends AppCompatActivity
                 section = mTitle;
                 buttonClicked = true;
                 getLocation();
-                requestData();
+                list.setAdapter(null);
+                checkForConnection();
+
                 break;
             case 3:
                 mTitle = "near me";
-                requestData();
+                checkForConnection();
                 section = mTitle;
                 if (buttonClicked == false) {
                     gecodeAddress();
@@ -154,6 +154,23 @@ public class drnk extends AppCompatActivity
 
     public void restoreActionBar() {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+    private void checkForConnection() {
+
+        if (isOnline()) {
+            requestData();
+        } else {
+            Toast.makeText(this, "Network isn't available",
+                    Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    protected boolean isOnline() {
+        ConnectivityManager connectionManager = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = connectionManager.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     private void requestData() {
@@ -178,8 +195,6 @@ public class drnk extends AppCompatActivity
                     latitude = (float) location.getLatitude();
                     longitude = (float) location.getLongitude();
                 }
-//                latList.add(latitude);
-//                longList.add(longitude);
 
 
             }
@@ -208,16 +223,16 @@ public class drnk extends AppCompatActivity
             for (int i = 0; i < listOfAddress.size(); i++) {
                 System.out.println(listOfAddress.size());
                 address = selected_place_geocoder.getFromLocationName(String.valueOf(listOfAddress.get(i) + " IN"), 5);
-                if (address == null) {
+                if (address.isEmpty()) {
                     System.out.println("Nothing");
                 } else {
-                    Address location = address.get(0);
-                    latitude = (float) location.getLatitude();
-                    longitude = (float) location.getLongitude();
-                    latList.add(latitude);
-                    longList.add(longitude);
-
-
+                    for(int k=0;k<address.size();k++) {
+                        Address location = address.get(k);
+                        latitude = (float) location.getLatitude();
+                        longitude = (float) location.getLongitude();
+                        latList.add(latitude);
+                        longList.add(longitude);
+                    }
                 }
             }
 
@@ -238,7 +253,7 @@ public class drnk extends AppCompatActivity
                         SpecialActivity.class);
                 String businessName = parent.getItemAtPosition(position).toString();
                 int a = position;
-                System.out.println(a);
+
                 resultActivityIntent.putExtra("a", a);
 
 
@@ -252,16 +267,21 @@ public class drnk extends AppCompatActivity
             String> {
         @Override
         protected void onPreExecute() {
-//            if (tasks.size() == 0) {
-//                progressBar.setVisibility(View.VISIBLE);
-//            }
+            if (tasks.size() == 0) {
+                progressBar.setVisibility(View.VISIBLE);
+            }
             tasks.add(this);
         }
 
         @Override
         protected String doInBackground(String... input) {
             String content = null;
-            content = reader.getJSON(typeOfBusiness);
+            if(section=="near me"){
+                content = reader.getJSON(typeOfBusiness);
+            }
+            else{
+                content = reader.getJSON(typeOfBusiness);
+            }
             return content;
         }
 
@@ -281,10 +301,11 @@ public class drnk extends AppCompatActivity
             listOfAddress = formatter.getAddress(schedule);
             updateDisplay();
             tasks.remove(this);
-//            if (tasks.size() == 0) {
-//                progressBar.setVisibility(View.INVISIBLE);
-//            }
+            if (tasks.size() == 0) {
+                progressBar.setVisibility(View.INVISIBLE);
+            }
         }
+
     }
 
     @Override
@@ -303,15 +324,8 @@ public class drnk extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -382,14 +396,12 @@ public class drnk extends AppCompatActivity
             mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
             mMap.clear();
             if (buttonClicked == true) {
-//                for (int i = 0; i < latList.size(); i++) {
                 mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude))
                         .title((String) listOfBusinesses.get(position))
                         .snippet((String) listOfAddress.get(position))
                         .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ic_logo", 100, 100))));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
 
-                //  }
             } else {
 
                 for (int i = 0; i < listOfAddress.size(); i++) {
