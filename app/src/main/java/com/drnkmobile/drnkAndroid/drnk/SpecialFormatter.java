@@ -22,6 +22,18 @@ public class SpecialFormatter {
         }
         return businessList;
     }
+    public List getInfoForMap(Special special){
+        if (special.countBusinesses() > 0) {
+            for (int i = 0; i < special.countBusinesses(); i++) {
+
+                businessList.add((formatBusinessName(special.getBusinessName(i))));
+            }
+        } else {
+            businessList.add("Unknown Business");
+        }
+        return businessList;
+    }
+
 
     public List getId(Special id){
         if (id.countId() > 0) {

@@ -1,10 +1,7 @@
 package com.drnkmobile.drnkAndroid.drnk;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -14,19 +11,14 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.*;
 import com.drnkmobile.drnkAndroid.app.R;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -63,6 +55,8 @@ public class drnk extends AppCompatActivity
     private android.support.v7.widget.Toolbar toolbar;
     private ProgressBar progressBar;
     private CustomListView adapter;
+    static List listofAllADdresses;
+    static List listOfBusinessName;
 
 
     @Override
@@ -70,13 +64,13 @@ public class drnk extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drnk);
         toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.app_bar);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
-
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
 
         reader = new URLReader();
@@ -86,7 +80,7 @@ public class drnk extends AppCompatActivity
 
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout),toolbar);
+                (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
         reader = new URLReader();
         tasks = new ArrayList<DownloadXMLAsyncTask>();
         System.out.println("OnCreate was called");
@@ -113,13 +107,14 @@ public class drnk extends AppCompatActivity
         buttonClicked = false;
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .replace(R.id.container, PlaceHolderFragment.PlaceholderFragment.newInstance(position + 1))
                 .commit();
 
     }
 
 
     public void onSectionAttached(int number) {
+
         switch (number) {
             case 1:
                 mTitle = "bars";
@@ -127,8 +122,8 @@ public class drnk extends AppCompatActivity
                 section = mTitle;
                 buttonClicked = true;
                 getLocation();
-                checkForConnection();
 
+                checkForConnection();
                 break;
             case 2:
                 mTitle = "stores";
@@ -136,17 +131,16 @@ public class drnk extends AppCompatActivity
                 section = mTitle;
                 buttonClicked = true;
                 getLocation();
+
                 list.setAdapter(null);
+
                 checkForConnection();
 
                 break;
             case 3:
                 mTitle = "near me";
-                checkForConnection();
                 section = mTitle;
-                if (buttonClicked == false) {
-                    gecodeAddress();
-                }
+
                 break;
         }
     }
@@ -154,6 +148,7 @@ public class drnk extends AppCompatActivity
     public void restoreActionBar() {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
+
     private void checkForConnection() {
 
         if (isOnline()) {
@@ -177,6 +172,7 @@ public class drnk extends AppCompatActivity
         task.execute();
     }
 
+
     public void findBusiness(View view) {
         try {
             buttonClicked = true;
@@ -185,61 +181,40 @@ public class drnk extends AppCompatActivity
             position = list.getPositionForView(parentRow);
             Geocoder selected_place_geocoder = new Geocoder(this, Locale.getDefault());
             List<Address> address = null;
-            address = selected_place_geocoder.getFromLocationName(String.valueOf(listOfAddress.get(position) + " IN"), 5);
-            if (address == null) {
-                System.out.println("Nothing");
-            } else {
-                for(int i = 0;i<address.size();i++) {
-                    Address location = address.get(i);
-                    latitude = (float) location.getLatitude();
-                    longitude = (float) location.getLongitude();
+            address = selected_place_geocoder.getFromLocationName(String.valueOf(listOfAddress.get(position)), 2);
+            System.out.println(address);
+
+            if (address.isEmpty()) {
+                if (listOfAddress.get(position).equals("1612 W Jackson St, Muncie")) {
+                    address = selected_place_geocoder.getFromLocationName("1610 W Jackson St, Muncie", 2);
+                }
+                if (listOfAddress.get(position).equals("801 North Wheeling Avenue, Muncie")) {
+                    address = selected_place_geocoder.getFromLocationName("803 North Wheeling Avenue, Muncie", 2);
                 }
 
-
             }
+            for (int i = 0; i < address.size(); i++) {
+                Address location = address.get(i);
+                latitude = (float) location.getLatitude();
+                longitude = (float) location.getLongitude();
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(2 + 1))
+                .replace(R.id.container, PlaceHolderFragment.PlaceholderFragment.newInstance(2 + 1))
                 .commit();
     }
 
     protected void updateDisplay() {
-         adapter = new CustomListView(this, R.layout.item_specials, listOfBusinesses, listOfSpecials, listOfId, listOfAddress);
+        adapter = new CustomListView(this, R.layout.item_specials, listOfBusinesses, listOfSpecials, listOfId, listOfAddress);
         list = (ListView) findViewById(R.id.listView2);
-        if(list!=null) {
+        if (list != null) {
             list.setAdapter(adapter);
 
             onTitleClick();
-        }
-
-    }
-
-    public void gecodeAddress() {
-        try {
-
-            Geocoder selected_place_geocoder = new Geocoder(this, Locale.getDefault());
-            List<Address> address = null;
-            for (int i = 0; i < listOfAddress.size(); i++) {
-                System.out.println(listOfAddress.size());
-                address = selected_place_geocoder.getFromLocationName(String.valueOf(listOfAddress.get(i) + " IN"), 5);
-                if (address.isEmpty()) {
-                    System.out.println("Nothing");
-                } else {
-                    for(int k=0;k<address.size();k++) {
-                        Address location = address.get(k);
-                        latitude = (float) location.getLatitude();
-                        longitude = (float) location.getLongitude();
-                        latList.add(latitude);
-                        longList.add(longitude);
-                    }
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
     }
@@ -260,9 +235,9 @@ public class drnk extends AppCompatActivity
                 int image = adapter.generateImage((String) listOfId.get(position));
                 int a = position;
 
-                resultActivityIntent.putExtra("image",image);
+                resultActivityIntent.putExtra("image", image);
                 resultActivityIntent.putExtra("a", a);
-                startActivity(resultActivityIntent,options.toBundle());
+                startActivity(resultActivityIntent, options.toBundle());
             }
         });
     }
@@ -281,10 +256,12 @@ public class drnk extends AppCompatActivity
         @Override
         protected String doInBackground(String... input) {
             String content = null;
-            if(section=="near me"){
+            SpecialFormatter formatter = new SpecialFormatter();
+            Special schedule = null;
+
+            if (section == "near me") {
                 content = reader.getJSON(typeOfBusiness);
-            }
-            else{
+            } else {
                 content = reader.getJSON(typeOfBusiness);
             }
             return content;
@@ -300,11 +277,13 @@ public class drnk extends AppCompatActivity
                 e.printStackTrace();
             }
             SpecialFormatter formatter = new SpecialFormatter();
+
             listOfBusinesses = formatter.getBusinessData(schedule);
             listOfSpecials = formatter.specials(schedule);
             listOfId = formatter.getId(schedule);
             listOfAddress = formatter.getAddress(schedule);
             updateDisplay();
+
             tasks.remove(this);
             if (tasks.size() == 0) {
                 progressBar.setVisibility(View.INVISIBLE);
@@ -335,110 +314,5 @@ public class drnk extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        private GoogleMap mMap;
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView;
-            if (section.equals("near me")) {
-                rootView = inflater.inflate(R.layout.activity_near_me, container, false);
-                setUpMapIfNeeded();
-            } else {
-                rootView = inflater.inflate(R.layout.fragment_drnk, container, false);
-            }
-            return rootView;
-        }
-
-        @Override
-        public void onResume() {
-            super.onResume();
-            if (section.equals("near me")) {
-                setUpMapIfNeeded();
-            }
-        }
-
-        private void setUpMapIfNeeded() {
-            // Do a null check to confirm that we have not already instantiated the map.
-            if (mMap == null) {
-                // Try to obtain the map from the SupportMapFragment.
-                mMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map))
-                        .getMap();
-                // Check if we were successful in obtaining the map.
-                if (mMap != null) {
-                    setUpMap();
-                }
-            }
-
-        }
-
-        public void setUpMap() {
-            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-            mMap.clear();
-            if (buttonClicked == true) {
-                mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude))
-                        .title((String) listOfBusinesses.get(position))
-                        .snippet((String) listOfAddress.get(position))
-                        .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ic_logo", 100, 100))));
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
-
-            } else {
-
-                for (int i = 0; i < listOfAddress.size(); i++) {
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(latList.get(i), longList.get(i)))
-                            .title((String) listOfBusinesses.get(i))
-                            .snippet((String) listOfAddress.get(i))
-                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ic_logo", 100, 100))));
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
-                }
-                mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(currentLatitude, currentLongitude))
-                        .title("Current Location")
-                        .icon(BitmapDescriptorFactory.defaultMarker()));
-            }
-
-        }
-
-        public Bitmap resizeMapIcons(String iconName, int width, int height) {
-            Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(iconName, "drawable", getActivity().getPackageName()));
-            Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
-            return resizedBitmap;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-
-
-            ((drnk) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-
-        }
-    }
 
 }

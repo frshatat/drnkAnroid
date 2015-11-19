@@ -58,6 +58,15 @@ public class Parser {
                     findBusiness();
                 }
             }
+            if(typeOfBusiness=="allAddresses"){
+                builder = Special.withBarName("Addresses");
+
+                for (int i = 0; i < ar.length(); i++) {
+                    number = i;
+                    obj = ar.getJSONObject(i);
+                    findBusiness();
+                }
+            }
             if (typeOfBusiness == "specials" || typeOfBusiness == "week") {
                 builder = Special.withBarName("Bars");
                 obj = ar.getJSONObject(index);
@@ -72,7 +81,7 @@ public class Parser {
                     findCurrentSpecials();
                 }
             } else {
-                builder = Special.withBarName("liqourstores");
+                builder = Special.withBarName("liquorstores");
                 for (int i = 0; i < ar.length(); i++) {
                     number = i;
                     obj = ar.getJSONObject(i);
@@ -102,7 +111,8 @@ public class Parser {
         builder.addAddress(businessAddress);
         if (typeOfBusiness == "bars") {
             findSpecials();
-        } else {
+        }
+        else if (typeOfBusiness.equals("liquorstores")){
             findLiquorSpecials();
         }
     }
