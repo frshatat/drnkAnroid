@@ -55,18 +55,23 @@ public class drnk extends AppCompatActivity
     private android.support.v7.widget.Toolbar toolbar;
     private ProgressBar progressBar;
     private CustomListView adapter;
-    static List listofAllADdresses;
-    static List listOfBusinessName;
+    static int toolbarHeight;
+    private RelativeLayout layout;
+    static int layoutHeight;
+    private List listofBusinessHours;
+    private List listofPhoneNumbers;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drnk);
+        layout = (RelativeLayout) findViewById(R.id.container);
         toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.app_bar);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -88,6 +93,12 @@ public class drnk extends AppCompatActivity
 
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        toolbarHeight = toolbar.getHeight();
+        layoutHeight = layout.getHeight();
+        return true;
+    }
 
     private void getLocation() {
         gps = new LocationService(drnk.this);
@@ -233,11 +244,16 @@ public class drnk extends AppCompatActivity
                 ActivityOptionsCompat options = ActivityOptionsCompat.
                         makeSceneTransitionAnimation(drnk.this, transition, "profile");
                 int image = adapter.generateImage((String) listOfId.get(position));
-                int a = position;
+                int index = position;
 
                 resultActivityIntent.putExtra("image", image);
-                resultActivityIntent.putExtra("a", a);
+                resultActivityIntent.putExtra("index", index);
+                resultActivityIntent.putExtra("businessHours", String.valueOf(listofBusinessHours.get(position)));
+                resultActivityIntent.putExtra("businessPhoneNumber", String.valueOf(listofPhoneNumbers.get(position)));
+                resultActivityIntent.putExtra("businessAddress", String.valueOf(listOfAddress.get(position)));
+                resultActivityIntent.putExtra("businessName", String.valueOf(listOfBusinesses.get(position)));
                 startActivity(resultActivityIntent, options.toBundle());
+
             }
         });
     }
@@ -279,9 +295,11 @@ public class drnk extends AppCompatActivity
             SpecialFormatter formatter = new SpecialFormatter();
 
             listOfBusinesses = formatter.getBusinessData(schedule);
-            listOfSpecials = formatter.specials(schedule);
+            listOfSpecials = formatter.getBusinessSpecials(schedule);
             listOfId = formatter.getId(schedule);
             listOfAddress = formatter.getAddress(schedule);
+            listofBusinessHours = formatter.getBusinessHours(schedule);
+            listofPhoneNumbers = formatter.getPhoneNumber(schedule);
             updateDisplay();
 
             tasks.remove(this);

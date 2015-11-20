@@ -43,6 +43,7 @@ public class SpecialActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private ImageView imageview;
+    private TextView business;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +53,15 @@ public class SpecialActivity extends AppCompatActivity {
         checkForTypeOfBusinessToDisplayProperTabsName();
         viewPager = (ViewPager) findViewById(R.id.pager);
         int image = getIntent().getExtras().getInt("image");
+        String businessName = getIntent().getExtras().getString("businessName");
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), SpecialActivity.this);
         viewPager.setAdapter(mSectionsPagerAdapter);
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
-        imageview = (ImageView)findViewById(R.id.imageView4);
+        imageview = (ImageView) findViewById(R.id.imageView4);
+        business = (TextView) findViewById(R.id.businessName);
         imageview.setImageResource(image);
+        business.setText(businessName);
 
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
@@ -96,7 +100,6 @@ public class SpecialActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         viewPager.setCurrentItem(savedInstanceState.getInt(POSITION));
     }
-
 
 
     /**

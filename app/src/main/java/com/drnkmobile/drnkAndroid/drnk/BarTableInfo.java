@@ -34,6 +34,14 @@ public class BarTableInfo {
     public String getTitle() {
         return title;
     }
+
+    public static BarTableInfo makePhoneNumber(String phoneNumber) {
+        return new BarTableInfo(phoneNumber);
+    }
+
+    public static BarTableInfo makewithBusinessHours(String hours) {
+        return new BarTableInfo(hours);
+    }
 }
 
 

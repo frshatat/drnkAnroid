@@ -58,7 +58,7 @@ public class Parser {
                     findBusiness();
                 }
             }
-            if(typeOfBusiness=="allAddresses"){
+            if (typeOfBusiness == "allAddresses") {
                 builder = Special.withBarName("Addresses");
 
                 for (int i = 0; i < ar.length(); i++) {
@@ -74,10 +74,9 @@ public class Parser {
 
                 BarTableInfo business = BarTableInfo.makeWithBarName(businessName);
                 builder.addBusiness(business);
-                if(typeOfBusiness=="week"){
+                if (typeOfBusiness == "week") {
                     parseSpecialForWeek();
-                }
-                else {
+                } else {
                     findCurrentSpecials();
                 }
             } else {
@@ -103,16 +102,21 @@ public class Parser {
         String street = obj.getString("company_street");
         String city = obj.getString("company_city");
         String address = street + ", " + city;
+        String hours = obj.getString(currentDay + "_hours");
+        String phoneNumber = obj.getString("company_phone");
         BarTableInfo business = BarTableInfo.makeWithBarName(businessName);
         BarTableInfo id = BarTableInfo.makeId(businessId);
         builder.addBusiness(business);
         builder.addId(id);
         BarTableInfo businessAddress = BarTableInfo.makeWithAddress(address);
         builder.addAddress(businessAddress);
+        BarTableInfo businessPhoneNumber = BarTableInfo.makePhoneNumber(phoneNumber);
+        builder.addPhoneNumber(businessPhoneNumber);
+        BarTableInfo businessHours = BarTableInfo.makewithBusinessHours(hours);
+        builder.addBusinessHours(businessHours);
         if (typeOfBusiness == "bars") {
             findSpecials();
-        }
-        else if (typeOfBusiness.equals("liquorstores")){
+        } else if (typeOfBusiness.equals("liquorstores")) {
             findLiquorSpecials();
         }
     }
@@ -125,14 +129,14 @@ public class Parser {
         String groupSpecials = null;
         String deal_price = null;
         for (int i = 0; i < special.length(); i++) {
-            JSONObject s = special.getJSONObject(i);
-            String price = s.getString("price");
+            JSONObject specialPrice = special.getJSONObject(i);
+            String price = specialPrice.getString("price");
             if (price.equalsIgnoreCase("0.00")) {
                 deal_price = " ";
             } else {
-                deal_price = "$ " + price;
+                deal_price = "$ " + price + " ";
             }
-            String deal_name = s.getString("deal_name");
+            String deal_name = specialPrice.getString("deal_name");
             String deal = deal_price + deal_name;
             list.add(deal);
 
@@ -165,12 +169,21 @@ public class Parser {
         ArrayList<String> list = new ArrayList<String>();
         String groupSpecials = null;
         for (int i = 0; i < special.length(); i++) {
-            JSONObject s = special.getJSONObject(i);
-            String deal_name = s.getString("deal_name");
+            JSONObject deal = special.getJSONObject(i);
+            String deal_name = deal.getString("deal_name");
+            JSONObject specialPrice = special.getJSONObject(i);
+            String price = specialPrice.getString("price");
+            String deal_price = null;
             if (deal_name.equals("")) {
 
             } else {
-                list.add(deal_name);
+                if (price.equalsIgnoreCase("0.00")) {
+                    deal_price = " ";
+                } else {
+                    deal_price = "$ " + price + " ";
+                }
+                String businessDeal = deal_price + deal_name;
+                list.add(businessDeal);
             }
 
 
@@ -192,8 +205,21 @@ public class Parser {
         for (int i = 0; i < special.length(); i++) {
             JSONObject specialObject = special.getJSONObject(i);
             String deal_name = specialObject.getString("deal_name");
+            JSONObject specialPrice = special.getJSONObject(i);
+            String price = specialPrice.getString("price");
+            String deal_price = null;
+            if (deal_name.equals("")) {
 
-            specialList.add(deal_name);
+            } else {
+                if (price.equalsIgnoreCase("0.00")) {
+                    deal_price = "";
+                } else {
+                    deal_price = "$ " + price + " ";
+                }
+                String businessDeal = deal_price + deal_name;
+                specialList.add(businessDeal);
+            }
+
 
         }
         groupSpecials = specialList.get(0) + "\n" + specialList.get(1) + "\n" + specialList.get(2);
@@ -203,7 +229,7 @@ public class Parser {
 
     }
 
-    private void  parseSpecialForWeek() throws JSONException {
+    private void parseSpecialForWeek() throws JSONException {
 
         JSONObject row = ar.getJSONObject(index);
         JSONArray special = null;
@@ -215,10 +241,19 @@ public class Parser {
             for (int j = 0; j < special.length(); j++) {
                 JSONObject s = special.getJSONObject(j);
                 String deal_name = s.getString("deal_name");
+                JSONObject specialPrice = special.getJSONObject(j);
+                String price = specialPrice.getString("price");
+                String deal_price = null;
                 if (deal_name.equals("")) {
 
                 } else {
-                    list.add(deal_name);
+                    if (price.equalsIgnoreCase("0.00")) {
+                        deal_price = "";
+                    } else {
+                        deal_price = "$ " + price + " ";
+                    }
+                    String businessDeal = deal_price + deal_name;
+                    list.add(businessDeal);
                 }
 
 
@@ -229,14 +264,7 @@ public class Parser {
             builder.addWeekSpecials(specials);
             list.clear();
         }
-
-//        groupSpecials = list.toString().replace("[", "").replace("]", "").replace(",", "\n\n");
-//        BarTableInfo specials = BarTableInfo.makeWithWeeklySpecials(groupSpecials);
-//        builder.addWeekSpecials(specials);
-
-
     }
-
 
 
     public void passNumberIN(int index) {

@@ -89,7 +89,7 @@ public class TodayActivity extends Fragment {
                 e.printStackTrace();
             }
             SpecialFormatter formatter = new SpecialFormatter();
-            listOfSpecials = formatter.specials(schedule);
+            listOfSpecials = formatter.getBusinessSpecials(schedule);
 
             updateDisplay();
             tasks.remove(this);

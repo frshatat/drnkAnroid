@@ -24,6 +24,8 @@ public class Special {
         private final List<BarTableInfo> listOfId = Lists.newArrayList();
         private final List<BarTableInfo> listofAddress = Lists.newArrayList();
         private final List<BarTableInfo> listOfWeekSpecials = Lists.newArrayList();
+        private final List<BarTableInfo> listofPhoneNumber=Lists.newArrayList();
+        private final List<BarTableInfo> listofBusinessHours = Lists.newArrayList();
 
         private Builder(String barName) {
             this.barName = checkNotNull(barName);
@@ -54,6 +56,16 @@ public class Special {
         public Special build() {
             return new Special(this);
         }
+
+        public Builder addPhoneNumber(BarTableInfo businessPhoneNumber) {
+            listofPhoneNumber.add(businessPhoneNumber);
+            return this;
+        }
+
+        public Builder addBusinessHours(BarTableInfo businessHours) {
+            listofBusinessHours.add(businessHours);
+            return this;
+        }
     }
 
     //private final String businessName;
@@ -62,6 +74,8 @@ public class Special {
     private final ImmutableList<BarTableInfo> id;
     private final ImmutableList<BarTableInfo> address;
     private final ImmutableList<BarTableInfo>weekSpecials;
+    private final ImmutableList<BarTableInfo>businessPhoneNumber;
+    private final ImmutableList<BarTableInfo>businessHours;
     public Special(Builder builder) {
         // this.businessName = builder.barName;
         this.business = ImmutableList.copyOf(builder.listOfBusinesses);
@@ -69,6 +83,8 @@ public class Special {
         this.id = ImmutableList.copyOf(builder.listOfId);
         this.address = ImmutableList.copyOf(builder.listofAddress);
         this.weekSpecials = ImmutableList.copyOf(builder.listOfWeekSpecials);
+        this.businessPhoneNumber = ImmutableList.copyOf(builder.listofPhoneNumber);
+        this.businessHours = ImmutableList.copyOf(builder.listofBusinessHours);
     }
 
 //    //public String getBusinessName() {
@@ -109,5 +125,17 @@ public class Special {
     }
     public int countWeekSpecials(){
         return weekSpecials.size();
+    }
+    public BarTableInfo getPhoneNumbers(int index){
+        return businessPhoneNumber.get(index);
+    }
+    public int countPhoneNumber(){
+        return businessPhoneNumber.size();
+    }
+    public BarTableInfo getBusinesshours(int index){
+        return businessHours.get(index);
+    }
+    public int countBusinessHours(){
+        return businessHours.size();
     }
 }

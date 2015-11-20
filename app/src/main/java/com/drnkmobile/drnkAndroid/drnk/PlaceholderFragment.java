@@ -7,7 +7,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,10 +69,7 @@ class PlaceHolderFragment {
             }
             if (drnk.section.equals("near me")) {
                 rootView = inflater.inflate(R.layout.activity_near_me, container, false);
-                Toolbar toolbar = (Toolbar)getActivity().findViewById(R.id.app_bar);
-
-//                rootView.getLayoutParams().height=rootView.getLayoutParams().height-toolbar.getLayoutParams().height;
-
+                rootView.getLayoutParams().height=drnk.layoutHeight;
                 setUpMapIfNeeded();
             } else {
                 rootView = inflater.inflate(R.layout.fragment_drnk, container, false);
@@ -93,7 +89,6 @@ class PlaceHolderFragment {
             if (mMap == null) {
                 mMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map))
                         .getMap();
-                // Check if we were successful in obtaining the map.
                 if (mMap != null) {
                     setUpMap();
                 }

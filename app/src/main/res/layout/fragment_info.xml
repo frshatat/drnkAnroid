@@ -10,22 +10,49 @@
                 tools:context="com.drnkmobile.drnkAndroid.drnk.InfoFragment">
 
     <TextView
-            android:text="@string/hello_world"
+            android:text="Address:"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/textView7"/>
+            android:layout_height="wrap_content" android:id="@+id/address1" android:textColor="#f0fdff"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView5" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+            android:text="Today's Hours:"
+            android:id="@+id/businesshours"
+            android:textColor="#f7fffa" android:layout_below="@+id/address1" android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" android:layout_marginTop="12dp"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView6" android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" android:layout_marginRight="140dp" android:layout_marginEnd="140dp"
-            android:layout_below="@+id/textView7" android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+            android:text="Phone:"
+            android:id="@+id/phone"
+            android:textColor="#eeffed"
+            android:layout_below="@+id/address1" android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" android:layout_marginTop="39dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Location Not Found"
+            android:id="@+id/locationField" android:layout_above="@+id/businesshours"
+            android:layout_toRightOf="@+id/businesshours" android:layout_toEndOf="@+id/businesshours"
+            android:textColor="#2f49ff"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Business Hours Unavaillable"
+            android:id="@+id/businesshoursField"
+            android:textColor="#efefef"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/businesshours" android:layout_toRightOf="@+id/businesshours"
+            android:layout_toEndOf="@+id/businesshours"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Phone Number Unavailable"
+            android:id="@+id/phoneNumberField"
+            android:textColor="#1650ff" android:layout_alignTop="@+id/phone" android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

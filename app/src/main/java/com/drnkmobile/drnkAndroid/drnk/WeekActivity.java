@@ -13,23 +13,25 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 public class WeekActivity extends Fragment {
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     static List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
-    private ArrayList<DownloadXMLAsyncTask> tasks;
+    private ArrayList<DownloadJSONAsyncTask> tasks;
     private URLReader reader;
     private String typeOfBusiness;
     private List listOfSpecials;
     private int number;
-    private List<String>listSpecials;
+    private List<String> listSpecials;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.activity_week, container, false);
-        tasks = new ArrayList<DownloadXMLAsyncTask>();
+        tasks = new ArrayList<DownloadJSONAsyncTask>();
         expListView = (ExpandableListView) rootView.findViewById(R.id.expandableListView);
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
@@ -49,31 +51,31 @@ public class WeekActivity extends Fragment {
     }
 
     private void requestData() {
-        number = getActivity().getIntent().getExtras().getInt("a");
-        DownloadXMLAsyncTask task = new DownloadXMLAsyncTask();
+        number = getActivity().getIntent().getExtras().getInt("index");
+        DownloadJSONAsyncTask task = new DownloadJSONAsyncTask();
         task.execute();
     }
+
     /*
     * Preparing the list data
     */
     private void prepareListData() {
 
 
-        List<String>sundaySpecials = new ArrayList<>();
+        List<String> sundaySpecials = new ArrayList<>();
         sundaySpecials.add((String) listOfSpecials.get(0));
-        List<String>mondaySpecials = new ArrayList<>();
+        List<String> mondaySpecials = new ArrayList<>();
         mondaySpecials.add((String) listOfSpecials.get(1));
-        List<String>tuesdaySpecials = new ArrayList<>();
+        List<String> tuesdaySpecials = new ArrayList<>();
         tuesdaySpecials.add((String) listOfSpecials.get(2));
-        List<String>wednsedaySpecials = new ArrayList<>();
+        List<String> wednsedaySpecials = new ArrayList<>();
         wednsedaySpecials.add((String) listOfSpecials.get(3));
-        List<String>thursdaySpecials = new ArrayList<>();
+        List<String> thursdaySpecials = new ArrayList<>();
         thursdaySpecials.add((String) listOfSpecials.get(4));
-        List<String>fridaySpecials = new ArrayList<>();
+        List<String> fridaySpecials = new ArrayList<>();
         fridaySpecials.add((String) listOfSpecials.get(5));
-        List<String>saturdaySpecials = new ArrayList<>();
+        List<String> saturdaySpecials = new ArrayList<>();
         saturdaySpecials.add((String) listOfSpecials.get(6));
-
 
 
         listDataChild.put(listDataHeader.get(0), sundaySpecials);
@@ -86,6 +88,7 @@ public class WeekActivity extends Fragment {
 
 
     }
+
     protected void updateDisplay() {
         prepareListData();
         listAdapter = new ExpandableListAdapter(this.getContext(), listDataHeader, listDataChild);
@@ -94,9 +97,9 @@ public class WeekActivity extends Fragment {
         expListView.setAdapter(listAdapter);
 
 
-
     }
-    private class DownloadXMLAsyncTask extends AsyncTask<String, String,
+
+    private class DownloadJSONAsyncTask extends AsyncTask<String, String,
             String> {
         @Override
         protected void onPreExecute() {

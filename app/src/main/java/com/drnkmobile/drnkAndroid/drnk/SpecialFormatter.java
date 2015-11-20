@@ -13,16 +13,31 @@ public class SpecialFormatter {
     List<String> businessIdList = new ArrayList<String>();
     List<String> addressList = new ArrayList<String>();
     List<String> weekSpecialsList = new ArrayList<String>();
+    private List<String> businessHourList = new ArrayList<>();
+    private List<String> businessPhoneNumber = new ArrayList<>();
 
-    public List getBusinessData(Special tvSchedule) {
-        if (tvSchedule.countBusinesses() > 0) {
-            addElementsToList(tvSchedule);
+    public List getBusinessData(Special businessData) {
+        if (businessData.countBusinesses() > 0) {
+            addElementsToList(businessData);
         } else {
             businessList.add("Unknown Business");
         }
         return businessList;
     }
-    public List getInfoForMap(Special special){
+
+    private void addElementsToList(Special business) {
+        for (int i = 0; i < business.countBusinesses(); i++) {
+
+            specialList.add(formatSpecialName(business.getSpecial(i)));
+            businessList.add((formatBusinessName(business.getBusinessName(i))));
+        }
+    }
+
+    private String formatSpecialName(BarTableInfo special) {
+        return "\n" + special.getTitle().toString();
+    }
+
+    public List getInfoForMap(Special special) {
         if (special.countBusinesses() > 0) {
             for (int i = 0; i < special.countBusinesses(); i++) {
 
@@ -34,8 +49,11 @@ public class SpecialFormatter {
         return businessList;
     }
 
+    private String formatBusinessName(BarTableInfo business) {
+        return business.getTitle() + "\n";
+    }
 
-    public List getId(Special id){
+    public List getId(Special id) {
         if (id.countId() > 0) {
             addId(id);
         } else {
@@ -44,7 +62,17 @@ public class SpecialFormatter {
         return businessIdList;
     }
 
-    public List specials(Special special) {
+    private void addId(Special id) {
+        for (int i = 0; i < id.countId(); i++) {
+            businessIdList.add(formatId(id.getId(i)));
+        }
+    }
+
+    private String formatId(BarTableInfo id) {
+        return id.getTitle();
+    }
+
+    public List getBusinessSpecials(Special special) {
         if (special.countSpecials() > 0) {
             addSpecials(special);
             return specialList;
@@ -52,6 +80,14 @@ public class SpecialFormatter {
             specialList.add("Sorry we couldn't find any specials today.");
         }
         return specialList;
+    }
+
+    protected void addSpecials(Special business) {
+        for (int i = 0; i < business.countSpecials(); i++) {
+            int episodeCount = i + 1;
+
+            specialList.add(formatSpecialName(business.getSpecial(i)));
+        }
     }
 
     public List getWeekSpecials(Special special) {
@@ -63,61 +99,69 @@ public class SpecialFormatter {
         }
         return weekSpecialsList;
     }
-    public List getAddress(Special address){
-        if (address.countAddress()>0){
-            addAddress(address);
-        }
-        else{
-            addressList.add("Unknown Location");
-        }
-        return addressList;
-    }
-    private void addAddress(Special address){
-        for(int i = 0; i<address.countAddress();i++){
-            addressList.add(formatAddress(address.getAddress(i)));
-        }
-    }
-    private void addId(Special id){
-        for (int i = 0; i<id.countId();i++){
-            businessIdList.add(formatId(id.getId(i)));
-        }
-    }
 
-    private void addElementsToList(Special business) {
-        for (int i = 0; i < business.countBusinesses(); i++) {
-
-            specialList.add(formatSpecialName(business.getSpecial(i)));
-            businessList.add((formatBusinessName(business.getBusinessName(i))));
-        }
-    }
-
-    private void addSpecialsForWeek(Special week){
-        for(int i=0; i<week.countWeekSpecials(); i++){
+    private void addSpecialsForWeek(Special week) {
+        for (int i = 0; i < week.countWeekSpecials(); i++) {
             weekSpecialsList.add(formatSpecialName(week.getWeekSpecials(i)));
         }
     }
 
-    protected void addSpecials(Special business) {
-        for (int i = 0; i < business.countSpecials(); i++) {
-            int episodeCount = i + 1;
+    public List getAddress(Special address) {
+        if (address.countAddress() > 0) {
+            addAddress(address);
+        } else {
+            addressList.add("Unknown Location");
+        }
+        return addressList;
+    }
 
-            specialList.add(formatSpecialName(business.getSpecial(i)));
+    private void addAddress(Special address) {
+        for (int i = 0; i < address.countAddress(); i++) {
+            addressList.add(formatAddress(address.getAddress(i)));
         }
     }
 
-
-    private String formatBusinessName(BarTableInfo business) {
-        return business.getTitle() + "\n";
-    }
     private String formatAddress(BarTableInfo address) {
         return address.getTitle();
     }
 
-    private String formatSpecialName(BarTableInfo special) {
-        return "\n" + special.getTitle().toString();
+    public List getBusinessHours(Special hours) {
+        if (hours.countBusinessHours() > 0) {
+            addBusinesHours(hours);
+        } else {
+            businessHourList.add("Business Hours Unavailable");
+        }
+        return businessHourList;
     }
-    private String formatId(BarTableInfo id){
-        return id.getTitle();
+
+    private void addPhoneNumber(Special phoneNumber) {
+        for (int i = 0; i < phoneNumber.countPhoneNumber(); i++) {
+            businessPhoneNumber.add(formatBusinessPhoneNumber(phoneNumber.getPhoneNumbers(i)));
+        }
     }
+
+    private String formatBusinessPhoneNumber(BarTableInfo phoneNumbers) {
+        return phoneNumbers.getTitle();
+    }
+
+    public List getPhoneNumber(Special phoneNumber) {
+        if (phoneNumber.countPhoneNumber() > 0) {
+            addPhoneNumber(phoneNumber);
+        } else {
+            businessPhoneNumber.add("Business Hours Unavailable");
+        }
+        return businessPhoneNumber;
+    }
+
+    private void addBusinesHours(Special hours) {
+        for (int i = 0; i < hours.countBusinessHours(); i++) {
+            businessHourList.add(formatHours(hours.getBusinesshours(i)));
+        }
+    }
+
+    private String formatHours(BarTableInfo businesshours) {
+        return businesshours.getTitle();
+    }
+
 
 }
