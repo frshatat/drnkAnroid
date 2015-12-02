@@ -1,6 +1,7 @@
 package com.drnkmobile.drnkAndroid.drnk;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -44,6 +45,7 @@ public class SpecialActivity extends AppCompatActivity {
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private ImageView imageview;
     private TextView business;
+    private Typeface face;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,8 @@ public class SpecialActivity extends AppCompatActivity {
         business = (TextView) findViewById(R.id.businessName);
         imageview.setImageResource(image);
         business.setText(businessName);
+        face=Typeface.createFromAsset(viewPager.getContext().getAssets(),"fonts/AvenirLTStd-Light.ttf");
+        business.setTypeface(face);
 
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
@@ -160,6 +164,7 @@ public class SpecialActivity extends AppCompatActivity {
             View v = LayoutInflater.from(context).inflate(R.layout.custom_tab_layout, null);
             TextView tv = (TextView) v.findViewById(R.id.textView3);
             tv.setText(tabs[position]);
+            tv.setTypeface(face);
 //            ImageView img = (ImageView) v.findViewById(R.id.imageView3);
 //            img.setImageResource(R.drawable.ic_logo);
             return v;

@@ -65,7 +65,6 @@ class PlaceHolderFragment {
             listofAllADdresses = new ArrayList<>();
             if (rootView != null) {
                 ((ViewGroup) rootView.getParent()).removeView(rootView);
-
             }
             if (drnk.section.equals("near me")) {
                 rootView = inflater.inflate(R.layout.activity_near_me, container, false);
@@ -76,6 +75,8 @@ class PlaceHolderFragment {
             }
             return rootView;
         }
+
+
 
         @Override
         public void onResume() {
@@ -205,11 +206,14 @@ class PlaceHolderFragment {
         @Override
         public void onAttach(Context activity) {
             super.onAttach(activity);
-
-
-            ((drnk) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-
+//            if(InfoFragment.fragment.equals("infoFragment")){
+//                System.out.println("in infofragment");
+////                drnk.section = "near me";
+//            }
+           // else {
+                ((drnk) activity).onSectionAttached(
+                        getArguments().getInt(ARG_SECTION_NUMBER));
+           // }
         }
     }
 

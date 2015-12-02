@@ -2,6 +2,7 @@ package com.drnkmobile.drnkAndroid.drnk;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,8 @@ public class CustomNaviList extends ArrayAdapter<String> {
         image.setImageResource(R.drawable.ic_logo);
         TextView tv = (TextView)view.findViewById(R.id.navigationdrawertext);
         tv.setText(tabName);
-
+        Typeface face=Typeface.createFromAsset(view.getContext().getAssets(),"fonts/AvenirLTStd-Light.ttf");
+        tv.setTypeface(face);
 
         return view;
     }

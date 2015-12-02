@@ -3,6 +3,7 @@ package com.drnkmobile.drnkAndroid.drnk;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import com.drnkmobile.drnkAndroid.app.R;
 
 import java.lang.reflect.Field;
@@ -96,7 +98,9 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-
+        TextView businessTitle = (TextView) drawer.findViewById(R.id.navigation_drawer_title);
+        Typeface face=Typeface.createFromAsset(drawer.getContext().getAssets(),"fonts/AvenirLTStd-Light.ttf");
+        businessTitle.setTypeface(face);
         List<String> dataList = new ArrayList<>();
         dataList.add(getString(R.string.title_section1));
         dataList.add(getString(R.string.title_section2));

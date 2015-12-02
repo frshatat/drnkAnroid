@@ -68,7 +68,7 @@ public class drnk extends AppCompatActivity
         setContentView(R.layout.activity_drnk);
         layout = (RelativeLayout) findViewById(R.id.container);
         toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.app_bar);
-
+        InfoFragment.fragment = "drnk";
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -116,6 +116,7 @@ public class drnk extends AppCompatActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         buttonClicked = false;
+        InfoFragment.fragment = "drnk";
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, PlaceHolderFragment.PlaceholderFragment.newInstance(position + 1))
@@ -130,6 +131,7 @@ public class drnk extends AppCompatActivity
             case 1:
                 mTitle = "bars";
                 typeOfBusiness = "bars";
+
                 section = mTitle;
                 buttonClicked = true;
                 getLocation();
@@ -142,16 +144,13 @@ public class drnk extends AppCompatActivity
                 section = mTitle;
                 buttonClicked = true;
                 getLocation();
-
                 list.setAdapter(null);
-
                 checkForConnection();
 
                 break;
             case 3:
                 mTitle = "near me";
                 section = mTitle;
-
                 break;
         }
     }
@@ -240,7 +239,7 @@ public class drnk extends AppCompatActivity
                                     int position, long id) {
                 Intent resultActivityIntent = new Intent(getApplicationContext(),
                         SpecialActivity.class);
-                ImageView transition = (ImageView) findViewById(R.id.imageView);
+                RoundedImageView transition = (RoundedImageView) findViewById(R.id.imageView);
                 ActivityOptionsCompat options = ActivityOptionsCompat.
                         makeSceneTransitionAnimation(drnk.this, transition, "profile");
                 int image = adapter.generateImage((String) listOfId.get(position));

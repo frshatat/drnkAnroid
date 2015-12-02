@@ -2,6 +2,7 @@ package com.drnkmobile.drnkAndroid.drnk;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,12 +42,17 @@ public class CustomListView extends ArrayAdapter<String> {
         View view = inflater.inflate(R.layout.item_specials, null);
         ImageView image = (ImageView) view.findViewById(R.id.imageView);
         image.setImageResource(generateImage(idList.get(position)));
-        TextView tv = (TextView)view.findViewById(R.id.textView2);
-        TextView textView = (TextView)view.findViewById(R.id.textView);
-        tv.setText(business);
-        textView.setText(special);
+
+        TextView businessName = (TextView)view.findViewById(R.id.textView2);
+        TextView specials = (TextView)view.findViewById(R.id.textView);
+        Typeface face=Typeface.createFromAsset(view.getContext().getAssets(),"fonts/AvenirLTStd-Light.ttf");
+        businessName.setText(business);
+        specials.setText(special);
+        businessName.setTypeface(face);
+        specials.setTypeface(face);
         TextView addressText = (TextView)view.findViewById(R.id.address);
         addressText.setText(address);
+
 
         return view;
     }
@@ -55,7 +61,7 @@ public class CustomListView extends ArrayAdapter<String> {
     public int generateImage(String id){
 
         String imageString = id;
-        int businessImage = R.drawable.ic_logo;;
+        int businessImage = R.drawable.ic_logo;
 
         switch (imageString) {
 
