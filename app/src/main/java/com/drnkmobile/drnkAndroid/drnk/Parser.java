@@ -125,7 +125,7 @@ public class Parser {
         JSONObject row = ar.getJSONObject(number);
         JSONArray special = row.getJSONObject("deals").getJSONArray(currentDay);
         ArrayList<String> list = new ArrayList<String>();
-        ArrayList<String> idList = new ArrayList<String>();
+        ArrayList<String> extraSpecials = new ArrayList<String>();
         String groupSpecials = null;
         String deal_price = null;
         for (int i = 0; i < special.length(); i++) {
@@ -136,22 +136,49 @@ public class Parser {
             } else {
                 deal_price = "$ " + price + " ";
             }
-            String deal_name = specialPrice.getString("deal_name");
-            String deal = deal_price + deal_name;
-            list.add(deal);
+           // String deal = specialPrice.getString("deal_name");
+            int featured = Integer.parseInt(specialPrice.getString("featured"));
+            String business_special = null;
+            String deal = specialPrice.getString("deal_name");
+            business_special = deal_price + deal;
+            if(featured == 1){
+                System.out.println("featured specials");
+                list.add(business_special);
+            }
+            else{
+                list.add(" ");
+                extraSpecials.add(business_special);
+            }
 
         }
-        if (list.get(0).equals(" ")) {
-            groupSpecials = "There are not specials for today";
+        if (list.get(0).equals(" ") && list.get(1).equals(" ")) {
+            if (extraSpecials.size()>=3){
+                groupSpecials =extraSpecials.get(0) + "\n" + extraSpecials.get(1) + "\n" + extraSpecials.get(2);
+            }
+            else {
+                groupSpecials = "There are not specials for today";
+            }
         } else {
+            list.remove(" ");
             if (list.size() >= 3) {
                 groupSpecials = list.get(0) + "\n" + list.get(1) + "\n" + list.get(2);
             } else if (list.size() == 2) {
-                groupSpecials = list.get(0) + "\n" + list.get(1) + "\n";
+                 if (extraSpecials.size() > 1) {
+                    groupSpecials = list.get(0) + "\n" + list.get(1)+ "\n" + extraSpecials.get(0);
+                }
+                else {
+                     groupSpecials = list.get(0) + "\n" + list.get(1) + "\n";
+                 }
             } else if (list.size() == 1) {
-                groupSpecials = list.get(0) + "\n";
+                if (extraSpecials.size() > 2) {
+                    groupSpecials = list.get(0) + "\n" + extraSpecials.get(0) + "\n" + extraSpecials.get(1);
+                }  else {
+                    groupSpecials = list.get(0) + "\n";
+                }
             }
+
         }
+
         BarTableInfo specials = BarTableInfo.makeWithBarSpecialName(groupSpecials);
         builder.addSpecial(specials);
 
@@ -190,9 +217,10 @@ public class Parser {
         }
 
         groupSpecials = list.toString().replace("[", "").replace("]", "").replace(",", "\n\n");
-
+        list.clear();
         BarTableInfo specials = BarTableInfo.makeWithBarSpecialName(groupSpecials);
         builder.addSpecial(specials);
+
 
     }
 

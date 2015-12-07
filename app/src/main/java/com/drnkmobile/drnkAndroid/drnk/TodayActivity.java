@@ -6,8 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import com.drnkmobile.drnkAndroid.app.R;
 import org.json.JSONException;
@@ -40,7 +38,7 @@ public class TodayActivity extends Fragment {
 
     private void requestData() {
        // number = this.getArguments().getInt("index");
-        number = getActivity().getIntent().getExtras().getInt("a");
+        number = getActivity().getIntent().getExtras().getInt("index");
         if(drnk.section=="stores"){
             typeOfBusiness="liquorstores";
         }
@@ -52,7 +50,7 @@ public class TodayActivity extends Fragment {
     }
 
     protected void updateDisplay() {
-        ListAdapter adapter = new ArrayAdapter<String>(rootView.getContext(), R.layout.list_text_view, listOfSpecials);
+        CustomCurrentSpecialListView adapter = new CustomCurrentSpecialListView(rootView.getContext(), R.layout.list_text_view, listOfSpecials);
         list = (ListView) rootView.findViewById(R.id.listView3);
         list.setAdapter(adapter);
         //onTitleClick();

@@ -11,14 +11,15 @@
     <TextView
             android:text="Address:"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/address1" android:textColor="#f0fdff"/>
+            android:layout_height="wrap_content" android:id="@+id/address1" android:textColor="#f0fdff"
+            android:textSize="12sp"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Today's Hours:"
             android:id="@+id/businesshours"
             android:textColor="#f7fffa" android:layout_below="@+id/address1" android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" android:layout_marginTop="17dp"/>
+            android:layout_alignParentStart="true" android:layout_marginTop="20dp" android:textSize="12sp"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,16 +28,16 @@
             android:autoLink="phone"
             android:textColor="#eeffed"
             android:layout_below="@+id/address1" android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" android:layout_marginTop="39dp"/>
+            android:layout_alignParentStart="true" android:layout_marginTop="50dp" android:textSize="12sp"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Location Not Found"
             android:id="@+id/locationField"
-            android:textColor="#2f49ff" android:clickable="true"
+            android:textColor="#efefef" android:clickable="true"
             android:layout_alignTop="@+id/address1" android:layout_alignLeft="@+id/businesshoursField"
-            android:layout_alignStart="@+id/businesshoursField"/>
+            android:layout_alignStart="@+id/businesshoursField" android:textSize="17sp"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,8 +45,8 @@
             android:text="Business Hours Unavaillable"
             android:id="@+id/businesshoursField"
             android:textColor="#efefef"
-            android:layout_alignTop="@+id/businesshours" android:layout_toRightOf="@+id/businesshours"
-            android:layout_toEndOf="@+id/businesshours" android:layout_marginTop="5dp"/>
+            android:layout_alignBottom="@+id/businesshours" android:layout_toRightOf="@+id/businesshours"
+            android:layout_toEndOf="@+id/businesshours" android:textSize="17sp"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,6 +55,7 @@
             android:id="@+id/phoneNumberField"
             android:textColor="#1650ff"
             android:clickable="true" android:layout_alignBottom="@+id/phone"
-            android:layout_alignLeft="@+id/businesshoursField" android:layout_alignStart="@+id/businesshoursField"/>
+            android:layout_alignLeft="@+id/businesshoursField" android:layout_alignStart="@+id/businesshoursField"
+            android:textSize="17sp"/>
 
 </RelativeLayout>
