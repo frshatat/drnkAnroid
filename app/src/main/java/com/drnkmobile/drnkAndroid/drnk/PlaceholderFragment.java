@@ -125,6 +125,7 @@ class PlaceHolderFragment {
                 }
             }
             getActivity().runOnUiThread(new Runnable() {
+
                 public void run() {
                     pinLocationsToMap();
                 }
@@ -180,9 +181,11 @@ class PlaceHolderFragment {
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(drnk.latitude, drnk.longitude), 15));
 
             } else {
+                System.out.println("number of latitude:" + latList.size());
+                System.out.println("number of longitude:" + longList.size());
 
                 if ((!listofAllADdresses.isEmpty())) {
-                    for (int i = 0; i < listofAllADdresses.size(); i++) {
+                    for (int i = 0; i < 7; i++) {
                         mMap.addMarker(new MarkerOptions().position(new LatLng(latList.get(i), longList.get(i)))
                                 .title((String) listOfBusinessName.get(i))
                                 .snippet((String) listofAllADdresses.get(i))

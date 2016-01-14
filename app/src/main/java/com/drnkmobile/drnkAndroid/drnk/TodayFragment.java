@@ -13,7 +13,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TodayActivity extends Fragment {
+public class TodayFragment extends Fragment {
     private List listOfBusinesses;
     private List listOfSpecials;
     private ArrayList<DownloadXMLAsyncTask> tasks;

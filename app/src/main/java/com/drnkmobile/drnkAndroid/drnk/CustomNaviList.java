@@ -20,6 +20,7 @@ public class CustomNaviList extends ArrayAdapter<String> {
 
     private Context context;
     private List<String> dataList;
+    private int businessImage;
 
 
     public CustomNaviList(Context context, int layoutResID, int text1, List<String> dataList) {
@@ -34,7 +35,7 @@ public class CustomNaviList extends ArrayAdapter<String> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.navi_custom_list, null);
         ImageView image = (ImageView) view.findViewById(R.id.navigationdrawerimage);
-        image.setImageResource(R.drawable.ic_logo);
+        image.setImageResource(getImage(position));
         TextView tv = (TextView)view.findViewById(R.id.navigationdrawertext);
         tv.setText(tabName);
         Typeface face=Typeface.createFromAsset(view.getContext().getAssets(),"fonts/AvenirLTStd-Light.ttf");
@@ -43,6 +44,29 @@ public class CustomNaviList extends ArrayAdapter<String> {
         return view;
     }
 
+    private int getImage(int id) {
 
+        int imageString = id;
+
+
+        switch (imageString) {
+
+            case 0:
+                businessImage = R.drawable.possiblemartini;
+                break;
+
+            case 1:
+
+                businessImage = R.drawable.growler;
+                break;
+
+            case 2:
+
+                businessImage = R.drawable.location;
+                break;
+
+        }
+        return  businessImage;
+    }
 
 }

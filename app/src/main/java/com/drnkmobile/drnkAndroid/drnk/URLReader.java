@@ -11,13 +11,14 @@ import java.net.URL;
  */
 public class URLReader {
 
-
+    HttpURLConnection con;
     public String getJSON(String typeOfBusiness) {
 
             BufferedReader reader;
+
             try {
                 URL url = new URL("http://drnkmobile.com/api/v1/businesses/"+typeOfBusiness+"/?zipcode=47303&radius=10");
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                 con = (HttpURLConnection) url.openConnection();
                 StringBuilder stringBuilder = new StringBuilder();
                 reader = new BufferedReader(new InputStreamReader(con
                         .getInputStream()));
@@ -30,6 +31,9 @@ public class URLReader {
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
+            }
+            finally {
+                con.disconnect();
             }
         }
     }

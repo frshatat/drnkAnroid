@@ -48,11 +48,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_item, null);
         }
+        Typeface face=Typeface.createFromAsset(convertView.getContext().getAssets(),"fonts/AvenirLTStd-Light.ttf");
 
         TextView txtListChild = (TextView) convertView
                 .findViewById(R.id.lblListItem);
 
         txtListChild.setText(childText);
+        txtListChild.setTypeface(face);
         return convertView;
     }
 
@@ -91,6 +93,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
+        Typeface face=Typeface.createFromAsset(convertView.getContext().getAssets(),"fonts/AvenirLTStd-Light.ttf");
+        lblListHeader.setTypeface(face);
 
         return convertView;
     }

@@ -137,7 +137,7 @@ public class SpecialActivity extends AppCompatActivity {
                 switch (index) {
                     case 0:
 
-                        return new TodayActivity();
+                        return new TodayFragment();
                     case 1:
 
                         return new InfoFragment();
@@ -146,7 +146,7 @@ public class SpecialActivity extends AppCompatActivity {
                 switch (index) {
                     case 0:
 
-                        return new TodayActivity();
+                        return new TodayFragment();
                     case 1:
 
                         return new WeekActivity();

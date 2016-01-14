@@ -33,7 +33,7 @@ public class SpecialFormatter {
         }
     }
 
-    private String formatSpecialName(BarTableInfo special) {
+    private String formatSpecialName(TableInfo special) {
         return "\n" + special.getTitle().toString();
     }
 
@@ -49,7 +49,7 @@ public class SpecialFormatter {
         return businessList;
     }
 
-    private String formatBusinessName(BarTableInfo business) {
+    private String formatBusinessName(TableInfo business) {
         return business.getTitle() + "\n";
     }
 
@@ -68,7 +68,7 @@ public class SpecialFormatter {
         }
     }
 
-    private String formatId(BarTableInfo id) {
+    private String formatId(TableInfo id) {
         return id.getTitle();
     }
 
@@ -121,7 +121,7 @@ public class SpecialFormatter {
         }
     }
 
-    private String formatAddress(BarTableInfo address) {
+    private String formatAddress(TableInfo address) {
         return address.getTitle();
     }
 
@@ -140,7 +140,7 @@ public class SpecialFormatter {
         }
     }
 
-    private String formatBusinessPhoneNumber(BarTableInfo phoneNumbers) {
+    private String formatBusinessPhoneNumber(TableInfo phoneNumbers) {
         return phoneNumbers.getTitle();
     }
 
@@ -159,7 +159,7 @@ public class SpecialFormatter {
         }
     }
 
-    private String formatHours(BarTableInfo businesshours) {
+    private String formatHours(TableInfo businesshours) {
         return businesshours.getTitle();
     }
 

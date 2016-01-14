@@ -68,7 +68,7 @@ public class drnk extends AppCompatActivity
         setContentView(R.layout.activity_drnk);
         layout = (RelativeLayout) findViewById(R.id.container);
         toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.app_bar);
-        InfoFragment.fragment = "drnk";
+//        InfoFragment.fragment = "drnk";
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -93,6 +93,34 @@ public class drnk extends AppCompatActivity
 
     }
 
+
+    @Override
+    public void onBackPressed() {
+
+        if(buttonClicked) {
+            if(typeOfBusiness.equals("bars")){
+                buttonClicked = false;
+//                InfoFragment.fragment = "drnk";
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, PlaceHolderFragment.PlaceholderFragment.newInstance(1))
+                        .commit();
+            }
+            if (typeOfBusiness.equals("liquorstores")){
+                buttonClicked = false;
+//                InfoFragment.fragment = "drnk";
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, PlaceHolderFragment.PlaceholderFragment.newInstance(2))
+                        .commit();
+            }
+//            Log.d("CDA", "onBackPressed Called");
+//            Intent setIntent = new Intent(this, drnk.class);
+//            setIntent.addCategory(Intent.CATEGORY_HOME);
+//            setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(setIntent);
+        }
+    }
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         toolbarHeight = toolbar.getHeight();

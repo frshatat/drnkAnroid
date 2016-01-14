@@ -72,7 +72,7 @@ public class Parser {
                 obj = ar.getJSONObject(index);
                 String businessName = obj.getString("company_name");
 
-                BarTableInfo business = BarTableInfo.makeWithBarName(businessName);
+                TableInfo business = TableInfo.makeWithBusinessName(businessName);
                 builder.addBusiness(business);
                 if (typeOfBusiness == "week") {
                     parseSpecialForWeek();
@@ -104,15 +104,15 @@ public class Parser {
         String address = street + ", " + city;
         String hours = obj.getString(currentDay + "_hours");
         String phoneNumber = obj.getString("company_phone");
-        BarTableInfo business = BarTableInfo.makeWithBarName(businessName);
-        BarTableInfo id = BarTableInfo.makeId(businessId);
+        TableInfo business = TableInfo.makeWithBusinessName(businessName);
+        TableInfo id = TableInfo.makeId(businessId);
         builder.addBusiness(business);
         builder.addId(id);
-        BarTableInfo businessAddress = BarTableInfo.makeWithAddress(address);
+        TableInfo businessAddress = TableInfo.makeWithAddress(address);
         builder.addAddress(businessAddress);
-        BarTableInfo businessPhoneNumber = BarTableInfo.makePhoneNumber(phoneNumber);
+        TableInfo businessPhoneNumber = TableInfo.makePhoneNumber(phoneNumber);
         builder.addPhoneNumber(businessPhoneNumber);
-        BarTableInfo businessHours = BarTableInfo.makewithBusinessHours(hours);
+        TableInfo businessHours = TableInfo.makewithBusinessHours(hours);
         builder.addBusinessHours(businessHours);
         if (typeOfBusiness == "bars") {
             findSpecials();
@@ -136,13 +136,12 @@ public class Parser {
             } else {
                 deal_price = "$ " + price + " ";
             }
-           // String deal = specialPrice.getString("deal_name");
             int featured = Integer.parseInt(specialPrice.getString("featured"));
             String business_special = null;
             String deal = specialPrice.getString("deal_name");
             business_special = deal_price + deal;
             if(featured == 1){
-                System.out.println("featured specials");
+//                System.out.println("featured specials");
                 list.add(business_special);
             }
             else{
@@ -151,8 +150,12 @@ public class Parser {
             }
 
         }
-        if (list.get(0).equals(" ") && list.get(1).equals(" ")) {
+        if ((list.get(0).equals(" ") && list.get(1).equals(" ")) || (list.get(0).equals("") && list.get(1).equals(""))) {
+            extraSpecials.remove(" ");
+            extraSpecials.remove("");
             if (extraSpecials.size()>=3){
+//                System.out.println("extralist less than "+ extraSpecials);
+//                System.out.println("list less than "+ list);
                 groupSpecials =extraSpecials.get(0) + "\n" + extraSpecials.get(1) + "\n" + extraSpecials.get(2);
             }
             else {
@@ -160,26 +163,46 @@ public class Parser {
             }
         } else {
             list.remove(" ");
+            extraSpecials.remove(" ");
+            extraSpecials.remove("");
+            System.out.println("extralist greater than" + extraSpecials);
+            System.out.println("list greater than "+list);
             if (list.size() >= 3) {
-                groupSpecials = list.get(0) + "\n" + list.get(1) + "\n" + list.get(2);
-            } else if (list.size() == 2) {
-                 if (extraSpecials.size() > 1) {
+                if (list.get(1).equals("  ") || list.get(2).equals("  ") || list.get(1).equals(" ")) {
+                    groupSpecials = list.get(0) + "\n" + extraSpecials.get(0) + "\n" + extraSpecials.get(1);
+//                    System.out.println("extralist greater than 3" + groupSpecials);
+
+                }
+                else {
+                    groupSpecials = list.get(0) + "\n" + list.get(1) + "\n" + list.get(2);
+//                    System.out.println("list greater than 3" + groupSpecials);
+
+                }
+            }
+            else if (list.size() == 2) {
+                if (extraSpecials.size() > 1) {
                     groupSpecials = list.get(0) + "\n" + list.get(1)+ "\n" + extraSpecials.get(0);
                 }
                 else {
-                     groupSpecials = list.get(0) + "\n" + list.get(1) + "\n";
-                 }
+                    groupSpecials = list.get(0) + "\n" + list.get(1) + "\n";
+                }
             } else if (list.size() == 1) {
-                if (extraSpecials.size() > 2) {
+                if (extraSpecials.size() >= 2) {
                     groupSpecials = list.get(0) + "\n" + extraSpecials.get(0) + "\n" + extraSpecials.get(1);
-                }  else {
+                }
+                else if(extraSpecials.size()==1){
+                    groupSpecials = list.get(0) + "\n" + extraSpecials.get(0) + "\n";
+
+                }
+                else
+                {
                     groupSpecials = list.get(0) + "\n";
                 }
             }
 
         }
 
-        BarTableInfo specials = BarTableInfo.makeWithBarSpecialName(groupSpecials);
+        TableInfo specials = TableInfo.makeWithBusinessSpecialName(groupSpecials);
         builder.addSpecial(specials);
 
 
@@ -218,7 +241,7 @@ public class Parser {
 
         groupSpecials = list.toString().replace("[", "").replace("]", "").replace(",", "\n\n");
         list.clear();
-        BarTableInfo specials = BarTableInfo.makeWithBarSpecialName(groupSpecials);
+        TableInfo specials = TableInfo.makeWithBusinessSpecialName(groupSpecials);
         builder.addSpecial(specials);
 
 
@@ -252,7 +275,7 @@ public class Parser {
         }
         groupSpecials = specialList.get(0) + "\n" + specialList.get(1) + "\n" + specialList.get(2);
 
-        BarTableInfo specials = BarTableInfo.makeWithBarSpecialName(groupSpecials);
+        TableInfo specials = TableInfo.makeWithBusinessSpecialName(groupSpecials);
         builder.addSpecial(specials);
 
     }
@@ -288,7 +311,7 @@ public class Parser {
             }
 
             groupSpecials = list.toString().replace("[", "").replace("]", "").replace(",", "\n\n");
-            BarTableInfo specials = BarTableInfo.makeWithWeeklySpecials(groupSpecials);
+            TableInfo specials = TableInfo.makeWithWeeklySpecials(groupSpecials);
             builder.addWeekSpecials(specials);
             list.clear();
         }
@@ -299,5 +322,4 @@ public class Parser {
         this.index = index;
     }
 }
-
 

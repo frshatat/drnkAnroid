@@ -19,36 +19,36 @@ public class Special {
 
     public static final class Builder {
         private final String barName;
-        private final List<BarTableInfo> listOfSpecials = Lists.newArrayList();
-        private final List<BarTableInfo> listOfBusinesses = Lists.newArrayList();
-        private final List<BarTableInfo> listOfId = Lists.newArrayList();
-        private final List<BarTableInfo> listofAddress = Lists.newArrayList();
-        private final List<BarTableInfo> listOfWeekSpecials = Lists.newArrayList();
-        private final List<BarTableInfo> listofPhoneNumber=Lists.newArrayList();
-        private final List<BarTableInfo> listofBusinessHours = Lists.newArrayList();
+        private final List<TableInfo> listOfSpecials = Lists.newArrayList();
+        private final List<TableInfo> listOfBusinesses = Lists.newArrayList();
+        private final List<TableInfo> listOfId = Lists.newArrayList();
+        private final List<TableInfo> listofAddress = Lists.newArrayList();
+        private final List<TableInfo> listOfWeekSpecials = Lists.newArrayList();
+        private final List<TableInfo> listofPhoneNumber=Lists.newArrayList();
+        private final List<TableInfo> listofBusinessHours = Lists.newArrayList();
 
         private Builder(String barName) {
             this.barName = checkNotNull(barName);
         }
 
-        public Builder addBusiness(BarTableInfo business) {
+        public Builder addBusiness(TableInfo business) {
             listOfBusinesses.add(business);
             return this;
         }
 
-        public Builder addSpecial(BarTableInfo special) {
+        public Builder addSpecial(TableInfo special) {
             listOfSpecials.add(special);
             return this;
         }
-        public Builder addId(BarTableInfo id) {
+        public Builder addId(TableInfo id) {
             listOfId.add(id);
             return this;
         }
-        public Builder addAddress(BarTableInfo address) {
+        public Builder addAddress(TableInfo address) {
             listofAddress.add(address);
             return this;
         }
-        public Builder addWeekSpecials(BarTableInfo week){
+        public Builder addWeekSpecials(TableInfo week){
             listOfWeekSpecials.add(week);
             return this;
         }
@@ -57,25 +57,25 @@ public class Special {
             return new Special(this);
         }
 
-        public Builder addPhoneNumber(BarTableInfo businessPhoneNumber) {
+        public Builder addPhoneNumber(TableInfo businessPhoneNumber) {
             listofPhoneNumber.add(businessPhoneNumber);
             return this;
         }
 
-        public Builder addBusinessHours(BarTableInfo businessHours) {
+        public Builder addBusinessHours(TableInfo businessHours) {
             listofBusinessHours.add(businessHours);
             return this;
         }
     }
 
     //private final String businessName;
-    private final ImmutableList<BarTableInfo> business;
-    private final ImmutableList<BarTableInfo> specials;
-    private final ImmutableList<BarTableInfo> id;
-    private final ImmutableList<BarTableInfo> address;
-    private final ImmutableList<BarTableInfo>weekSpecials;
-    private final ImmutableList<BarTableInfo>businessPhoneNumber;
-    private final ImmutableList<BarTableInfo>businessHours;
+    private final ImmutableList<TableInfo> business;
+    private final ImmutableList<TableInfo> specials;
+    private final ImmutableList<TableInfo> id;
+    private final ImmutableList<TableInfo> address;
+    private final ImmutableList<TableInfo>weekSpecials;
+    private final ImmutableList<TableInfo>businessPhoneNumber;
+    private final ImmutableList<TableInfo>businessHours;
     public Special(Builder builder) {
         // this.businessName = builder.barName;
         this.business = ImmutableList.copyOf(builder.listOfBusinesses);
@@ -95,44 +95,44 @@ public class Special {
         return business.size();
     }
 
-    public BarTableInfo getBusinessName(int index) {
+    public TableInfo getBusinessName(int index) {
         return business.get(index);
     }
 
-    public BarTableInfo getSpecial(int index) {
+    public TableInfo getSpecial(int index) {
         return specials.get(index);
     }
 
     public int countSpecials() {
         return specials.size();
     }
-    public BarTableInfo getId(int index){
+    public TableInfo getId(int index){
         return id.get(index);
     }
     public int countId(){
         return id.size();
     }
 
-    public BarTableInfo getAddress(int index){
+    public TableInfo getAddress(int index){
         return address.get(index);
     }
     public int countAddress(){
         return address.size();
     }
 
-    public BarTableInfo getWeekSpecials(int index){
+    public TableInfo getWeekSpecials(int index){
         return weekSpecials.get(index);
     }
     public int countWeekSpecials(){
         return weekSpecials.size();
     }
-    public BarTableInfo getPhoneNumbers(int index){
+    public TableInfo getPhoneNumbers(int index){
         return businessPhoneNumber.get(index);
     }
     public int countPhoneNumber(){
         return businessPhoneNumber.size();
     }
-    public BarTableInfo getBusinesshours(int index){
+    public TableInfo getBusinesshours(int index){
         return businessHours.get(index);
     }
     public int countBusinessHours(){
