@@ -149,6 +149,9 @@ class PlaceHolderFragment {
                         if (listofAllADdresses.get(i).equals("801 North Wheeling Avenue, Muncie")) {
                             address = selected_place_geocoder.getFromLocationName("803 North Wheeling Avenue, Muncie", 2);
                         }
+                        if (listofAllADdresses.get(i).equals("409 N Martin St, Muncie")) {
+                            address = selected_place_geocoder.getFromLocationName("411 North Martin Street, Muncie", 2);
+                        }
                         System.out.print(address);
                     }
 //
@@ -184,20 +187,21 @@ class PlaceHolderFragment {
                 System.out.println("number of latitude:" + latList.size());
                 System.out.println("number of longitude:" + longList.size());
 
-                if ((!listofAllADdresses.isEmpty())) {
-                    for (int i = 0; i < 7; i++) {
+                if ((latList.size() == listofAllADdresses.size())) {
+                    for (int i = 0; i < listofAllADdresses.size(); i++) {
                         mMap.addMarker(new MarkerOptions().position(new LatLng(latList.get(i), longList.get(i)))
                                 .title((String) listOfBusinessName.get(i))
                                 .snippet((String) listofAllADdresses.get(i))
-                                .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ic_logo", 100, 100))));
+                                .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ic_logo", 50, 50))));
                         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latList.get(i),longList.get(i)), 15));
                     }
-                    mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(drnk.currentLatitude, drnk.currentLongitude))
-                            .title("Current Location")
-                            .icon(BitmapDescriptorFactory.defaultMarker()));
+
                 }
             }
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(drnk.currentLatitude, drnk.currentLongitude))
+                    .title("Current Location")
+                    .icon(BitmapDescriptorFactory.defaultMarker()));
         }
 
         public Bitmap resizeMapIcons(String iconName, int width, int height) {
@@ -209,14 +213,9 @@ class PlaceHolderFragment {
         @Override
         public void onAttach(Context activity) {
             super.onAttach(activity);
-//            if(InfoFragment.fragment.equals("infoFragment")){
-//                System.out.println("in infofragment");
-////                drnk.section = "near me";
-//            }
-           // else {
                 ((drnk) activity).onSectionAttached(
                         getArguments().getInt(ARG_SECTION_NUMBER));
-           // }
+
         }
     }
 

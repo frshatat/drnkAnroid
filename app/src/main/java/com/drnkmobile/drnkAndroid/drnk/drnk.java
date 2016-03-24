@@ -44,8 +44,7 @@ public class drnk extends AppCompatActivity
     static float longitude;
     static float currentLatitude;
     static float currentLongitude;
-    static ArrayList<Float> latList = new ArrayList<>();
-    static ArrayList<Float> longList = new ArrayList<>();
+
     static boolean buttonClicked = false;
     static int position;
     private CharSequence mTitle;
@@ -60,6 +59,7 @@ public class drnk extends AppCompatActivity
     static int layoutHeight;
     private List listofBusinessHours;
     private List listofPhoneNumbers;
+    TextView r;
 
 
     @Override
@@ -68,7 +68,6 @@ public class drnk extends AppCompatActivity
         setContentView(R.layout.activity_drnk);
         layout = (RelativeLayout) findViewById(R.id.container);
         toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.app_bar);
-//        InfoFragment.fragment = "drnk";
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -76,18 +75,19 @@ public class drnk extends AppCompatActivity
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
+        r = (TextView) findViewById(R.id.server_message);
+        r.setVisibility(View.INVISIBLE);
 
         reader = new URLReader();
         tasks = new ArrayList<DownloadXMLAsyncTask>();
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         provider = locationManager.getBestProvider(new Criteria(), false);
 
+        list = (ListView) findViewById(R.id.listView2);
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
-        reader = new URLReader();
-        tasks = new ArrayList<DownloadXMLAsyncTask>();
+
         System.out.println("OnCreate was called");
 
 
@@ -97,30 +97,25 @@ public class drnk extends AppCompatActivity
     @Override
     public void onBackPressed() {
 
-        if(buttonClicked) {
-            if(typeOfBusiness.equals("bars")){
+        if (buttonClicked) {
+            if (typeOfBusiness.equals("bars")) {
                 buttonClicked = false;
-//                InfoFragment.fragment = "drnk";
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, PlaceHolderFragment.PlaceholderFragment.newInstance(1))
                         .commit();
             }
-            if (typeOfBusiness.equals("liquorstores")){
+            if (typeOfBusiness.equals("liquorstores")) {
                 buttonClicked = false;
-//                InfoFragment.fragment = "drnk";
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, PlaceHolderFragment.PlaceholderFragment.newInstance(2))
                         .commit();
             }
-//            Log.d("CDA", "onBackPressed Called");
-//            Intent setIntent = new Intent(this, drnk.class);
-//            setIntent.addCategory(Intent.CATEGORY_HOME);
-//            setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            startActivity(setIntent);
+
         }
     }
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         toolbarHeight = toolbar.getHeight();
@@ -229,6 +224,9 @@ public class drnk extends AppCompatActivity
                 if (listOfAddress.get(position).equals("801 North Wheeling Avenue, Muncie")) {
                     address = selected_place_geocoder.getFromLocationName("803 North Wheeling Avenue, Muncie", 2);
                 }
+                if (listOfAddress.get(position).equals("409 N Martin St, Muncie")) {
+                    address = selected_place_geocoder.getFromLocationName("411 North Martin Street, Muncie", 2);
+                }
 
             }
             for (int i = 0; i < address.size(); i++) {
@@ -248,18 +246,16 @@ public class drnk extends AppCompatActivity
 
     protected void updateDisplay() {
         adapter = new CustomListView(this, R.layout.item_specials, listOfBusinesses, listOfSpecials, listOfId, listOfAddress);
-        list = (ListView) findViewById(R.id.listView2);
         if (list != null) {
             list.setAdapter(adapter);
 
-            onTitleClick();
+            onItemClicked();
         }
 
     }
 
 
-    public void onTitleClick() {
-
+    public void onItemClicked() {
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -272,7 +268,6 @@ public class drnk extends AppCompatActivity
                         makeSceneTransitionAnimation(drnk.this, transition, "profile");
                 int image = adapter.generateImage((String) listOfId.get(position));
                 int index = position;
-
                 resultActivityIntent.putExtra("image", image);
                 resultActivityIntent.putExtra("index", index);
                 resultActivityIntent.putExtra("businessHours", String.valueOf(listofBusinessHours.get(position)));
@@ -312,26 +307,41 @@ public class drnk extends AppCompatActivity
 
         @Override
         protected void onPostExecute(String result) {
-            Parser parser = new Parser(result);
-            Special schedule = null;
-            try {
-                schedule = parser.parse(typeOfBusiness);
-            } catch (JSONException e) {
-                e.printStackTrace();
+
+
+            if(result.contains("<!DOCTYPE html") || result==null){
+                System.out.println("Something");
+                r.setText("Server Unavailable");
+                r.setVisibility(View.VISIBLE);
+
+                tasks.remove(this);
+                if (tasks.size() == 0) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                }
             }
-            SpecialFormatter formatter = new SpecialFormatter();
+            else {
+                //r.setVisibility(View.GONE);
+                Parser parser = new Parser(result);
+                Special schedule = null;
+                try {
+                    schedule = parser.parse(typeOfBusiness);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                SpecialFormatter formatter = new SpecialFormatter();
 
-            listOfBusinesses = formatter.getBusinessData(schedule);
-            listOfSpecials = formatter.getBusinessSpecials(schedule);
-            listOfId = formatter.getId(schedule);
-            listOfAddress = formatter.getAddress(schedule);
-            listofBusinessHours = formatter.getBusinessHours(schedule);
-            listofPhoneNumbers = formatter.getPhoneNumber(schedule);
-            updateDisplay();
+                listOfBusinesses = formatter.getBusinessData(schedule);
+                listOfSpecials = formatter.getBusinessSpecials(schedule);
+                listOfId = formatter.getId(schedule);
+                listOfAddress = formatter.getAddress(schedule);
+                listofBusinessHours = formatter.getBusinessHours(schedule);
+                listofPhoneNumbers = formatter.getPhoneNumber(schedule);
+                updateDisplay();
 
-            tasks.remove(this);
-            if (tasks.size() == 0) {
-                progressBar.setVisibility(View.INVISIBLE);
+                tasks.remove(this);
+                if (tasks.size() == 0) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                }
             }
         }
 
