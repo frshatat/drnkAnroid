@@ -1,4 +1,4 @@
-package com.drnkmobile.drnkAndroid.drnk;
+package com.drnkmobile.drnkAndroid.drnk.Views;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,12 +13,21 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.drnkmobile.drnkAndroid.app.R;
+import com.drnkmobile.drnkAndroid.drnk.Customize.CustomListView;
+import com.drnkmobile.drnkAndroid.drnk.DomainModel.Business;
+import com.drnkmobile.drnkAndroid.drnk.DomainModel.BusinessFormatter;
+import com.drnkmobile.drnkAndroid.drnk.DomainModel.Parser;
+import com.drnkmobile.drnkAndroid.drnk.Connection.LocationService;
+import com.drnkmobile.drnkAndroid.drnk.Customize.RoundedImageView;
+import com.drnkmobile.drnkAndroid.drnk.Connection.URLReader;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -28,7 +37,7 @@ import java.util.Locale;
 
 
 public class drnk extends AppCompatActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, SwipeRefreshLayout.OnRefreshListener {
 
     LocationManager locationManager;
     String provider;
@@ -39,74 +48,97 @@ public class drnk extends AppCompatActivity
     private ArrayList<DownloadXMLAsyncTask> tasks;
     private URLReader reader;
     private String typeOfBusiness;
-    private ListView list;
-    static float latitude;
-    static float longitude;
+    private ListView businessListView;
+    public static float latitude;
+    public static float longitude;
     static float currentLatitude;
     static float currentLongitude;
 
-    static boolean buttonClicked = false;
+    static boolean btnAddressClicked = false;
     static int position;
     private CharSequence mTitle;
-    static CharSequence section;
+    public static CharSequence section;
     LocationService gps;
     static List listOfAddress;
     private android.support.v7.widget.Toolbar toolbar;
-    private ProgressBar progressBar;
+
     private CustomListView adapter;
     static int toolbarHeight;
     private RelativeLayout layout;
     static int layoutHeight;
     private List listofBusinessHours;
     private List listofPhoneNumbers;
-    TextView r;
+    TextView networkMessageTextView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    public static String currentCity;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drnk);
+
         layout = (RelativeLayout) findViewById(R.id.container);
         toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
 
+        }
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        r = (TextView) findViewById(R.id.server_message);
-        r.setVisibility(View.INVISIBLE);
+
+        networkMessageTextView = (TextView) findViewById(R.id.server_message);
+        networkMessageTextView.setVisibility(View.INVISIBLE);
 
         reader = new URLReader();
         tasks = new ArrayList<DownloadXMLAsyncTask>();
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         provider = locationManager.getBestProvider(new Criteria(), false);
 
-        list = (ListView) findViewById(R.id.listView2);
+        businessListView = (ListView) findViewById(R.id.listView2);
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+        //swipeRefreshLayout.setProgressBackgroundColorSchemeColor();
+        swipeRefreshLayout.setColorSchemeResources(R.color.accentColor, R.color.accentColor,
+                R.color.accentColor, R.color.accentColor);
 
-        System.out.println("OnCreate was called");
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        swipeRefreshLayout.setRefreshing(true);
+
+                                        checkForConnection();
+                                    }
+                                }
+        );
 
 
     }
 
+    @Override
+    public void onRefresh() {
+        checkForConnection();
+    }
 
     @Override
     public void onBackPressed() {
 
-        if (buttonClicked) {
+        if (btnAddressClicked) {
             if (typeOfBusiness.equals("bars")) {
-                buttonClicked = false;
+                btnAddressClicked = false;
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, PlaceHolderFragment.PlaceholderFragment.newInstance(1))
                         .commit();
             }
             if (typeOfBusiness.equals("liquorstores")) {
-                buttonClicked = false;
+                btnAddressClicked = false;
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, PlaceHolderFragment.PlaceholderFragment.newInstance(2))
@@ -120,16 +152,32 @@ public class drnk extends AppCompatActivity
     public boolean onPrepareOptionsMenu(Menu menu) {
         toolbarHeight = toolbar.getHeight();
         layoutHeight = layout.getHeight();
+
+
         return true;
     }
 
-    private void getLocation() {
+    private void getLocation() throws IOException {
         gps = new LocationService(drnk.this);
 
         if (gps.canGetLocation()) {
+            Geocoder geocoder;
+            List<Address> addresses;
+            geocoder = new Geocoder(this, Locale.getDefault());
+
+
             currentLatitude = (float) gps.getLatitude();
             currentLongitude = (float) gps.getLongitude();
-            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+            addresses = geocoder.getFromLocation(currentLatitude, currentLongitude, 1);
+
+            if (!addresses.isEmpty()) {
+                for (int i = 0; i < addresses.size(); i++) {
+                    Address location = addresses.get(i);
+                    currentCity = location.getLocality();
+                }
+
+                Toast.makeText(getApplicationContext(), "Your City is: " + currentCity, Toast.LENGTH_LONG).show();
+            }
         } else {
             gps.showSettingsAlert();
         }
@@ -138,9 +186,10 @@ public class drnk extends AppCompatActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        buttonClicked = false;
-        InfoFragment.fragment = "drnk";
+        btnAddressClicked = false;
+
         FragmentManager fragmentManager = getSupportFragmentManager();
+
         fragmentManager.beginTransaction()
                 .replace(R.id.container, PlaceHolderFragment.PlaceholderFragment.newInstance(position + 1))
                 .commit();
@@ -148,7 +197,7 @@ public class drnk extends AppCompatActivity
     }
 
 
-    public void onSectionAttached(int number) {
+    public void onSectionAttached(int number) throws IOException {
 
         switch (number) {
             case 1:
@@ -156,7 +205,7 @@ public class drnk extends AppCompatActivity
                 typeOfBusiness = "bars";
 
                 section = mTitle;
-                buttonClicked = true;
+                btnAddressClicked = true;
                 getLocation();
 
                 checkForConnection();
@@ -165,9 +214,9 @@ public class drnk extends AppCompatActivity
                 mTitle = "stores";
                 typeOfBusiness = "liquorstores";
                 section = mTitle;
-                buttonClicked = true;
+                btnAddressClicked = true;
                 getLocation();
-                list.setAdapter(null);
+                businessListView.setAdapter(null);
                 checkForConnection();
 
                 break;
@@ -179,7 +228,9 @@ public class drnk extends AppCompatActivity
     }
 
     public void restoreActionBar() {
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
     }
 
     private void checkForConnection() {
@@ -189,6 +240,9 @@ public class drnk extends AppCompatActivity
         } else {
             Toast.makeText(this, "Network isn't available",
                     Toast.LENGTH_LONG).show();
+            swipeRefreshLayout.setRefreshing(false);
+
+
         }
 
     }
@@ -206,12 +260,12 @@ public class drnk extends AppCompatActivity
     }
 
 
-    public void findBusiness(View view) {
+    public void findSpecificBusinessLocationWhenUserClicksOnAddress(View view) {
         try {
-            buttonClicked = true;
+            btnAddressClicked = true;
             View parentRow = (View) view.getParent();
 
-            position = list.getPositionForView(parentRow);
+            position = businessListView.getPositionForView(parentRow);
             Geocoder selected_place_geocoder = new Geocoder(this, Locale.getDefault());
             List<Address> address = null;
             address = selected_place_geocoder.getFromLocationName(String.valueOf(listOfAddress.get(position)), 2);
@@ -246,8 +300,8 @@ public class drnk extends AppCompatActivity
 
     protected void updateDisplay() {
         adapter = new CustomListView(this, R.layout.item_specials, listOfBusinesses, listOfSpecials, listOfId, listOfAddress);
-        if (list != null) {
-            list.setAdapter(adapter);
+        if (businessListView != null) {
+            businessListView.setAdapter(adapter);
 
             onItemClicked();
         }
@@ -257,12 +311,12 @@ public class drnk extends AppCompatActivity
 
     public void onItemClicked() {
 
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        businessListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Intent resultActivityIntent = new Intent(getApplicationContext(),
-                        SpecialActivity.class);
+                        BusinessActivity.class);
                 RoundedImageView transition = (RoundedImageView) findViewById(R.id.imageView);
                 ActivityOptionsCompat options = ActivityOptionsCompat.
                         makeSceneTransitionAnimation(drnk.this, transition, "profile");
@@ -286,21 +340,21 @@ public class drnk extends AppCompatActivity
         @Override
         protected void onPreExecute() {
             if (tasks.size() == 0) {
-                progressBar.setVisibility(View.VISIBLE);
+                swipeRefreshLayout.setRefreshing(true);
             }
             tasks.add(this);
+
+
         }
 
         @Override
         protected String doInBackground(String... input) {
             String content = null;
-            SpecialFormatter formatter = new SpecialFormatter();
-            Special schedule = null;
 
             if (section == "near me") {
-                content = reader.getJSON(typeOfBusiness);
+                content = reader.getJSON(typeOfBusiness, currentCity);
             } else {
-                content = reader.getJSON(typeOfBusiness);
+                content = reader.getJSON(typeOfBusiness, currentCity);
             }
             return content;
         }
@@ -309,26 +363,22 @@ public class drnk extends AppCompatActivity
         protected void onPostExecute(String result) {
 
 
-            if(result.contains("<!DOCTYPE html") || result==null){
+            if (result.contains("<!DOCTYPE html") || result.equals("Server Unavailable") || result.equals(null)) {
                 System.out.println("Something");
-                r.setText("Server Unavailable");
-                r.setVisibility(View.VISIBLE);
+                networkMessageTextView.setText("Server Unavailable");
+                networkMessageTextView.setVisibility(View.VISIBLE);
+                swipeRefreshLayout.setRefreshing(false);
 
-                tasks.remove(this);
-                if (tasks.size() == 0) {
-                    progressBar.setVisibility(View.INVISIBLE);
-                }
-            }
-            else {
-                //r.setVisibility(View.GONE);
+            } else {
+
                 Parser parser = new Parser(result);
-                Special schedule = null;
+                Business schedule = null;
                 try {
                     schedule = parser.parse(typeOfBusiness);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                SpecialFormatter formatter = new SpecialFormatter();
+                BusinessFormatter formatter = new BusinessFormatter();
 
                 listOfBusinesses = formatter.getBusinessData(schedule);
                 listOfSpecials = formatter.getBusinessSpecials(schedule);
@@ -338,11 +388,13 @@ public class drnk extends AppCompatActivity
                 listofPhoneNumbers = formatter.getPhoneNumber(schedule);
                 updateDisplay();
 
-                tasks.remove(this);
-                if (tasks.size() == 0) {
-                    progressBar.setVisibility(View.INVISIBLE);
-                }
+
             }
+            tasks.remove(this);
+            if (tasks.size() == 0) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
         }
 
     }
@@ -362,12 +414,33 @@ public class drnk extends AppCompatActivity
     }
 
     @Override
+    protected void onDestroy() {
+
+        // The activity is about to be destroyed.
+        super.onDestroy();
+
+        // Stop method tracing that the activity started during onCreate()
+        android.os.Debug.stopMethodTracing();
+
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
 
 
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+    }
 
 }

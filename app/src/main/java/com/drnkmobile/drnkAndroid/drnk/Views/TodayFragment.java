@@ -1,4 +1,4 @@
-package com.drnkmobile.drnkAndroid.drnk;
+package com.drnkmobile.drnkAndroid.drnk.Views;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,6 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import com.drnkmobile.drnkAndroid.app.R;
+import com.drnkmobile.drnkAndroid.drnk.Customize.CustomCurrentSpecialListView;
+import com.drnkmobile.drnkAndroid.drnk.DomainModel.Business;
+import com.drnkmobile.drnkAndroid.drnk.DomainModel.BusinessFormatter;
+import com.drnkmobile.drnkAndroid.drnk.DomainModel.Parser;
+import com.drnkmobile.drnkAndroid.drnk.Connection.URLReader;
 import org.json.JSONException;
 
 import java.util.ArrayList;
@@ -20,8 +25,9 @@ public class TodayFragment extends Fragment {
     private URLReader reader;
     private String typeOfBusiness;
     private ListView list;
-    private int number;
-    private  View rootView;
+    private int positionForCellSelected;
+    private View rootView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -29,7 +35,6 @@ public class TodayFragment extends Fragment {
         rootView = inflater.inflate(R.layout.activity_today, container, false);
         reader = new URLReader();
         tasks = new ArrayList<DownloadXMLAsyncTask>();
-        // create class object
 
 
         requestData();
@@ -37,12 +42,10 @@ public class TodayFragment extends Fragment {
     }
 
     private void requestData() {
-       // number = this.getArguments().getInt("index");
-        number = getActivity().getIntent().getExtras().getInt("index");
-        if(drnk.section=="stores"){
-            typeOfBusiness="liquorstores";
-        }
-        else {
+        positionForCellSelected = getActivity().getIntent().getExtras().getInt("index");
+        if (drnk.section == "stores") {
+            typeOfBusiness = "liquorstores";
+        } else {
             typeOfBusiness = "bars";
         }
         DownloadXMLAsyncTask task = new DownloadXMLAsyncTask();
@@ -57,43 +60,38 @@ public class TodayFragment extends Fragment {
     }
 
 
-
     private class DownloadXMLAsyncTask extends AsyncTask<String, String,
             String> {
         @Override
         protected void onPreExecute() {
-//            if (tasks.size() == 0) {
-//                progressBar.setVisibility(View.VISIBLE);
-//            }
+
             tasks.add(this);
         }
 
         @Override
         protected String doInBackground(String... input) {
             String content = null;
-            content = reader.getJSON(typeOfBusiness);
+            content = reader.getJSON(typeOfBusiness, drnk.currentCity);
             return content;
         }
 
         @Override
         protected void onPostExecute(String result) {
             Parser parser = new Parser(result);
-            Special schedule = null;
+            Business business = null;
             try {
-                parser.passNumberIN(number);
-                schedule = parser.parse("specials");
+                parser.positionForItemSelectedinTableView(positionForCellSelected);
+                business = parser.parse("specials");
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            SpecialFormatter formatter = new SpecialFormatter();
-            listOfSpecials = formatter.getBusinessSpecials(schedule);
+            BusinessFormatter formatter = new BusinessFormatter();
+            listOfSpecials = formatter.getBusinessSpecials(business);
 
             updateDisplay();
             tasks.remove(this);
-//            if (tasks.size() == 0) {
-//                progressBar.setVisibility(View.INVISIBLE);
-//            }
+
         }
     }
 }

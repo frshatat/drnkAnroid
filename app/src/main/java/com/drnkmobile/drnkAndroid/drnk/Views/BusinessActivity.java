@@ -1,4 +1,4 @@
-package com.drnkmobile.drnkAndroid.drnk;
+package com.drnkmobile.drnkAndroid.drnk.Views;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
@@ -19,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.drnkmobile.drnkAndroid.app.R;
 
-public class SpecialActivity extends AppCompatActivity {
+public class BusinessActivity extends AppCompatActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -36,27 +35,31 @@ public class SpecialActivity extends AppCompatActivity {
      */
     private ViewPager viewPager;
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ActionBar actionBar;
+
     // Tab titles
     private String[] tabs;
     public static String POSITION = "POSITION";
     TabLayout tabLayout;
     private Toolbar toolbar;
-    private NavigationDrawerFragment mNavigationDrawerFragment;
     private ImageView imageview;
     private TextView business;
     private Typeface face;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_special);
 
         checkForTypeOfBusinessToDisplayProperTabsName();
         viewPager = (ViewPager) findViewById(R.id.pager);
         int image = getIntent().getExtras().getInt("image");
         String businessName = getIntent().getExtras().getString("businessName");
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), SpecialActivity.this);
+
+
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), BusinessActivity.this);
+
         viewPager.setAdapter(mSectionsPagerAdapter);
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -105,11 +108,6 @@ public class SpecialActivity extends AppCompatActivity {
         viewPager.setCurrentItem(savedInstanceState.getInt(POSITION));
     }
 
-
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
         private Context context;
 
@@ -149,7 +147,7 @@ public class SpecialActivity extends AppCompatActivity {
                         return new TodayFragment();
                     case 1:
 
-                        return new WeekActivity();
+                        return new WeekFragment();
                     case 2:
 
                         return new InfoFragment();
@@ -160,28 +158,23 @@ public class SpecialActivity extends AppCompatActivity {
         }
 
         public View getTabView(int position) {
-            // Given you have a custom layout in `res/layout/custom_tab.xml` with a TextView and ImageView
             View v = LayoutInflater.from(context).inflate(R.layout.custom_tab_layout, null);
             TextView tv = (TextView) v.findViewById(R.id.textView3);
             tv.setText(tabs[position]);
             tv.setTypeface(face);
-//            ImageView img = (ImageView) v.findViewById(R.id.imageView3);
-//            img.setImageResource(R.drawable.ic_logo);
+
             return v;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            // Generate title based on item position
-//            Drawable image = context.getResources().getDrawable(R.drawable.ic_logo);
-//            image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());
-            // Replace blank spaces with image icon
+
             SpannableString sb = new SpannableString("   " + tabs[position]);
-//            ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
-//            sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
             return sb;
         }
     }
+
 
 
 }

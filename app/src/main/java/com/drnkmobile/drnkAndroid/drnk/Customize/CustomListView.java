@@ -1,4 +1,4 @@
-package com.drnkmobile.drnkAndroid.drnk;
+package com.drnkmobile.drnkAndroid.drnk.Customize;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,7 +24,7 @@ public class CustomListView extends ArrayAdapter<String> {
     private List<String>idList;
     private List<String>listOfAddress;
 
-    public CustomListView(Context context, int resource, List<String> objects, List specialList, List idList, List listOfAddress){
+    public CustomListView(Context context, int resource, List<String> objects, List specialList, List idList, List<String> listOfAddress){
         super(context,resource,objects);
         this.context = context;
         this.businessList = objects;
@@ -35,26 +35,33 @@ public class CustomListView extends ArrayAdapter<String> {
 
     @Override
     public View getView ( int position, View convertView, ViewGroup parent){
-        String business = businessList.get(position);
-        final String special = specialList.get(position);
-        String address = listOfAddress.get(position);
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.item_specials, null);
-        ImageView image = (ImageView) view.findViewById(R.id.imageView);
-        image.setImageResource(generateImage(idList.get(position)));
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.item_specials, null);
+        }
+            if(position<listOfAddress.size()) {
 
-        TextView businessName = (TextView)view.findViewById(R.id.textView2);
-        TextView specials = (TextView)view.findViewById(R.id.textView);
-        Typeface face=Typeface.createFromAsset(view.getContext().getAssets(),"fonts/AvenirLTStd-Light.ttf");
-        businessName.setText(business);
-        specials.setText(special);
-        businessName.setTypeface(face);
-        specials.setTypeface(face);
-        TextView addressText = (TextView)view.findViewById(R.id.address);
-        addressText.setText(address);
+                String business = businessList.get(position);
 
+               final String special = specialList.get(position);
+                String address = listOfAddress.get(position);
 
-        return view;
+                ImageView image = (ImageView) convertView.findViewById(R.id.imageView);
+                image.setImageResource(generateImage(idList.get(position)));
+
+                TextView businessName = (TextView) convertView.findViewById(R.id.businessNameTextView);
+                TextView specials = (TextView) convertView.findViewById(R.id.specialsTextView);
+                Typeface face = Typeface.createFromAsset(convertView.getContext().getAssets(), "fonts/AvenirLTStd-Light.ttf");
+                businessName.setText(business);
+                specials.setText(special);
+                businessName.setTypeface(face);
+                specials.setTypeface(face);
+                TextView addressText = (TextView) convertView.findViewById(R.id.address);
+                addressText.setText(address);
+
+            }
+        return convertView;
+
     }
 
 
@@ -65,7 +72,7 @@ public class CustomListView extends ArrayAdapter<String> {
 
         switch (imageString) {
 
-            case "4":
+            case "35":
                 businessImage = R.drawable.brothers;
                 break;
 
@@ -89,7 +96,7 @@ public class CustomListView extends ArrayAdapter<String> {
                 businessImage = R.drawable.scottys;
                 break;
 
-            case "3":
+            case "34":
 
                 businessImage = R.drawable.friendly_package;
                 break;

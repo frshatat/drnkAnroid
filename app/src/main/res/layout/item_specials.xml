@@ -15,8 +15,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/textView"
+                android:id="@+id/specialsTextView"
                 android:textSize="14sp"
                 android:layout_below="@+id/featured" android:layout_alignStart="@+id/featured"
                 android:textColor="#ffffffff" android:padding="0dp" android:layout_marginLeft="95dp"
@@ -37,10 +36,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Business Name"
-                android:id="@+id/textView2"
+                android:id="@+id/businessNameTextView"
 
                 android:typeface="normal"
-                android:textStyle="bold" android:textSize="21sp"
+                android:textStyle="bold" android:textSize="15sp"
                 android:layout_gravity="center_horizontal|left" android:layout_marginLeft="40dp"
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse" android:singleLine="false"/>
         <TextView
@@ -50,18 +49,18 @@
                 android:text="Address Here"
                 android:id="@+id/address"
                 android:layout_gravity="center_horizontal|left|top" android:layout_marginTop="22dp"
-                android:layout_marginLeft="35dp" android:textSize="14sp" android:textColor="#020afa"
-                android:clickable="true" android:onClick="findBusiness"/>
+                android:layout_marginLeft="35dp" android:textSize="14sp" android:textColor="#00baff"
+                android:clickable="true" android:onClick="findSpecificBusinessLocationWhenUserClicksOnAddress"/>
         <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:src="@drawable/thinline"
                 android:id="@+id/imageView2"
                 android:layout_alignTop="@+id/imageView" android:layout_toEndOf="@+id/imageView"
                 android:cropToPadding="false" android:layout_marginTop="22dp"
                 android:layout_gravity="top|left"
-                android:layout_marginLeft="20dp"/>
-        <com.drnkmobile.drnkAndroid.drnk.RoundedImageView
+                android:layout_marginLeft="20dp" android:layout_marginRight="20dp"/>
+        <com.drnkmobile.drnkAndroid.drnk.Customize.RoundedImageView
                 android:layout_width="65dp"
                 android:layout_height="80dp"
                 android:id="@+id/imageView"

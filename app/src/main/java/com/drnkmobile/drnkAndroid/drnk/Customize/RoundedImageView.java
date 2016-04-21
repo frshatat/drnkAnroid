@@ -1,4 +1,4 @@
-package com.drnkmobile.drnkAndroid.drnk;
+package com.drnkmobile.drnkAndroid.drnk.Customize;
 
 /**
  * Created by FarisShatat on 12/1/15.

@@ -1,4 +1,4 @@
-package com.drnkmobile.drnkAndroid.drnk;
+package com.drnkmobile.drnkAndroid.drnk.Customize;
 
 import android.content.Context;
 import android.graphics.Typeface;

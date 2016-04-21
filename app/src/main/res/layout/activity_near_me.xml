@@ -16,7 +16,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/map"
                     android:layout_above="@+id/app_bar"
-                    tools:context="com.drnkmobile.drnkAndroid.drnk.NearMe"
+                    tools:context="com.drnkmobile.drnkAndroid.drnk.Views.drnk"
                     android:name="com.google.android.gms.maps.SupportMapFragment"/>
    
 

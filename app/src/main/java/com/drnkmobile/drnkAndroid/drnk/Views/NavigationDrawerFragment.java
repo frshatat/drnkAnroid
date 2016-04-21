@@ -1,6 +1,6 @@
-package com.drnkmobile.drnkAndroid.drnk;
+package com.drnkmobile.drnkAndroid.drnk.Views;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.drnkmobile.drnkAndroid.app.R;
+import com.drnkmobile.drnkAndroid.drnk.Customize.CustomNaviList;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -131,8 +132,9 @@ public class NavigationDrawerFragment extends Fragment {
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
-
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if(((AppCompatActivity)getActivity()).getSupportActionBar() != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the navigation drawer and the action bar app icon.
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -197,6 +199,9 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
+
+
+
     private void selectItem(int position) {
         mCurrentSelectedPosition = position;
         if (mDrawerListView != null) {
@@ -211,7 +216,7 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Context activity) {
         super.onAttach(activity);
         try {
             mCallbacks = (NavigationDrawerCallbacks) activity;
@@ -266,11 +271,6 @@ public class NavigationDrawerFragment extends Fragment {
             return true;
         }
 
-//        if (item.getItemId() == R.id.action_example) {
-//            Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
-//            return true;
-//        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -279,16 +279,11 @@ public class NavigationDrawerFragment extends Fragment {
      * 'context', rather than just what's in the current screen.
      */
     private void showGlobalContextActionBar() {
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayShowTitleEnabled(true);
-//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-//        actionBar.setTitle(R.string.app_name);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if(((AppCompatActivity)getActivity()).getSupportActionBar() != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
     }
 
-//    private ActionBar getSupportActionBar() {
-//        return ((AppCompatActivity) getActivity()).getSupportActionBar();
-//    }
 
     /**
      * Callbacks interface that all activities using this fragment must implement.

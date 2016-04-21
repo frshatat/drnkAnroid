@@ -1,0 +1,1050 @@
+[
+  {
+    "id": "32",
+    "email": "brothers@gmail.com",
+    "company_name": "Test name",
+    "business_type": "Bar",
+    "company_phone": "17652166754",
+    "company_street": "123 Test",
+    "company_city": "Muncie",
+    "company_zip": "Test Zip",
+    "monday_hours": "11:00 PM - 3:00 AM",
+    "tuesday_hours": "11:00 PM - 3:00 AM",
+    "wednesday_hours": "11:00 PM - 3:00 AM",
+    "thursday_hours": "11:00 PM - 3:00 AM",
+    "friday_hours": "11:00 PM - 3:00 AM",
+    "saturday_hours": "11:00 PM - 3:00 AM",
+    "sunday_hours": "11:00 PM - 3:00 AM",
+    "company_description": "Test Description\r\n",
+    "deals": {
+      "sunday": [
+        {
+          "userID": 32,
+          "deal_number": 1,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 2,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 3,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 4,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 5,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 6,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 7,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 8,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 9,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 10,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        }
+      ],
+      "monday": [
+        {
+          "userID": 32,
+          "deal_number": 1,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 2,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 3,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 4,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 5,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 6,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 7,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 8,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 9,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 10,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        }
+      ],
+      "tuesday": [
+        {
+          "userID": 32,
+          "deal_number": 1,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 2,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 3,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 4,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 5,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 6,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 7,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 8,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 9,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 10,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        }
+      ],
+      "wednesday": [
+        {
+          "userID": 32,
+          "deal_number": 1,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 2,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 3,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 4,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 5,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 6,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 7,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 8,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 9,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 10,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        }
+      ],
+      "thursday": [
+        {
+          "userID": 32,
+          "deal_number": 1,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 2,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 3,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 4,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 5,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 6,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 7,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 8,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 9,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 10,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        }
+      ],
+      "friday": [
+        {
+          "userID": 32,
+          "deal_number": 1,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 2,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 3,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 4,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 5,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 6,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 7,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 8,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 9,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 10,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        }
+      ],
+      "saturday": [
+        {
+          "userID": 32,
+          "deal_number": 1,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 2,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 3,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 4,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 5,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 6,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 7,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 8,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 9,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 32,
+          "deal_number": 10,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        }
+      ]
+    }
+  },
+  {
+    "id": "35",
+    "email": "brotherbarandgrill@gmail.com",
+    "company_name": "Brothers Bar and Grill",
+    "business_type": "Bar",
+    "company_phone": "7652878297",
+    "company_street": "1601 W University Ave",
+    "company_city": "Muncie",
+    "company_zip": "47303",
+    "monday_hours": "11:00 AM - 3:00 AM",
+    "tuesday_hours": "11:00 AM - 3:00 AM",
+    "wednesday_hours": "11:00 AM - 3:00 AM",
+    "thursday_hours": "11:00 AM - 3:00 AM",
+    "friday_hours": "11:00 AM - 3:00 AM",
+    "saturday_hours": "11:00 AM - 3:00 AM",
+    "sunday_hours": "11:00 AM - 3:00 AM",
+    "company_description": "",
+    "deals": {
+      "sunday": [
+        {
+          "userID": 35,
+          "deal_number": 1,
+          "deal_name": "Bloody Mary Bar (until 3PM)",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 2,
+          "deal_name": "Drafts",
+          "price": "3.00",
+          "featured": 1
+        },
+        {
+          "userID": 35,
+          "deal_number": 3,
+          "deal_name": "20oz Mimosas",
+          "price": "4.00",
+          "featured": 1
+        },
+        {
+          "userID": 35,
+          "deal_number": 4,
+          "deal_name": "Domestic Pitchers",
+          "price": "6.00",
+          "featured": 1
+        },
+        {
+          "userID": 35,
+          "deal_number": 5,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 6,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 7,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 8,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 9,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 10,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        }
+      ],
+      "monday": [
+        {
+          "userID": 35,
+          "deal_number": 1,
+          "deal_name": "Karaoke Monday",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 2,
+          "deal_name": " Wells",
+          "price": "2.00",
+          "featured": 1
+        },
+        {
+          "userID": 35,
+          "deal_number": 3,
+          "deal_name": "Calls",
+          "price": "3.00",
+          "featured": 1
+        },
+        {
+          "userID": 35,
+          "deal_number": 4,
+          "deal_name": "14oz Flavored Long Islands",
+          "price": "4.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 5,
+          "deal_name": "Domestic Pitchers",
+          "price": "5.00",
+          "featured": 1
+        },
+        {
+          "userID": 35,
+          "deal_number": 6,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 7,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 8,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 9,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 10,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        }
+      ],
+      "tuesday": [
+        {
+          "userID": 35,
+          "deal_number": 1,
+          "deal_name": "Buys the Mug",
+          "price": "3.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 2,
+          "deal_name": "Busch Light",
+          "price": "1.00",
+          "featured": 1
+        },
+        {
+          "userID": 35,
+          "deal_number": 3,
+          "deal_name": "Double Wells",
+          "price": "1.50",
+          "featured": 1
+        },
+        {
+          "userID": 35,
+          "deal_number": 4,
+          "deal_name": "Domestic Drafts",
+          "price": "2.50",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 5,
+          "deal_name": "Flavored L.i.t\u2019S",
+          "price": "3.50",
+          "featured": 1
+        },
+        {
+          "userID": 35,
+          "deal_number": 6,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 7,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 8,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 9,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 10,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        }
+      ],
+      "wednesday": [
+        {
+          "userID": 35,
+          "deal_number": 1,
+          "deal_name": "25\u00a2 Wings 9pm \u2018til they\u2019re Gone",
+          "price": "0.00",
+          "featured": 1
+        },
+        {
+          "userID": 35,
+          "deal_number": 2,
+          "deal_name": "High Life Bottles",
+          "price": "1.50",
+          "featured": 1
+        },
+        {
+          "userID": 35,
+          "deal_number": 3,
+          "deal_name": "Double Wells",
+          "price": "2.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 4,
+          "deal_name": "Vegas Bombs",
+          "price": "3.50",
+          "featured": 1
+        },
+        {
+          "userID": 35,
+          "deal_number": 5,
+          "deal_name": "32oz Long Islands",
+          "price": "4.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 6,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 7,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 8,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 9,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 10,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        }
+      ],
+      "thursday": [
+        {
+          "userID": 35,
+          "deal_number": 1,
+          "deal_name": "Wells",
+          "price": "1.00",
+          "featured": 1
+        },
+        {
+          "userID": 35,
+          "deal_number": 2,
+          "deal_name": "PBR Tall Boys",
+          "price": "2.00",
+          "featured": 1
+        },
+        {
+          "userID": 35,
+          "deal_number": 3,
+          "deal_name": "32oz Long Islands",
+          "price": "6.00",
+          "featured": 1
+        },
+        {
+          "userID": 35,
+          "deal_number": 4,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 5,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 6,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 7,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 8,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 9,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 10,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        }
+      ],
+      "friday": [
+        {
+          "userID": 35,
+          "deal_number": 1,
+          "deal_name": "Three Olives Vodka Specialty Drinks",
+          "price": "4.00",
+          "featured": 1
+        },
+        {
+          "userID": 35,
+          "deal_number": 2,
+          "deal_name": "Vegas Bombs",
+          "price": "4.00",
+          "featured": 1
+        },
+        {
+          "userID": 35,
+          "deal_number": 3,
+          "deal_name": "Double Wells",
+          "price": "5.00",
+          "featured": 1
+        },
+        {
+          "userID": 35,
+          "deal_number": 4,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 5,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 6,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 7,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 8,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 9,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 10,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        }
+      ],
+      "saturday": [
+        {
+          "userID": 35,
+          "deal_number": 1,
+          "deal_name": "Bacardi Signature Drinks",
+          "price": "4.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 2,
+          "deal_name": "Double Wells",
+          "price": "5.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 3,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 4,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 5,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 6,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 7,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 8,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 9,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 35,
+          "deal_number": 10,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        }
+      ]
+    }
+  }
+]

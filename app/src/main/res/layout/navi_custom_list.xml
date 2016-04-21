@@ -5,12 +5,12 @@
 >
 
     <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/navigationdrawerimage"
             android:src="@drawable/test1"
             android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+            android:layout_alignParentStart="true" android:layout_marginTop="20dp"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

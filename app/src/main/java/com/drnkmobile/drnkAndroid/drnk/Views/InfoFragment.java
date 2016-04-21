@@ -1,6 +1,7 @@
-package com.drnkmobile.drnkAndroid.drnk;
+package com.drnkmobile.drnkAndroid.drnk.Views;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -20,14 +21,13 @@ public class InfoFragment extends Fragment {
     private String businessPhoneNumber;
     private String businessCurrentHours;
     private String businessLocation;
-    static String fragment;
+
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        fragment = "infoFragment";
-       // drnk.section = "near me";
+
         View rootView = inflater.inflate(R.layout.fragment_info, container, false);
         businessPhoneNumber = getActivity().getIntent().getExtras().getString("businessPhoneNumber");
         businessCurrentHours = getActivity().getIntent().getExtras().getString("businessHours");
@@ -61,7 +61,7 @@ public class InfoFragment extends Fragment {
 //            @Override
 //            public void onClick(final View v) {
 //                try {
-//                    drnk.buttonClicked = true;
+//                    drnk.btnAddressClicked = true;
 //
 //                    Geocoder selected_place_geocoder = new Geocoder(getContext(), Locale.getDefault());
 //                    List<Address> address = null;
@@ -79,26 +79,27 @@ public class InfoFragment extends Fragment {
 //                    }
 //                    for (int i = 0; i < address.size(); i++) {
 //                        Address location = address.get(i);
-//                        drnk.latitude = (float) location.getLatitude();
+//                       drnk.latitude = (float) location.getLatitude();
 //                        drnk.longitude = (float) location.getLongitude();
 //                    }
+//
 //
 //                } catch (IOException e) {
 //                    e.printStackTrace();
 //                }
+////
+////
 ////                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-////                fragmentManager.beginTransaction()
-////                        .replace(R.id.container, PlaceHolderFragment.PlaceholderFragment.newInstance(2 + 1))
-////                        .commit();
+////                Fragment fragment = new InfoMap();
+////                fragmentManager.beginTransaction().replace(R.id.container,fragment).commit();
 //
-////                Intent resultActivityIntent = new Intent(getActivity(),
-////                        InfoMap.class);
-////                InfoFragment.fragment = "infoFragment";
-////                resultActivityIntent.putExtra("businessAddress", businessLocation);
-////                startActivity(resultActivityIntent);
 //            }
 //        });
         return rootView;
+    }
+    @Override
+    public void onAttach(Context activity) {
+        super.onAttach(activity);
     }
 }
 

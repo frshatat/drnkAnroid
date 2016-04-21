@@ -1,4 +1,4 @@
-package com.drnkmobile.drnkAndroid.drnk;
+package com.drnkmobile.drnkAndroid.drnk.DomainModel;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 /**
@@ -7,18 +7,18 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class TableInfo {
 
 
-    private final String title;
+    private final String businessName;
 
-    private TableInfo(String title) {
-        this.title = checkNotNull(title);
+    private TableInfo(String busissName) {
+        this.businessName = checkNotNull(busissName);
     }
 
     public static TableInfo makeWithBusinessName(String name) {
         return new TableInfo(name);
     }
 
-    public static TableInfo makeWithBusinessSpecialName(String description){
-        return new TableInfo(description);
+    public static TableInfo makeWithBusinessSpecialName(String specialName){
+        return new TableInfo(specialName);
     }
 
     public static TableInfo makeId(String makeId){
@@ -31,9 +31,7 @@ public class TableInfo {
     public static TableInfo makeWithWeeklySpecials (String week){
         return new TableInfo(week);
     }
-    public String getTitle() {
-        return title;
-    }
+    
 
     public static TableInfo makePhoneNumber(String phoneNumber) {
         return new TableInfo(phoneNumber);
@@ -41,6 +39,9 @@ public class TableInfo {
 
     public static TableInfo makewithBusinessHours(String hours) {
         return new TableInfo(hours);
+    }
+    public String getBusiness() {
+        return businessName;
     }
 }
 

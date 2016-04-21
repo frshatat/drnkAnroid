@@ -1,0 +1,186 @@
+[
+  {
+    "id": "31",
+    "email": "iking.1994@gmail.com",
+    "company_name": "Test name",
+    "business_type": "Liquor Store",
+    "company_phone": "11111111",
+    "company_street": "123 Test street",
+    "company_city": "Muncie",
+    "company_zip": "Test",
+    "monday_hours": "12:00 AM - 12:00 AM",
+    "tuesday_hours": "12:00 AM - 12:00 AM",
+    "wednesday_hours": "12:00 AM - 12:00 AM",
+    "thursday_hours": "12:00 AM - 12:00 AM",
+    "friday_hours": "12:00 AM - 12:00 AM",
+    "saturday_hours": "12:00 AM - 12:00 AM",
+    "sunday_hours": "12:00 AM - 12:00 AM",
+    "company_description": "Test Description",
+    "deals": {
+      "everyday": [
+        {
+          "userID": 31,
+          "deal_number": 1,
+          "deal_name": "coors",
+          "price": "3.00",
+          "featured": 0
+        },
+        {
+          "userID": 31,
+          "deal_number": 2,
+          "deal_name": "bud light",
+          "price": "2.00",
+          "featured": 0
+        },
+        {
+          "userID": 31,
+          "deal_number": 3,
+          "deal_name": "hugs",
+          "price": "1.00",
+          "featured": 1
+        },
+        {
+          "userID": 31,
+          "deal_number": 4,
+          "deal_name": "kisses",
+          "price": "2.00",
+          "featured": 0
+        },
+        {
+          "userID": 31,
+          "deal_number": 5,
+          "deal_name": "big hugs",
+          "price": "2.50",
+          "featured": 1
+        },
+        {
+          "userID": 31,
+          "deal_number": 6,
+          "deal_name": "Water",
+          "price": "4.00",
+          "featured": 0
+        },
+        {
+          "userID": 31,
+          "deal_number": 7,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 31,
+          "deal_number": 8,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 31,
+          "deal_number": 9,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        },
+        {
+          "userID": 31,
+          "deal_number": 10,
+          "deal_name": "",
+          "price": "0.00",
+          "featured": 0
+        }
+      ]
+    }
+  },
+  {
+    "id": "34",
+    "email": "friendlypackage@yahoo.com",
+    "company_name": "Friendly Package",
+    "business_type": "Liquor Store",
+    "company_phone": "7652822542",
+    "company_street": "1622 W Jackson St",
+    "company_city": "Muncie",
+    "company_zip": "47303",
+    "monday_hours": "7:00 AM - 12:30 AM",
+    "tuesday_hours": "7:00 AM - 12:30 AM",
+    "wednesday_hours": "7:00 AM - 12:30 AM",
+    "thursday_hours": "7:00 AM - 12:30 AM",
+    "friday_hours": "7:00 AM - 3:00 AM",
+    "saturday_hours": "7:00 AM - 3:00 AM",
+    "sunday_hours": "Closed",
+    "company_description": "",
+    "deals": {
+      "everyday": [
+        {
+          "userID": 34,
+          "deal_number": 1,
+          "deal_name": "Sutter Home Moscato or Pink Moscato 750ml",
+          "price": "3.93",
+          "featured": 1
+        },
+        {
+          "userID": 34,
+          "deal_number": 2,
+          "deal_name": "Sam Adams Cold Snap 12-12oz btls",
+          "price": "6.93",
+          "featured": 0
+        },
+        {
+          "userID": 34,
+          "deal_number": 3,
+          "deal_name": "Svedka Vodka All Flavors 750ml",
+          "price": "8.93",
+          "featured": 1
+        },
+        {
+          "userID": 34,
+          "deal_number": 4,
+          "deal_name": "Malibu All Flavors 750ml",
+          "price": "10.93",
+          "featured": 1
+        },
+        {
+          "userID": 34,
+          "deal_number": 5,
+          "deal_name": "Jim Beam Apple 750mls",
+          "price": "9.93",
+          "featured": 0
+        },
+        {
+          "userID": 34,
+          "deal_number": 6,
+          "deal_name": "Fireball Whiskey 750ml",
+          "price": "11.93",
+          "featured": 0
+        },
+        {
+          "userID": 34,
+          "deal_number": 7,
+          "deal_name": "Angry Orchard 12-12oz btls",
+          "price": "13.93",
+          "featured": 0
+        },
+        {
+          "userID": 34,
+          "deal_number": 8,
+          "deal_name": "Jameson 750ml",
+          "price": "20.93",
+          "featured": 0
+        },
+        {
+          "userID": 34,
+          "deal_number": 9,
+          "deal_name": "Jagermeister 1.75L",
+          "price": "29.16",
+          "featured": 0
+        },
+        {
+          "userID": 34,
+          "deal_number": 10,
+          "deal_name": " Bacardi 1.75L",
+          "price": "19.95",
+          "featured": 0
+        }
+      ]
+    }
+  }
+]
