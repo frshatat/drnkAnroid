@@ -14,7 +14,7 @@ public class URLReader {
 
     HttpURLConnection con;
     public String getJSON(String typeOfBusiness,String currentCity) {
-            currentCity="Muncie";
+
             BufferedReader reader;
 
             try {

@@ -1,5 +1,5 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-          android:id="@android:id/text1"
+          android:id="@+id/currentSpecialTextView"
           android:paddingTop="2dip"
           android:paddingBottom="3dip"
           android:layout_width="wrap_content"

@@ -37,7 +37,7 @@ public class CustomListView extends ArrayAdapter<String> {
     public View getView ( int position, View convertView, ViewGroup parent){
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.item_specials, null);
+            convertView = inflater.inflate(R.layout.items_main_tableview, null);
         }
             if(position<listOfAddress.size()) {
 

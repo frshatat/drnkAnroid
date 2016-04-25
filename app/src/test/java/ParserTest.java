@@ -1,6 +1,6 @@
 
+import com.drnkmobile.drnkAndroid.drnk.DomainModel.BusinessBuilder;
 import com.drnkmobile.drnkAndroid.drnk.DomainModel.Parser;
-import com.drnkmobile.drnkAndroid.drnk.DomainModel.Business;
 import org.json.JSONException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -8,7 +8,7 @@ import org.junit.Test;
 import java.io.*;
 
 public class ParserTest {
-    private Business business;
+    private BusinessBuilder business;
     private Parser parser;
 
     //Test Bars JSON
@@ -17,7 +17,7 @@ public class ParserTest {
     public void testParseExtractsBrothersBarAndGrillTitle() throws JSONException {
         whenParsingBarsJsonFile();
 
-        Assert.assertEquals("Brothers Bar and Grill", business.getBusinessName(1).getBusiness());
+        Assert.assertEquals("Brothers Bar & Grill", business.getBusinessName(1).getBusiness());
 
     }
 

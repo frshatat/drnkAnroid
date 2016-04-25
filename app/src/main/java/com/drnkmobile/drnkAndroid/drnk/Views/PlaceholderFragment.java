@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.*;
 import com.drnkmobile.drnkAndroid.app.R;
-import com.drnkmobile.drnkAndroid.drnk.DomainModel.Business;
+import com.drnkmobile.drnkAndroid.drnk.DomainModel.BusinessBuilder;
 import com.drnkmobile.drnkAndroid.drnk.DomainModel.BusinessFormatter;
 import com.drnkmobile.drnkAndroid.drnk.DomainModel.Parser;
 import com.drnkmobile.drnkAndroid.drnk.Connection.URLReader;
@@ -148,7 +148,7 @@ class PlaceHolderFragment {
         public void retrieveData() {
             if (drnk.btnAddressClicked == false) {
                 Parser parser;
-                Business schedule = null;
+                BusinessBuilder schedule = null;
                 BusinessFormatter formatter = new BusinessFormatter();
                 content = reader.getJSON("allAddress", "");
                 parser = new Parser(content);

@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * Created by FarisShatat on 10/4/15.
  */
 public class Parser {
-    private Business.Builder builder;
+    private BusinessBuilder.Builder builder;
     private String jsonFile;
     private JSONObject obj;
     private JSONObject deal;
@@ -38,7 +38,7 @@ public class Parser {
     }
 
 
-    public Business parse(String typeOfBusiness) throws JSONException {
+    public BusinessBuilder parse(String typeOfBusiness) throws JSONException {
         if (!(jsonFile == null)) {
 
             jsonArray = new JSONArray(jsonFile);
@@ -46,7 +46,7 @@ public class Parser {
             this.typeOfBusiness = typeOfBusiness;
             parseInfo();
         } else {
-            builder = Business.withBusinessName("Server Unavailable");
+            builder = BusinessBuilder.withBusinessName("Server Unavailable");
         }
         return builder.build();
     }
@@ -55,11 +55,11 @@ public class Parser {
         try {
 
             if (typeOfBusiness == "specials" || typeOfBusiness == "week") {
-                builder = Business.withBusinessName("Bars");
+                builder = BusinessBuilder.withBusinessName("Bars");
                 obj = jsonArray.getJSONObject(index);
                 String businessName = obj.getString("company_name");
 
-                TableInfo business = TableInfo.makeWithBusinessName(businessName);
+                Business business = Business.makeWithBusinessName(businessName);
                 builder.addBusiness(business);
                 if (typeOfBusiness == "week") {
                     parseBarSpecialForEachDayOfWeek();
@@ -67,7 +67,7 @@ public class Parser {
                     parseDetailViewSpecial();
                 }
             } else {
-                builder = Business.withBusinessName(" ");
+                builder = BusinessBuilder.withBusinessName(" ");
                 for (int i = 0; i < jsonArray.length(); i++) {
                     number = i;
                     obj = jsonArray.getJSONObject(i);
@@ -94,15 +94,15 @@ public class Parser {
 
         String hours = obj.getString(currentDay + "_hours");
         String phoneNumber = obj.getString("company_phone");
-        TableInfo business = TableInfo.makeWithBusinessName(businessName);
-        TableInfo id = TableInfo.makeId(businessId);
+        Business business = Business.makeWithBusinessName(businessName);
+        Business id = Business.makeId(businessId);
         builder.addBusiness(business);
         builder.addId(id);
-        TableInfo businessAddress = TableInfo.makeWithAddress(address);
+        Business businessAddress = Business.makeWithAddress(address);
         builder.addAddress(businessAddress);
-        TableInfo businessPhoneNumber = TableInfo.makePhoneNumber(phoneNumber);
+        Business businessPhoneNumber = Business.makePhoneNumber(phoneNumber);
         builder.addPhoneNumber(businessPhoneNumber);
-        TableInfo businessHours = TableInfo.makewithBusinessHours(hours);
+        Business businessHours = Business.makewithBusinessHours(hours);
         builder.addBusinessHours(businessHours);
         if (typeOfBusiness == "bars") {
             findSpecials();
@@ -136,7 +136,7 @@ public class Parser {
                 ++countFeature;
                 if(countFeature==3)
                 {
-                    TableInfo specials = TableInfo.makeWithBusinessSpecialName(featureList.toString().replace("[", "").replace("]", "").replace(",", "\n\n"));
+                    Business specials = Business.makeWithBusinessSpecialName(featureList.toString().replace("[", "").replace("]", "").replace(",", "\n\n"));
                     builder.addSpecial(specials);
                     break;
                 }
@@ -166,7 +166,7 @@ public class Parser {
 
         }
 
-        TableInfo specials = TableInfo.makeWithBusinessSpecialName(groupSpecials);
+        Business specials = Business.makeWithBusinessSpecialName(groupSpecials);
         builder.addSpecial(specials);
     }
 
@@ -238,7 +238,7 @@ public class Parser {
 
         groupSpecials = businessSpecialList.toString().replace("[", "").replace("]", "").replace(",", "\n\n");
         businessSpecialList.clear();
-        TableInfo specials = TableInfo.makeWithBusinessSpecialName(groupSpecials);
+        Business specials = Business.makeWithBusinessSpecialName(groupSpecials);
         builder.addSpecial(specials);
 
 
@@ -276,7 +276,7 @@ public class Parser {
                 String businessDeal = deal_price + deal_name;
                 specialList.add(businessDeal);
                 if(specialList.size()==3) {
-                    TableInfo specials = TableInfo.makeWithBusinessSpecialName(specialList.toString().replace("[", "").replace("]", "").replace(",", "\n\n"));
+                    Business specials = Business.makeWithBusinessSpecialName(specialList.toString().replace("[", "").replace("]", "").replace(",", "\n\n"));
                     builder.addSpecial(specials);
                     break;
                 }
@@ -325,7 +325,7 @@ public class Parser {
             }
 
             groupSpecials = businessSpecialList.toString().replace("[", "").replace("]", "").replace(",", "\n\n");
-            TableInfo specials = TableInfo.makeWithBusinessSpecialName(groupSpecials);
+            Business specials = Business.makeWithBusinessSpecialName(groupSpecials);
             builder.addSpecial(specials);
             businessSpecialList.clear();
         }

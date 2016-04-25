@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import com.drnkmobile.drnkAndroid.app.R;
-import com.drnkmobile.drnkAndroid.drnk.DomainModel.Business;
+import com.drnkmobile.drnkAndroid.drnk.DomainModel.BusinessBuilder;
 import com.drnkmobile.drnkAndroid.drnk.DomainModel.BusinessFormatter;
 import com.drnkmobile.drnkAndroid.drnk.DomainModel.Parser;
 import com.drnkmobile.drnkAndroid.drnk.Customize.ExpandableListAdapter;
@@ -128,7 +128,7 @@ public class WeekFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             Parser parser = new Parser(result);
-            Business schedule = null;
+            BusinessBuilder schedule = null;
             try {
                 parser.positionForItemSelectedinTableView(positionForCellSelected);
                 schedule = parser.parse("week");

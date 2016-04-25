@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import com.drnkmobile.drnkAndroid.app.R;
 import com.drnkmobile.drnkAndroid.drnk.Customize.CustomCurrentSpecialListView;
-import com.drnkmobile.drnkAndroid.drnk.DomainModel.Business;
+import com.drnkmobile.drnkAndroid.drnk.DomainModel.BusinessBuilder;
 import com.drnkmobile.drnkAndroid.drnk.DomainModel.BusinessFormatter;
 import com.drnkmobile.drnkAndroid.drnk.DomainModel.Parser;
 import com.drnkmobile.drnkAndroid.drnk.Connection.URLReader;
@@ -53,8 +53,8 @@ public class TodayFragment extends Fragment {
     }
 
     protected void updateDisplay() {
-        CustomCurrentSpecialListView adapter = new CustomCurrentSpecialListView(rootView.getContext(), R.layout.list_text_view, listOfSpecials);
-        list = (ListView) rootView.findViewById(R.id.listView3);
+        CustomCurrentSpecialListView adapter = new CustomCurrentSpecialListView(rootView.getContext(), R.layout.custom_current_specials_listview, listOfSpecials);
+        list = (ListView) rootView.findViewById(R.id.todaysCurrentSpecialListView);
         list.setAdapter(adapter);
         //onTitleClick();
     }
@@ -78,7 +78,7 @@ public class TodayFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             Parser parser = new Parser(result);
-            Business business = null;
+            BusinessBuilder business = null;
             try {
                 parser.positionForItemSelectedinTableView(positionForCellSelected);
                 business = parser.parse("specials");

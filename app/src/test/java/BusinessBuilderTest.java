@@ -1,5 +1,5 @@
+import com.drnkmobile.drnkAndroid.drnk.DomainModel.BusinessBuilder;
 import com.drnkmobile.drnkAndroid.drnk.DomainModel.Business;
-import com.drnkmobile.drnkAndroid.drnk.DomainModel.TableInfo;
 import com.google.common.collect.ImmutableList;
 import org.junit.Test;
 
@@ -9,41 +9,41 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by FarisShatat on 4/18/16.
  */
-public class BusinessTest {
+public class BusinessBuilderTest {
     private static final String BUSINESSNAME = "My Show";
-    private Business business;
+    private BusinessBuilder business;
 
-    private static final ImmutableList<TableInfo> BUSINESSES = ImmutableList.of(
-            TableInfo.makeWithBusinessName("one business"),//
-            TableInfo.makeWithBusinessName("two business"));
+    private static final ImmutableList<Business> BUSINESSES = ImmutableList.of(
+            Business.makeWithBusinessName("one business"),//
+            Business.makeWithBusinessName("two business"));
 
-    private static final ImmutableList<TableInfo> SPECIALS = ImmutableList.of(
-            TableInfo.makeWithBusinessSpecialName("one special"),//
-            TableInfo.makeWithBusinessSpecialName("two's special"));
+    private static final ImmutableList<Business> SPECIALS = ImmutableList.of(
+            Business.makeWithBusinessSpecialName("one special"),//
+            Business.makeWithBusinessSpecialName("two's special"));
 
-    private static final ImmutableList<TableInfo> IDS = ImmutableList.of(
-            TableInfo.makeId("ID 1"),//
-            TableInfo.makeId("ID 2"));
+    private static final ImmutableList<Business> IDS = ImmutableList.of(
+            Business.makeId("ID 1"),//
+            Business.makeId("ID 2"));
 
-    private static final ImmutableList<TableInfo> ADDRESSES = ImmutableList.of(
-            TableInfo.makeWithAddress("address 1"),//
-            TableInfo.makeWithAddress("address 2"));
+    private static final ImmutableList<Business> ADDRESSES = ImmutableList.of(
+            Business.makeWithAddress("address 1"),//
+            Business.makeWithAddress("address 2"));
 
-    private static final ImmutableList<TableInfo> PHONENUMBERS = ImmutableList.of(
-            TableInfo.makePhoneNumber("phone number 1"),//
-            TableInfo.makePhoneNumber("phone number 2"));
+    private static final ImmutableList<Business> PHONENUMBERS = ImmutableList.of(
+            Business.makePhoneNumber("phone number 1"),//
+            Business.makePhoneNumber("phone number 2"));
 
-    private static final ImmutableList<TableInfo> HOURS = ImmutableList.of(
-            TableInfo.makewithBusinessHours("hour 1"),//
-            TableInfo.makewithBusinessHours("hour 2"));
+    private static final ImmutableList<Business> HOURS = ImmutableList.of(
+            Business.makewithBusinessHours("hour 1"),//
+            Business.makewithBusinessHours("hour 2"));
     @Test
     public void testCountEpisodeTitles_addingNone_zero() {
         business = makeBusinessWithoutSpecialOrAddress();
         assertEquals(0, business.countBusinesses());
     }
 
-    private Business makeBusinessWithoutSpecialOrAddress() {
-        return Business.withBusinessName(BUSINESSNAME).build();
+    private BusinessBuilder makeBusinessWithoutSpecialOrAddress() {
+        return BusinessBuilder.withBusinessName(BUSINESSNAME).build();
     }
 
     @Test
@@ -127,9 +127,9 @@ public class BusinessTest {
         assertEquals(HOURS.get(1), business.getBusinesshours(1));
     }
 
-    private Business makeBusinesswithSpecial_ID_Address_PhoneNumber_Hours(int count) {
+    private BusinessBuilder makeBusinesswithSpecial_ID_Address_PhoneNumber_Hours(int count) {
         checkArgument(count >= 0);
-        Business.Builder builder = Business//
+        BusinessBuilder.Builder builder = BusinessBuilder//
                 .withBusinessName(BUSINESSNAME);
         for (int i = 0; i < count; i++) {
             builder.addBusiness(BUSINESSES.get(i));

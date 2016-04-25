@@ -102,15 +102,15 @@ public class NavigationDrawerFragment extends Fragment {
         TextView businessTitle = (TextView) drawer.findViewById(R.id.navigation_drawer_title);
         Typeface face=Typeface.createFromAsset(drawer.getContext().getAssets(),"fonts/AvenirLTStd-Light.ttf");
         businessTitle.setTypeface(face);
-        List<String> dataList = new ArrayList<>();
-        dataList.add(getString(R.string.title_section1));
-        dataList.add(getString(R.string.title_section2));
-        dataList.add(getString(R.string.title_section3));
+        List<String> drawerListItems = new ArrayList<>();
+        drawerListItems.add(getString(R.string.title_section1));
+        drawerListItems.add(getString(R.string.title_section2));
+        drawerListItems.add(getString(R.string.title_section3));
         mDrawerListView.setAdapter(new CustomNaviList(
                 getActivity(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
-                dataList));
+                drawerListItems));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return drawer;
     }
@@ -120,6 +120,7 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     /**
+     *
      * Users of this fragment must call this method to set up the navigation drawer interactions.
      *  @param fragmentId   The android:id of this fragment in its activity's layout.
      * @param drawerLayout The DrawerLayout containing this fragment's UI.

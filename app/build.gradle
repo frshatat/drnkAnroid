@@ -19,7 +19,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.drnkmobile.myapplication2.app"
+        applicationId "com.drnkmobile.drnkAndroid.app"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1

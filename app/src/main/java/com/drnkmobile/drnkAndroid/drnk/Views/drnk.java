@@ -22,7 +22,7 @@ import android.view.View;
 import android.widget.*;
 import com.drnkmobile.drnkAndroid.app.R;
 import com.drnkmobile.drnkAndroid.drnk.Customize.CustomListView;
-import com.drnkmobile.drnkAndroid.drnk.DomainModel.Business;
+import com.drnkmobile.drnkAndroid.drnk.DomainModel.BusinessBuilder;
 import com.drnkmobile.drnkAndroid.drnk.DomainModel.BusinessFormatter;
 import com.drnkmobile.drnkAndroid.drnk.DomainModel.Parser;
 import com.drnkmobile.drnkAndroid.drnk.Connection.LocationService;
@@ -299,7 +299,7 @@ public class drnk extends AppCompatActivity
     }
 
     protected void updateDisplay() {
-        adapter = new CustomListView(this, R.layout.item_specials, listOfBusinesses, listOfSpecials, listOfId, listOfAddress);
+        adapter = new CustomListView(this, R.layout.items_main_tableview, listOfBusinesses, listOfSpecials, listOfId, listOfAddress);
         if (businessListView != null) {
             businessListView.setAdapter(adapter);
 
@@ -372,7 +372,7 @@ public class drnk extends AppCompatActivity
             } else {
 
                 Parser parser = new Parser(result);
-                Business schedule = null;
+                BusinessBuilder schedule = null;
                 try {
                     schedule = parser.parse(typeOfBusiness);
                 } catch (JSONException e) {
