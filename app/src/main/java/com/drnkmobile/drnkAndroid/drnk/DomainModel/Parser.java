@@ -276,16 +276,23 @@ public class Parser {
                 String businessDeal = deal_price + deal_name;
                 specialList.add(businessDeal);
                 if(specialList.size()==3) {
-                    Business specials = Business.makeWithBusinessSpecialName(specialList.toString().replace("[", "").replace("]", "").replace(",", "\n\n"));
+                    break;
+                }
+
+           }
+            else{
+                if(specialList.size()==0) {
+                    Business specials = Business.makeWithBusinessSpecialName("There are no specials today!");
                     builder.addSpecial(specials);
                     break;
                 }
 
             }
+
         }
-            //groupSpecials = specialList.get(0) + "\n" + specialList.get(1) + "\n" + specialList.get(2);
 
-
+        Business specials = Business.makeWithBusinessSpecialName(specialList.toString().replace("[", "").replace("]", "").replace(",", "\n\n"));
+        builder.addSpecial(specials);
 
 
     }

@@ -150,7 +150,7 @@ class PlaceHolderFragment {
                 Parser parser;
                 BusinessBuilder schedule = null;
                 BusinessFormatter formatter = new BusinessFormatter();
-                content = reader.getJSON("allAddress", "");
+                content = reader.getJSON("allAddress", drnk.currentCity);
                 parser = new Parser(content);
                 try {
                     schedule = parser.parse("allAddresses");
@@ -220,7 +220,7 @@ class PlaceHolderFragment {
                         .title((String) drnk.listOfBusinesses.get(drnk.position))
                         .snippet((String) drnk.listOfAddress.get(drnk.position))
                         .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ic_logo", 100, 100))));
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(drnk.latitude, drnk.longitude), 15));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(drnk.latitude, drnk.longitude), 20));
 
             } else {
 
@@ -230,7 +230,7 @@ class PlaceHolderFragment {
                             .title((String) businessesFoundOnMap.get(i))
                             .snippet((String) businessesAddressesFoundOnMap.get(i))
                             .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ic_logo", 50, 50))));
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latList.get(i), longList.get(i)), 15));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latList.get(i), longList.get(i)), 10));
                 }
 
 

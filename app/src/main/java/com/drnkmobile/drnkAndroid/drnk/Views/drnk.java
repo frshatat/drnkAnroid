@@ -203,7 +203,8 @@ public class drnk extends AppCompatActivity
             case 1:
                 mTitle = "bars";
                 typeOfBusiness = "bars";
-
+                swipeRefreshLayout.setRefreshing( true );
+                swipeRefreshLayout.setEnabled( true );
                 section = mTitle;
                 btnAddressClicked = true;
                 getLocation();
@@ -213,6 +214,8 @@ public class drnk extends AppCompatActivity
             case 2:
                 mTitle = "stores";
                 typeOfBusiness = "liquorstores";
+                swipeRefreshLayout.setRefreshing( true );
+                swipeRefreshLayout.setEnabled( true );
                 section = mTitle;
                 btnAddressClicked = true;
                 getLocation();
@@ -223,6 +226,8 @@ public class drnk extends AppCompatActivity
             case 3:
                 mTitle = "near me";
                 section = mTitle;
+                swipeRefreshLayout.setRefreshing( false );
+                swipeRefreshLayout.setEnabled( false );
                 break;
         }
     }

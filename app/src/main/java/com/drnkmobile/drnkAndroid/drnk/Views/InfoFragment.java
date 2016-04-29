@@ -57,44 +57,7 @@ public class InfoFragment extends Fragment {
         });
 
 
-//        businessAddress.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(final View v) {
-//                try {
-//                    drnk.btnAddressClicked = true;
-//
-//                    Geocoder selected_place_geocoder = new Geocoder(getContext(), Locale.getDefault());
-//                    List<Address> address = null;
-//                    address = selected_place_geocoder.getFromLocationName(String.valueOf(businessLocation), 2);
-//                    System.out.println(address);
-//
-//                    if (address.isEmpty()) {
-//                        if (businessLocation.equals("1612 W Jackson St, Muncie")) {
-//                            address = selected_place_geocoder.getFromLocationName("1610 W Jackson St, Muncie", 2);
-//                        }
-//                        if (businessLocation.equals("801 North Wheeling Avenue, Muncie")) {
-//                            address = selected_place_geocoder.getFromLocationName("803 North Wheeling Avenue, Muncie", 2);
-//                        }
-//
-//                    }
-//                    for (int i = 0; i < address.size(); i++) {
-//                        Address location = address.get(i);
-//                       drnk.latitude = (float) location.getLatitude();
-//                        drnk.longitude = (float) location.getLongitude();
-//                    }
-//
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-////
-////
-////                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-////                Fragment fragment = new InfoMap();
-////                fragmentManager.beginTransaction().replace(R.id.container,fragment).commit();
-//
-//            }
-//        });
+
         return rootView;
     }
     @Override

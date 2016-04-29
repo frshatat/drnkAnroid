@@ -1,8 +1,6 @@
 package com.drnkmobile.drnkAndroid.drnk.Connection;
 
-/**
- * Created by FarisShatat on 10/14/15.
- */
+
 
 import android.app.AlertDialog;
 import android.app.Service;
@@ -112,11 +110,7 @@ public class LocationService extends Service implements LocationListener {
      * Stop using GPS listener
      * Calling this function will stop using GPS in your app
      * */
-    public void stopUsingGPS(){
-        if(locationManager != null){
-            locationManager.removeUpdates(LocationService.this);
-        }
-    }
+
 
     /**
      * Function to get latitude

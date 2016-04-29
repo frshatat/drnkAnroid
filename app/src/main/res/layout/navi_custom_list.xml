@@ -15,8 +15,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
             android:id="@+id/navigationdrawertext"
             android:layout_alignTop="@+id/navigationdrawerimage" android:layout_centerHorizontal="true"
-            android:layout_alignBottom="@+id/navigationdrawerimage" android:textColor="#eae8ff"/>
+            android:layout_alignBottom="@+id/navigationdrawerimage" android:textColor="#eae8ff"
+            android:textSize="30dp"/>
 </RelativeLayout>
