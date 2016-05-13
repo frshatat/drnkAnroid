@@ -39,7 +39,12 @@ public class BusinessFormatter {
     }
 
     private String formatSpecialName(Business special) {
-        return "\n" + special.getBusiness().toString();
+        if(!special.getBusiness().toString().equals("")){
+            return "\n" + special.getBusiness().toString();
+        }
+        else{
+            return "No specials available";
+        }
     }
 
     public List getInfoForMap(BusinessBuilder special) {
@@ -148,11 +153,16 @@ public class BusinessFormatter {
 
     private String formatBusinessPhoneNumber(Business phoneNumbers) {
         java.text.MessageFormat phoneMsgFmt = new java.text.MessageFormat("({0})-{1}-{2}");
-        String[] phoneNumArr = {phoneNumbers.getBusiness().substring(0, 3),
-                phoneNumbers.getBusiness().substring(3, 6),
-                phoneNumbers.getBusiness().substring(6)};
+        if(!phoneNumbers.getBusiness().equals("")) {
+            String[] phoneNumArr = {phoneNumbers.getBusiness().substring(0, 3),
+                    phoneNumbers.getBusiness().substring(3, 6),
+                    phoneNumbers.getBusiness().substring(6)};
 
-        return phoneMsgFmt.format(phoneNumArr);
+            return phoneMsgFmt.format(phoneNumArr);
+        }
+        else{
+            return "Currently Unavailable";
+        }
     }
 
     public List getPhoneNumber(BusinessBuilder phoneNumber) {

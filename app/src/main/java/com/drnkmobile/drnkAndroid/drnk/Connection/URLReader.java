@@ -18,6 +18,9 @@ public class URLReader {
             BufferedReader reader;
 
             try {
+                if(currentCity!=null){
+                    currentCity=currentCity.toLowerCase();
+                }
                 URL url = checkForBusinessType(typeOfBusiness,currentCity);
 
                 con = (HttpURLConnection) url.openConnection();
@@ -34,9 +37,7 @@ public class URLReader {
                 e.printStackTrace();
                 return "Server Unavailable";
             }
-            finally {
-                con.disconnect();
-            }
+
         }
 
     private URL checkForBusinessType(String typeOfBusiness,String currentCity) throws MalformedURLException {

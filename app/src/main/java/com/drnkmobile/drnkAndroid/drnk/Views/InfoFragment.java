@@ -45,10 +45,12 @@ public class InfoFragment extends Fragment {
         phoneNumber.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try {
-                    Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse("tel:"+phoneNumber.getText().toString()));
-                    callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(callIntent);
+                    if(!phoneNumber.getText().toString().equals("Currently Unavailable")) {
+                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                        callIntent.setData(Uri.parse("tel:" + phoneNumber.getText().toString()));
+                        callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(callIntent);
+                    }
                 }
                 catch (ActivityNotFoundException activityException) {
                     Log.e("Calling a Phone Number", "Call failed", activityException);

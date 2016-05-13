@@ -15,6 +15,7 @@
             android:id="@+id/expandableListView"
             android:layout_alignParentEnd="false" android:layout_alignParentLeft="false"
             android:layout_alignParentStart="false" android:smoothScrollbar="true" android:foregroundGravity="center"
-            android:layout_alignParentTop="true" android:layout_centerInParent="true"/>
+            android:layout_alignParentTop="true" android:layout_centerInParent="true" android:textAlignment="center"
+            android:divider="#000101" android:dividerHeight="1dp"/>
 
 </RelativeLayout>

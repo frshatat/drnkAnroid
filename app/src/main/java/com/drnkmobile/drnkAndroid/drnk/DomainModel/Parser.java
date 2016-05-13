@@ -116,7 +116,7 @@ public class Parser {
         JSONArray special = row.getJSONObject("deals").getJSONArray(currentDay);
         ArrayList<String> featureList = new ArrayList<String>();
         ArrayList<String> extraSpecials = new ArrayList<String>();
-        int countFeature=0;
+        int countFeature = 0;
         String deal_price = null;
         for (int i = 0; i < special.length(); i++) {
             JSONObject specialPrice = special.getJSONObject(i);
@@ -134,10 +134,8 @@ public class Parser {
             if (featured == 1) {
                 featureList.add(business_special);
                 ++countFeature;
-                if(countFeature==3)
-                {
-                    Business specials = Business.makeWithBusinessSpecialName(featureList.toString().replace("[", "").replace("]", "").replace(",", "\n\n"));
-                    builder.addSpecial(specials);
+                if (countFeature == 3) {
+
                     break;
                 }
             } else {
@@ -235,11 +233,15 @@ public class Parser {
 
 
         }
+        for(int i = 0;i<businessSpecialList.size();i++){
+            Business specials = Business.makeWithBusinessSpecialName(businessSpecialList.get(i));
+            builder.addSpecial(specials);
 
-        groupSpecials = businessSpecialList.toString().replace("[", "").replace("]", "").replace(",", "\n\n");
+        }
+        //groupSpecials = businessSpecialList.toString().replace("[", "").replace("]", "").replace(",", "\n\n");
         businessSpecialList.clear();
-        Business specials = Business.makeWithBusinessSpecialName(groupSpecials);
-        builder.addSpecial(specials);
+       // Business specials = Business.makeWithBusinessSpecialName(groupSpecials);
+        //builder.addSpecial(specials);
 
 
     }
@@ -275,13 +277,12 @@ public class Parser {
                 }
                 String businessDeal = deal_price + deal_name;
                 specialList.add(businessDeal);
-                if(specialList.size()==3) {
+                if (specialList.size() == 3) {
                     break;
                 }
 
-           }
-            else{
-                if(specialList.size()==0) {
+            } else {
+                if (specialList.size() == 0) {
                     Business specials = Business.makeWithBusinessSpecialName("There are no specials today!");
                     builder.addSpecial(specials);
                     break;
@@ -321,7 +322,7 @@ public class Parser {
                             deal_price = "$ " + price + " ";
                         }
                         String businessDeal = deal_price + deal_name;
-                        businessSpecialList.add(businessDeal);
+                        businessSpecialList.add(businessDeal + "-");
                     }
 
 
@@ -331,7 +332,7 @@ public class Parser {
                 businessSpecialList.add("Sorry no specials are available for this day.");
             }
 
-            groupSpecials = businessSpecialList.toString().replace("[", "").replace("]", "").replace(",", "\n\n");
+            groupSpecials = businessSpecialList.toString().replace("[", "").replace("]", "").replace("-", "\n\n").replace(", $","$");
             Business specials = Business.makeWithBusinessSpecialName(groupSpecials);
             builder.addSpecial(specials);
             businessSpecialList.clear();
@@ -343,4 +344,3 @@ public class Parser {
         this.index = index;
     }
 }
-

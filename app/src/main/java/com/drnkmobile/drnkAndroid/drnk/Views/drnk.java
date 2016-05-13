@@ -2,10 +2,7 @@ package com.drnkmobile.drnkAndroid.drnk.Views;
 
 import android.content.Context;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Criteria;
-import android.location.Geocoder;
-import android.location.LocationManager;
+import android.location.*;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -16,18 +13,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.drnkmobile.drnkAndroid.app.R;
+import com.drnkmobile.drnkAndroid.drnk.Connection.*;
+import com.drnkmobile.drnkAndroid.drnk.Connection.LocationProvider;
 import com.drnkmobile.drnkAndroid.drnk.Customize.CustomListView;
+import com.drnkmobile.drnkAndroid.drnk.Customize.RoundedImageView;
 import com.drnkmobile.drnkAndroid.drnk.DomainModel.BusinessBuilder;
 import com.drnkmobile.drnkAndroid.drnk.DomainModel.BusinessFormatter;
 import com.drnkmobile.drnkAndroid.drnk.DomainModel.Parser;
-import com.drnkmobile.drnkAndroid.drnk.Connection.LocationService;
-import com.drnkmobile.drnkAndroid.drnk.Customize.RoundedImageView;
-import com.drnkmobile.drnkAndroid.drnk.Connection.URLReader;
+import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -37,7 +36,7 @@ import java.util.Locale;
 
 
 public class drnk extends AppCompatActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, SwipeRefreshLayout.OnRefreshListener {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, SwipeRefreshLayout.OnRefreshListener, LocationProvider.LocationCallback {
 
     LocationManager locationManager;
     String provider;
@@ -58,7 +57,7 @@ public class drnk extends AppCompatActivity
     static int position;
     private CharSequence mTitle;
     public static CharSequence section;
-    LocationService gps;
+    LocationProvider gps;
     static List listOfAddress;
     private android.support.v7.widget.Toolbar toolbar;
 
@@ -71,6 +70,7 @@ public class drnk extends AppCompatActivity
     TextView networkMessageTextView;
     private SwipeRefreshLayout swipeRefreshLayout;
     public static String currentCity;
+    private LocationProvider mLocationProvider;
 
 
     @Override
@@ -118,7 +118,7 @@ public class drnk extends AppCompatActivity
                                 }
         );
 
-
+        mLocationProvider = new LocationProvider(this, this);
     }
 
     @Override
@@ -158,29 +158,8 @@ public class drnk extends AppCompatActivity
     }
 
     private void getLocation() throws IOException {
-        gps = new LocationService(drnk.this);
+        mLocationProvider = new LocationProvider(this, this);
 
-        if (gps.canGetLocation()) {
-            Geocoder geocoder;
-            List<Address> addresses;
-            geocoder = new Geocoder(this, Locale.getDefault());
-
-
-            currentLatitude = (float) gps.getLatitude();
-            currentLongitude = (float) gps.getLongitude();
-            addresses = geocoder.getFromLocation(currentLatitude, currentLongitude, 1);
-
-            if (!addresses.isEmpty()) {
-                for (int i = 0; i < addresses.size(); i++) {
-                    Address location = addresses.get(i);
-                    currentCity = location.getLocality();
-                }
-
-                Toast.makeText(getApplicationContext(), "Your City is: " + currentCity, Toast.LENGTH_LONG).show();
-            }
-        } else {
-            gps.showSettingsAlert();
-        }
     }
 
     @Override
@@ -203,8 +182,8 @@ public class drnk extends AppCompatActivity
             case 1:
                 mTitle = "bars";
                 typeOfBusiness = "bars";
-                swipeRefreshLayout.setRefreshing( true );
-                swipeRefreshLayout.setEnabled( true );
+                swipeRefreshLayout.setRefreshing(true);
+                swipeRefreshLayout.setEnabled(true);
                 section = mTitle;
                 btnAddressClicked = true;
                 getLocation();
@@ -214,8 +193,8 @@ public class drnk extends AppCompatActivity
             case 2:
                 mTitle = "stores";
                 typeOfBusiness = "liquorstores";
-                swipeRefreshLayout.setRefreshing( true );
-                swipeRefreshLayout.setEnabled( true );
+                swipeRefreshLayout.setRefreshing(true);
+                swipeRefreshLayout.setEnabled(true);
                 section = mTitle;
                 btnAddressClicked = true;
                 getLocation();
@@ -226,8 +205,8 @@ public class drnk extends AppCompatActivity
             case 3:
                 mTitle = "near me";
                 section = mTitle;
-                swipeRefreshLayout.setRefreshing( false );
-                swipeRefreshLayout.setEnabled( false );
+                swipeRefreshLayout.setRefreshing(false);
+                swipeRefreshLayout.setEnabled(false);
                 break;
         }
     }
@@ -307,7 +286,27 @@ public class drnk extends AppCompatActivity
         adapter = new CustomListView(this, R.layout.items_main_tableview, listOfBusinesses, listOfSpecials, listOfId, listOfAddress);
         if (businessListView != null) {
             businessListView.setAdapter(adapter);
+            businessListView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
+                @Override
+                public void onScrollStateChanged(AbsListView view, int scrollState) {
+                }
+
+                @Override
+                public void onScroll(AbsListView view, int firstVisibleItem,
+                                     int visibleItemCount, int totalItemCount) {
+                    boolean enable = false;
+                    if (businessListView != null && businessListView.getChildCount() > 0) {
+                        // check if the first item of the list is visible
+                        boolean firstItemVisible = businessListView.getFirstVisiblePosition() == 0;
+                        // check if the top of the first item is visible
+                        boolean topOfFirstItemVisible = businessListView.getChildAt(0).getTop() == 0;
+                        // enabling or disabling the refresh layout
+                        enable = firstItemVisible && topOfFirstItemVisible;
+                    }
+                    swipeRefreshLayout.setEnabled(enable);
+                }
+            });
             onItemClicked();
         }
 
@@ -337,6 +336,38 @@ public class drnk extends AppCompatActivity
 
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mLocationProvider.connect();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mLocationProvider.disconnect();
+    }
+
+
+    public void handleNewLocation(Location location) throws IOException {
+        Log.d("Location", location.toString());
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(this, Locale.getDefault());
+        currentLatitude = (float) location.getLatitude();
+        currentLongitude = (float) location.getLongitude();
+        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+        addresses = geocoder.getFromLocation(currentLatitude, currentLongitude, 1);
+
+        if (!addresses.isEmpty()) {
+            for (Address a : addresses) {
+                currentCity = a.getLocality();
+            }
+            System.out.println(currentCity);
+
+        }
     }
 
 
@@ -421,7 +452,7 @@ public class drnk extends AppCompatActivity
     @Override
     protected void onDestroy() {
 
-        // The activity is about to be destroyed.
+
         super.onDestroy();
 
         // Stop method tracing that the activity started during onCreate()

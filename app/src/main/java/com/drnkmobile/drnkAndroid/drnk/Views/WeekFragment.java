@@ -71,29 +71,7 @@ public class WeekFragment extends Fragment {
             ar.get(i).add((String) listOfSpecials.get(i));
             listDataChild.put(listDataHeader.get(i),ar.get(i));
         }
-//        List<String> sundaySpecials = new ArrayList<>();
-//        sundaySpecials.add((String) listOfSpecials.get(0));
-//        List<String> mondaySpecials = new ArrayList<>();
-//        mondaySpecials.add((String) listOfSpecials.get(1));
-//        List<String> tuesdaySpecials = new ArrayList<>();
-//        tuesdaySpecials.add((String) listOfSpecials.get(2));
-//        List<String> wednsedaySpecials = new ArrayList<>();
-//        wednsedaySpecials.add((String) listOfSpecials.get(3));
-//        List<String> thursdaySpecials = new ArrayList<>();
-//        thursdaySpecials.add((String) listOfSpecials.get(4));
-//        List<String> fridaySpecials = new ArrayList<>();
-//        fridaySpecials.add((String) listOfSpecials.get(5));
-//        List<String> saturdaySpecials = new ArrayList<>();
-//        saturdaySpecials.add((String) listOfSpecials.get(6));
-//
-//
-//        listDataChild.put(listDataHeader.get(0), sundaySpecials);
-//        listDataChild.put(listDataHeader.get(1), mondaySpecials);
-//        listDataChild.put(listDataHeader.get(2), tuesdaySpecials);
-//        listDataChild.put(listDataHeader.get(3), wednsedaySpecials);
-//        listDataChild.put(listDataHeader.get(4), thursdaySpecials);
-//        listDataChild.put(listDataHeader.get(5), fridaySpecials);
-//        listDataChild.put(listDataHeader.get(6), saturdaySpecials);
+
 
 
     }
@@ -112,9 +90,7 @@ public class WeekFragment extends Fragment {
             String> {
         @Override
         protected void onPreExecute() {
-//            if (tasks.size() == 0) {
-//                progressBar.setVisibility(View.VISIBLE);
-//            }
+
             tasks.add(this);
         }
 
@@ -140,9 +116,7 @@ public class WeekFragment extends Fragment {
 
             updateDisplay();
             tasks.remove(this);
-//            if (tasks.size() == 0) {
-//                progressBar.setVisibility(View.INVISIBLE);
-//            }
+
         }
     }
 

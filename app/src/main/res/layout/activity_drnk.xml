@@ -47,7 +47,8 @@
                     android:transitionName="@string/transition_to_detail_view"
                     android:layout_above="@+id/app_bar" android:visibility="visible"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" android:layout_below="@+id/server_message"/>
+                    android:layout_alignParentStart="true" android:layout_below="@+id/server_message"
+                    android:divider="#000101" android:dividerHeight="1dp"/>
 
 
 

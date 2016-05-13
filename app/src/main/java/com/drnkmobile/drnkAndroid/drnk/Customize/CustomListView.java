@@ -76,22 +76,22 @@ public class CustomListView extends ArrayAdapter<String> {
                 businessImage = R.drawable.brothers;
                 break;
 
-            case "5":
+            case "43":
 
-                businessImage = R.drawable.cleos;
+                businessImage = R.drawable.savages;
                 break;
 
-            case "11":
+            case "45":
 
                 businessImage = R.drawable.be_here_now;
                 break;
 
-            case "12":
+            case "44":
 
                 businessImage = R.drawable.the_chug;
                 break;
 
-            case "13":
+            case "48":
 
                 businessImage = R.drawable.scottys;
                 break;
@@ -101,15 +101,46 @@ public class CustomListView extends ArrayAdapter<String> {
                 businessImage = R.drawable.friendly_package;
                 break;
 
-            case "6":
+            case "42":
 
                 businessImage = R.drawable.munice_liquors;
                 break;
+
+            case "57":
+
+                businessImage = R.drawable.saveonliquor;
+                break;
+
+            case "58":
+                businessImage = R.drawable.saveonliquor;
+                break;
+
+            case "40":
+
+                businessImage = R.drawable.heorot;
+                break;
+
+            case "49":
+
+                businessImage = R.drawable.paraiso;
+                break;
+
+            case "47":
+
+                businessImage = R.drawable.amazingjoes;
+                break;
+
+            case "46":
+
+                businessImage = R.drawable.ficklepeach;
+                break;
+
 
             case "0000":
 
                 businessImage = R.drawable.ic_logo;
                 break;
+
 
         }
 
